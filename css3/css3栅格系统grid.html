@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        article {
+            width: 300px;
+            height:150px;
+            border:solid 5px silver;
+            display:grid;
+           
+            /* rows column 都是三个参数， 表示3*3 的栅格，也就是这个article里面可以放九个元素了
+            当然，写百分比也是可以的，
+            */
+
+            /* grid-template-rows:100px 100px 100px;
+
+
+            grid-template-columns: 100px 100px 100px; */
+            grid-template-rows:repeat(2,50%);
+            grid-template-columns:repeat(5,20%);
+            /* 重复 5个columns 每个占20% 
+            grid-template-rows:repeat(2,100px,50px);
+            重复 100，50 这个两个栅格，也就是 四行！！！ 1，3 是100px, 2,4 是50px
+            
+            grid-template-rows:repeat(auto-fill,100px);
+            行，列，每个按宽高100px,来自动填充
+            grid-template-columns:repeat(auto-fill,100px);  
+            
+             还有一种写法 grid-template-rows:repeat(3,1fr)
+              grid-template-columns:repeat(3,1fr)
+             //吧栅格容器等比例分成三份,这样也是得到3*3 9个单元格
+            grid-template-rows:1fr 2fr 1fr;//分成4份，三行，第一行第三行各占一份，第二行占两份
+            
+            grid-template-rows:repeat(2, minmax(50px, 100px));
+
+            有时候不希望子元素跟着父元素线性无限放大或者缩小，可以使用 minmax(50px, 100px)
+            表示该元素当父元素变小时，单元格最小不会小于50px;父元素变大时，单元格最大不会大于100px
+
+            */
+            /* gap:10px 10px; */
+
+        }
+        div{
+            background-color: blue;
+            background-clip: content-box;
+            padding:10px;
+            box-sizing: border-box;
+            border:solid 1px blueviolet;
+            /* 这里使用padding方式控制单元格之间的间距
+            还可以通过 
+            row/column-gap 来控制行列之间的间距
+            只不过设置 间距后 父元素宽高不够会溢出
+            gap:20xp 10px 简写 行 列 类似于 padding margin 写法 */
+        }
+        div:first-child {
+            /* 可以将div-1 放到栅格的10个位置中的任何一个或者一个规则的矩形中去 */
+            /* 栅格行线和列线 方式一  */
+            /* grid-row-start:1 ; */
+            /* grid-column-start:4 ; */
+            /* grid-column-start:1 ;
+            grid-row-end: 2;
+            grid-column-end: 5;
+            
+            简写形式:grid-row: 3/4 控制row 起始和结束
+            或者 grid-row: 1/span 1, 控制开始，然后偏移一个单元格 
+                 grid-column:1/span 1, 控制开始，然后偏移一个单元格
+                 grid-column:3/4 控制column的起始和结束
+            */
+
+            /* 
+            方式二 给每条线起别名
+            grid-template-rows: [r1-start] 100px [r1-end r2-start] 100px [r2-end r3-start] 100px [r3-end];
+            r1-start 就对应栅格第一条行线， r1-end r2-start，一起对应第二条  以此类推
+            grid-template-rows:[c1-start] 。。。，这样写比较麻烦
+            重复写法：
+            grid-template-rows:repeat(3, [r-start] 1fr [r-end] )
+            grid-template-columns:repeat(3, [c-start] 1fr [c-end])
+            grid-row-start: r-start 1 【线别名，row 行号】 ;
+            表示将div放到第一行，第一列的位置
+            grid-column-start:c-start 1 ;
+            grid-row-end: r-end 1;
+            grid-column-end:c-end 1 ; 
+            
+            方式三：快速填空单元格
+            */
+            grid-row-start: 2;
+            /* 设置开始行线为第二条 */
+            grid-column-end: span 3;
+            /* 并向右偏移3个单元格 */
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <!-- div宽高改变不会影响每个栅格单元格的大小，div只是放到桑格单元格里的元素而已
+        div不指定宽高，默认撑满单元格 -->
+        <div>1</div>
+        <!-- <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div>10</div> -->
+    </article>
+</body>
+</html>

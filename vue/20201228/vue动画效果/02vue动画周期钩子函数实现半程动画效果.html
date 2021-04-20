@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='../../js/vue.js'></script>
+</head>
+<style>
+   
+</style>
+<body>
+    <div id="app">
+        <input type="button" value="toggle" @click="flag=!flag">
+        <!-- 半程动画，粗略的说就是只有离场或者进场动画，【 例如 购物车的加入物品的功能 】
+            原理就是通过v-on:before-enter/enter/after-enter/enter-canelled【入场这个半程】
+            v-on:before-leave/leave/after-leave/leave-canelled【离场这个半程】
+        -->
+       
+        <transition>
+            <h3 v-if="flag">这是一个h3</h3>
+        </transition>
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:false
+        },
+        methods:{
+
+        }
+
+    })
+</script>
+</html>

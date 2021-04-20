@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            widows: 100vw;
+            height: 100vh;
+            background-color: #353b48;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .menu {
+            width: 300px;
+            height:300px;
+            background-color: #44bd32;
+            position: relative;
+        }
+        .nav {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            left:50%;
+            top:50%;
+            transform:translate(-50%,-50%);
+            background-color:#e84118 ;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav:before {
+            content: 'LIST';
+            font-size: 2em;
+            color:white;
+        }
+        ul li {
+            position: absolute;
+            list-style: none;
+            font-size: 1.5em;
+            color:silver;
+            width:50px;
+            height:50px;
+            top:20%;
+            left:10%;
+            background-color: red;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: .8s;
+            transform-origin: 240% 190%;
+        }
+        .menu>div:hover+ul>li:nth-child(1) {
+            transform:rotate(40deg);
+        }
+        .menu>div:hover+ul>li:nth-child(2) {
+            transform:rotate(80deg);
+        }
+        .menu>div:hover+ul>li:nth-child(3) {
+            transform:rotate(120deg);
+        }
+        .menu>div:hover+ul>li:nth-child(4) {
+            transform:rotate(160deg);
+        }
+        .menu>div:hover+ul>li:nth-child(5) {
+            transform:rotate(200deg);
+        }
+        .menu>div:hover+ul>li:nth-child(6) {
+            transform:rotate(240deg);
+        }
+        .menu>div:hover+ul>li:nth-child(7) {
+            transform:rotate(280deg);
+        }
+        .menu>div:hover+ul>li:nth-child(8) {
+            transform:rotate(320deg);
+        }
+        .menu>div:hover+ul>li:nth-child(9) {
+            transform:rotate(360deg);
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <div class="nav"></div>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <!-- 这里文字会跟着li转相同的角度【假设为 x】导致东倒西歪 ，可以将文字用span包起来，并让span从行-》块，然后旋转y,保证x+y=360 就可以让文字显示ok -->
+        </ul>
+    </div>
+</body>
+</html>

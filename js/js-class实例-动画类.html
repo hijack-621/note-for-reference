@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        .con{
+            width:400px;
+            height:400px;
+            margin:0 auto;
+        }
+        .zcon{
+            width:100%;
+            height:50%;
+        }
+        p {
+            background-color:#4b6584 ;
+            color:white;
+        }
+        .zcon div{
+            background-color: #fed330;
+            height:100%
+        }
+        p,div{
+            border-radius: 5px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="con">
+        <div class="zcon">
+            <p>panel1</p>
+            <div class="slide">面板1</div>
+        </div>
+        <div class='zcon'>
+            <p>panel1</p>
+            <div class='slide'>面板2</div>
+        </div>
+        <div class='zcon'>
+            <p>panel1</p>
+            <div class='slide'>面板2</div>
+        </div>
+    </div>
+</body>
+<script>
+    class Animation_demo{
+        constructor(el){
+            this.el = el;//如果元素高度不同，那么隐藏后恢复，就必须循环，分别恢复到各自的高度
+            this.defaultHeight = this.height;//定义成访问器
+            this.IsShow = true;
+        }
+        get height(){
+            
+           return window.getComputedStyle(this.el).height.slice(0,-2)*1;
+        }
+        set height(height) {
+            // console.log(this);
+            // console.dir(item);
+            this.el.style.height = height+'px';
+           
+        }
+        show(callback){
+            if(!this.isShow){
+               
+               let id = setInterval( ()=>{
+                if(this.height>= this.defaultHeight){
+                    //高度达到原来高度，取消定时器，有回调就执行回调
+                     clearInterval(id);
+                    callback && callback()
+                    return ;
+                }
+                this.height = this.height + 1; 
+                
+                
+               },10)
+            
+            }
+        }
+        hide(callback){
+            this.IsShow = false;
+            
+               let id = setInterval( ()=>{
+                if(this.height<=0){
+                    clearInterval(id);
+                    callback && callback()
+                    return ;
+                }
+                this.height = this.height-1; 
+               
+               },10)
+           
+           
+            
+        }
+    }
+    class Panel extends Animation_demo{
+        static count =0;
+        static hideAll(items,callback){ //隐藏点击之外的panel
+            if (Panel.count>0) return ;
+            
+            items.forEach(item=>{
+                Panel.count++;
+                item.hide( ()=>{
+                    Panel.count--;
+                });
+            });
+            callback && callback();
+        }
+        static filter(items,i){//过滤出了点击之外的panel
+            return items.filter( (item,index)=>{
+              return  index != i;
+            } )
+        }
+    }
+    class Slide{
+        constructor(el){
+            this.el = document.querySelectorAll(el);
+            console.log(this.el);
+            this.btn = document.querySelectorAll('p');
+            // this.panels = document.querySelectorAll('.slide');
+            this.panels = [...this.el].map((item,index)=>{ 
+              return  new Panel(item.querySelector('.slide')) ;
+            })
+            //把panels转成Panel的实例，方便执行里面的方法s
+            
+            this.bind();
+        }
+        bind(){
+            this.btn.forEach((item,index)=>{
+                item.addEventListener('click',()=>{
+                   
+                    this.action(index);//避免多层嵌套，所以在把动作写在另一个函数里
+                    /* 箭头函数 this可以获取到action 闭包！！！ */                    
+                })
+            })
+            
+        }
+        action(i){
+           
+            Panel.hideAll( Panel.filter(this.panels,i),()=>{
+                this.panels[i].show();
+            } ) ;//
+            
+        }
+
+    }
+    let p = new Slide('.zcon');
+    
+    /* 这个动画就几个问题，
+    当一次隐藏其他两个动画未执行玩，又反复点击其他按钮，动画就会出问题 设置计数器默认为0 ，动画开始 计数器+1， 隐藏动画传递一个回调，执行完动画-1，在判断计数器是否为0；不等于0说明隐藏动画没有执行完，下一次点击直接忽略！！！  */
+    /*间隔时间很短去点击同一个按钮，panel本身高度会随着点击次数而超出盒子高度  这是由于没有先判断隐藏或者还原的上下线，应该先判断，如果超出限制就不执行动画！！  */
+    /* 点击那个按钮显示那个panel的动画和隐藏其余的冲突  把点击那个按钮就显示对应的panel 放到Panel类方法 hideAll的回调中去，隐藏完在执行*/
+
+    // let el = document.querySelectorAll('.slide');
+    // let anmo = new Animation_demo(el);
+    // anmo.hide(()=>{
+    //     console.log('隐藏完毕了');
+    //     anmo.show(()=>console.log('显示完毕了'));
+    // });
+    
+
+
+    
+
+</script>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: top;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    main {
+      width: 400px;
+      flex-direction: column;
+      position: relative;
+      margin-right: 20px;
+    }
+
+    main nav {
+      display: flex;
+      height: 50px;
+      align-items: center;
+    }
+
+    main nav a {
+      background: #95a5a6;
+      margin-right: px;
+      padding: 10px 20px;
+      border: solid 1px #333;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    main nav a:first-of-type {
+      background: #e67e22;
+    }
+
+    section {
+      height: 200px;
+      width: 100%;
+      background: #f1c40f;
+      position: absolute;
+      font-size: 5em;
+      /* display: none; */
+    }
+
+    .hd-tab section:first-of-type {
+      display: block;
+    }
+
+    section:nth-child(even) {
+      background: #27ae60;
+    }
+    </style>
+</head>
+<body>
+    <main class="tab1">
+        <nav>
+          <a href="javascript:;">后盾人</a>
+          <a href="javascript:;">hdcms</a>
+        </nav>
+        <section>1</section>
+        <section>2</section>
+      </main>
+      <main class="tab2">
+        <nav>
+          <a href="javascript:;">后盾人</a>
+          <a href="javascript:;">hdcms</a>
+        </nav>
+        <section>1</section>
+        <section>2</section>
+      </main>
+</body>
+<script>
+    /* 思路就是想让那个main成为选项卡就传递有class属性的main标签，然后可以传递参数，想把那个标签（不仅限于a）作为切换按钮，还可以传递切换后回调函数！！！ */
+
+    /* 原型继承工厂 */
+    function extend(sub,sup){
+        sub.prototype = Object.create(sup.prototype);
+        sub.prototype.constructor = sub;
+    }
+    /* 切换效果基类 */
+    function Switch(){} //这里的思路就是先定义一个基类，给基类的原型加上一些方法，后面那个main需要用到这些方法就继承这个基类就好了
+    Switch.prototype.show = function(){
+        this.style.display = "block";
+    };
+    Switch.prototype.hide = function(){
+        this.style.display = "none";
+    }
+    Switch.prototype.background = function(color){
+        this.style.backgroundColor = color;
+    } 
+    
+    function Tab(el){
+      this.tab = document.querySelector(el);
+      this.links = this.tab.querySelectorAll('a');
+      this.sections = this.tab.querySelectorAll('section');
+    } //因为有多个选项卡，所以通用的方法不要直接写在Tab函数中，浪费内存
+    extend(Tab, Switch);
+    Tab.prototype.run = function(){
+        this.bindevent();
+        this.reset();
+        this.action(0);
+    }
+    Tab.prototype.bindevent = function(){
+      this.links.forEach((el,i) => {
+        el.addEventListener('click',()=>{
+          this.reset();
+          this.action(i);
+        })
+      });
+    }
+
+    Tab.prototype.reset = function(){
+      this.links.forEach((link,i)=>{
+        this.background.call(this.links[i],'#95a5a6');
+        this.hide.call(this.sections[i]);
+      })
+    }
+    Tab.prototype.action = function(i){
+      this.background.call(this.links[i],'#e67e22');
+      this.show.call(this.sections[i]);
+    }
+   new Tab(".tab1").run();
+   new Tab(".tab2").run(); 
+
+   /* 思考，上面是指定a标签作为切换按钮【当然这里用户能想到作为切换按钮的css样式你都必须先想到，并且写好相应的css样式，比如用于想把span代替a，那么span的样式也必须写的跟a一样，】，section作为选项卡主体，
+   
+   为了有更好的定制，我们想让用户传参数，来指定切换按钮和显示主体的标签，以及可以执行一个回调
+   所以Tab 函数这里除了传递main容器，还要指定按钮和主体，必要时要有回调函数
+    function Tab(el,link='a',card='section',callback=null){ 默认a和section为按钮盒和主体，回调为null  这样调用时候，如果要传回调，那么必须四个参数都传，不然个数不等，就会有问题
+      this.tab = document.querySelector(el);
+      this.links = this.tab.querySelectorAll(link);
+      this.sections = this.tab.querySelectorAll(card);
+      this.callback = callback;
+    } //因为有多个选项卡，所以通用的方法不要直接写在Tab函数中，浪费内存
+
+
+   【 --优化 function Tab(args){ 直接传递一个选项，调用就得这样调 Tab({ el:'.tab1',link:'span',card:'div',callback(){console.log('这是要传递的回调函数')}})
+     
+      args = Object.assign({el:null,link:'a',card:'section',callback:null}, args)
+      //属性合并，让用户不传某些参数时，能有初始值，而不报错
+      this.tab = document.querySelector(args['el']);
+      this.links = this.tab.querySelectorAll(args['link']);
+      this.sections = this.tab.querySelectorAll(args['card']);
+      this.callback = args['callback'];}】
+         
+
+     
+    */
+
+    /* 然后 
+    Tab.prototype.bindevent = function(){
+      this.links.forEach((el,i) => {
+        el.addEventListener('click',()=>{
+          this.reset();
+          this.action(i);
+          if(this.callback){
+            this.callback();//点击切换按钮 如果有回调，就执行回调
+          }
+        })
+      });
+    }
+    
+    */
+</script>
+</html>

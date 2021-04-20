@@ -1,0 +1,40 @@
+.container {
+  width: 750px;
+  margin: 0 auto;
+}
+.col-sl-12 {
+  grid-column: span 12;
+}
+.col-sl-11 {
+  grid-column: span 11;
+}
+.col-sl-10 {
+  grid-column: span 10;
+}
+.col-sl-9 {
+  grid-column: span 9;
+}
+.col-sl-8 {
+  grid-column: span 8;
+}
+.col-sl-7 {
+  grid-column: span 7;
+}
+.col-sl-6 {
+  grid-column: span 6;
+}
+.col-sl-5 {
+  grid-column: span 5;
+}
+.col-sl-4 {
+  grid-column: span 4;
+}
+.col-sl-3 {
+  grid-column: span 3;
+}
+.col-sl-2 {
+  grid-column: span 2;
+}
+.col-sl-1 {
+  grid-column: span 1;
+}

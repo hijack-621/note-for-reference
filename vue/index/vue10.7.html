@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='../js/vue.js'></script>
+    <script src='../js/axios.min.js'></script>
+    <script src='../js/lodash.min.js'></script>
+</head>
+<body>
+    
+</body>
+<script>
+    let data = {a:1};
+    let vm = new Vue({
+        el:'#exp1',
+        data:data,
+    });
+    vm.$watch('a', function (newValue, oldValue) {
+  // 这个回调将在 `vm.a` 改变后调用
+  console.log(newValue,oldValue);
+})
+    vm.a = 21;
+
+ 
+</script>
+</html>

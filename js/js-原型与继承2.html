@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>按钮1</button>
+    <button class='b2'>按钮2-有class属性</button>
+</body>
+<script>
+   /* 
+    let a = 1/'a'/[1,2,3]/true/ /正则表达式/;
+    定义a为各种类型，
+    但是 a.__proto__ == Number/String/Array/Boolean/RegExp.protptype
+   这些数据类型的原型 都是相应的系统构造[Array/String/Object。。。]函数的prototype！！！
+    */
+
+    Array.prototype.show = function(){
+        console.log('给数组对象的原型prototype定义的show方法');
+    }
+    let arr= [1,3,4];
+    arr.show();//js-原型与继承2.html:57 给数组对象的原型prototype定义的show方法
+
+    /* 设置原型 */
+
+    let hd = {name:'我是hd'};
+    let proto = {
+        name:'我是原型',
+        show(){
+            console.log('proto的show方法-'+this.name);
+            //这是的this指向调用对象，hd调用就指向hd，proto调用就指向proto
+        }
+    };
+
+    Object.setPrototypeOf(hd,proto);//表示吧第二个参数proto设置为第一个参数hd的原型
+    console.log(hd);
+    console.log(Object.getPrototypeOf(hd)); //打印hd的原型
+    hd.show();
+    proto.show();
+
+    /* 函数的 prototype 中有一个constructor，指的就是构造函数  */
+    function User(name){
+        this.name = name
+    }
+    console.dir(User);
+  /*   User.prototype = {
+        constructor:User,//不加上这个构造器属性，没办法通过构造函数的原型的constructor 找到构造函数 下面f.show（） 就会报错，因为找不到构造函数了
+        show(){
+            console.log(this.name)
+        }    
+    };//改变User 的prototype */
+    User.prototype.show = function(){
+        console.log(this.name)
+    }
+    console.log(User.prototype.constructor == User);//通过构造函数的原型的constructor 找到构造函数
+    let f = new User.prototype.constructor('李四');
+    /*  true
+        js-原型与继承2.html:86 User {name: "李四"} */
+    f.show(); 
+
+    /* 通过构造函数的原型的constructor 找到构造函数
+    这样就可以实现 通过构造函数的实例，通过实例在创建一个实例
+    */
+    function CreateByObject(obj,...args){
+        const constructor = Object.getPrototypeOf(obj).constructor;
+        return new constructor(...args);
+    }
+    let f_create = CreateByObject(f,'f对象创建的对象','多个参数?','参数三');//这里参数个数可以多于构造函数，只不过会被忽略
+    console.log(f_create);
+
+    /* 检测原型链
+    1.instanceof 用于检测构造函数的 prototype 属性是否出现在某个实例对象的原型链上。
+    2.isPrototypeOf()  a.isPrototypeOf(b) 判断a对象是否在b对象的原型链上 */
+    function A(){} //只能用于检测构造函数以及函数的实例间的判断！！！
+    let a = new A();
+    console.dir(A);
+    console.log(a.__proto__ == A.prototype);
+    console.log( a instanceof A);//判断a的原型链上是否有A.prototype true
+    console.log(a instanceof Object);// 判断a的原型链上是否有Object.prototype  true; 因为 A.prototype的 __proto__原型 == Object.prototype
+
+    let aa = {name:'a'};
+    let nn = {name1:'b'};
+
+    console.log( nn.isPrototypeOf(a)); //false
+
+    /* 对象的检测属性
+        1、 "property" in obj in 关键字不仅判断是否在obj上，还会判断是否在obj的原型链上！！！
+        2、obj.hasOwnProperty('property'); 仅判断自己，而不会上访到原型链！！
+        3、
+     */
+    Object.setPrototypeOf(aa,nn);
+    
+    console.log("web" in aa); //false
+    nn.web = "设置nn为aa的原型后，在nn上动态添加web";
+   
+    console.log("web" in aa); //true
+    //console.log(nn);
+    //这里是__proto__为nn的原型，而不是 prototype！！！
+    nn.__proto__.web2 = "设置nn为aa的原型后，在nn的原型上加上web2"
+    console.log("web2" in aa);//true
+
+    console.log(aa.hasOwnProperty('name'));//true
+
+    console.log(aa.hasOwnProperty('name1'));//false
+
+    // for (const key in object) { //in 关键字会攀升原型链
+    //     if (object.hasOwnProperty(key)) { //所以很多编辑器的补全插件，都会自动带上这行，就是为了不遍历到不属于自己，而属于原型链上的属性，而误操作数据！！！
+    //         const element = object[key];
+            
+    //     }
+    // }
+
+    /* 借用原型链  a的原型链上有某一个方法或者属性，b没有，但是想用，可以问a去借！！！
+    call()
+    apply()
+     */
+      let hdd = {
+          data:[1,5,6,33,2]
+      };
+      /* 给hd原型加上max()方法,取得数组中最大元素 */  
+      Object.setPrototypeOf(hdd,{
+        max(data){
+            // return this.data.sort( (a,b)=> b-a)[0]; max()没有传参时
+            return data.sort((a, b) => b - a)[0];
+                   
+        }
+      });
+      console.log(hdd.max(hdd.data));// 33
+
+      let dh = {
+          grade:{js:56,php:66,mysql:97,node:89}
+            //   get data(){ //这里的data与 this.data.sort 中的data名字必须一致,这是max不传参
+            //       return Object.values(this.grade);
+            //   }
+      };
+
+      //console.log(Object.values(dh.grade));
+
+      console.log(hdd.max.call(null, Object.values(dh.grade)));//97
+
+      //上面的max方法其实可以完全不用自己定义， Math.max(1,3,2,11,45); 数学方法就有max方法
+
+      /* 问Math借max方法 */
+      console.log(Math.max.apply(null,Object.values(dh.grade)));//97  apply 需要传递多个参数，并且数组会自动展开  call（）需要自己展开
+      console.log(Math.max.call(null,...Object.values(dh.grade)));//97
+
+      /* call  apply 应用 */
+      /* 数组中有filter 过滤函数，节点对象原型是Nodelist，没有filter方法 */
+      let btns = document.querySelectorAll('button');
+      /* 这里nodelist借用 数组的filter方法 Array.prototype.filter */
+      //console.dir(Array);
+      console.log(btns);
+    //   btns.filter();报错 说明 Nodelist 及其原型链是没有filter方法
+   let btn =  [].filter.call(btns, function(item){
+        console.log(item);//得到每个button dom
+        return item.hasAttribute('class');
+      });
+      /* 小技巧 Array.prototype.filter.call 可以换成 [].filter.call() 因为空数组的原型链上也会有filter方法！！！  */
+      console.log(btn[0].innerHTML);//因为filter返回一个数组！！！所以要加上索引 =》js-原型与继承2.html:197 按钮2-有class属性
+
+</script>
+</html>

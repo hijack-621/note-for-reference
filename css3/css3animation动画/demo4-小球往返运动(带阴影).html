@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #353b48;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div {
+            width:80px;
+            height:80px;
+            background-color:#e84118 ;
+            border-radius: 50%;
+            animation-duration: 2s;
+            animation-name: a1;
+            animation-iteration-count: infinite;
+            /* 只有这些属性的话，运动到终点是有动画效果，但是从终点回到初始状态，就会是一瞬间，没有动画效果！！！ */
+            /* animation-direction 设置动画运动方向：默认normal
+            这里设置 alternate 就可以使得来回都有动画效果*/
+            animation-direction: alternate-reverse;
+            position: relative;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            z-index:99;
+            
+        }
+        span {
+            position: absolute;
+            bottom:-15px;
+            display: inline-block;
+            width:200px;
+            height:30px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            filter:blur(5px);
+            animation-direction: alternate-reverse;
+            animation-name: shadow;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            z-index:-1;
+            
+        }
+        @keyframes a1 {
+            
+            to{
+                transform: translateY(-180px);
+                z-index:99;
+            }
+        }
+        @keyframes shadow {
+            to {
+                width:200px;
+                height:15px;
+                background-color: rgba(0, 0, 0, 0.1);
+                filter:blur(25px);
+                z-index:-1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <span></span>
+    </div>
+</body>
+</html>

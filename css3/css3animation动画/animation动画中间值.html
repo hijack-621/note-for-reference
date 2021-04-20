@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        main {
+            width:300px;
+            height:300px;
+            border:solid 2px blue;
+            position: relative;
+            animation-name:a2;
+            animation-duration: 2s;
+        }
+        div {
+            position: absolute;
+            width:100px;
+            height:100px;
+            background-color: #e1b12c;
+            animation-name: a1;
+            animation-duration: 2s;
+            /* 此时因为 100px-200px 中间有101、111.191 等中间值，所以这个动画应用带div
+            上后会与那种渐变效果 */
+        }
+        @keyframes a1 {
+            50% {
+                width:200px;
+                height:200px;
+            }
+
+        }
+        @keyframes a2 {
+            50% {
+                /* border:solid 20px blue; */
+                /* border:solid 20px blue; 2px-20px 有中间值 */
+
+                border:dotted 20px blue;
+                /* solid dotted 实现和点线 之间没有什么中间值，所以这个实现到点线的动画会在一瞬间完成，目前浏览器做不到将没有中间值的属性做到渐变效果！！！ */
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <!-- 动画属性跟变形，移动类似，也有中间值的概念，
+    也就是当设置持续时间后，会产生一种渐变的过程
+    并且可以设置 延迟多久后才开始动画！！！
+    animation-delay:xs/xms;
+    -->
+    <main>
+        <div></div>
+    </main>
+</body>
+</html>

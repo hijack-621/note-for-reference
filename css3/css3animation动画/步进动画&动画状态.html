@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         * {
+            padding:0;
+            margin:0;
+        }
+        body {
+            width:100vw;
+            height:100vh;
+            display: grid;
+            background-color: #a4b0be;
+        }
+        main {
+            width:400px;
+            height: 200px;
+            justify-self: center;
+            align-self: center;
+            display: grid;
+            grid-template: repeat(2, 1fr) / repeat(4, 1fr) ;
+        }
+        div {
+            width:100px;
+            height:100px;
+            background-color: #ffa502;
+            border:solid 1px  #a4b0be;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        div:nth-child(1)::before,div:nth-child(5)::before {
+            animation-name: move;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            z-index:2;
+        }
+
+        div:nth-child(1)::before {
+            content:"";
+            width: 100px;
+            height:100px;
+            position: absolute;
+            background-color: #70a1ff;
+            animation-timing-function: steps(4,start);
+            /* animation-timing-function:step-start ==> 50% ,to 设置两个帧，就会只在两帧间变化  */
+            /* start 马上开始动画 */
+            /* 设置steps 就会把一个动画分成几个step 也就是几帧呈现 */
+        }
+        div:nth-child(5)::before {
+            content:"";
+            width: 100px;
+            height:100px;
+            position: absolute;
+            background-color: #3742fa;
+            animation-timing-function: steps(4,end);
+
+            /*动画的状态 animation-play-state running/paused
+            有了这个属性就可以实现鼠标放到div上停止动画，移开开始动画
+            也可以开始让动画停止，鼠标放上去开始等效果
+            */
+
+            /* end 停留一伙儿再开始动画 */
+        }
+        main:hover>div:nth-child(1)::before {
+            animation-play-state: paused;
+        }
+        @keyframes move {
+            to {
+                transform:translateX(400px);
+            }
+        }
+        
+        
+        
+
+
+    </style>
+</head>
+<body>
+    <!-- 前面的案例都是平滑的动画，
+    跟transition-timing-functiony 一样，可以设置 steps(4,start/end)
+    表示
+    动画animation-timing-function 也可以设置 让动画一帧一帧有顿挫的发生，有停顿
+-->
+    <main>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </main>
+</body>
+</html>

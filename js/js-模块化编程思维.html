@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body></body>
+<script>
+    /* 模块化：就是每一个文件都是一个模块，可以每一个模块都自己的作用域，如果不开放给外部，外部无法获取到模块的任何数据。也就是模块给外部开放什么数据接口，外部才能使用到什么数据。
+    模块的出现可以使得一个复杂的业务逻辑可以由多个人协同开发 */
+
+    let module = ( function() {
+        const modulelist = {};//存放定义的模块
+        function define(name,dependence,func){ //定义模块
+            console.log(modulelist);
+
+            dependence.map((m,i) =>{ //把依赖的模块从modulelist一个个取出来，值赋给dependence
+               dependence[i] = modulelist[m];
+            });
+            //这里 func是存在依赖关系的模块传递的function，func.apply，也就是依赖模块调用被依赖的模块里面的方法
+            modulelist[name] = func.apply(null,dependence);
+            /* 经过map方法，每个依赖的模块都已经赋值给dependence，然后把被依赖的模块的结果通过apply执行后，赋值给存在依赖关系的模块 这里就是把 arr_action模块的结果赋值给 定义lesson的module参数了 */
+            //如果有依赖，调用依赖模块方法，并把arr_action模块结果[因为一个模块被定义的时候会自动被执行]传递给存在依赖关系的模块的lesson 因不用改变this指向，apply 第一个参数传递null
+            
+        } 
+        return { define };//返回定义模块函数给外部调用
+    })();
+
+   
+
+    
+    module.define("arr_action",[] ,function(){ 
+        /* 定义一个模块arr_action
+        参数1：模块名字，
+        参数2：依赖的其他模块，以数组形式传递
+        参数3：模块功能 */
+        return { //return 就相当于向外部暴露方法，return 的方法模块外部可以用
+            first(arr){
+                return arr[0];
+            },
+            max(arr,key){
+                return arr.sort((a,b)=>b[key]-a[key])[0];
+            }
+        };
+    });
+
+    module.define("lesson",['arr_action'] ,function(arr_action){ 
+        console.log(arr_action);
+        /* 这里arr_action就接收到arr_action的返回结果了 */
+      /* 定义一个lesson模块，该模块依赖于arra_action 模块 */
+        let data = [
+            {name:'js',price:200,}
+           ,{name:'php',price:'300'}
+           ,{name:'mysql',price:100}
+        ];
+        
+        console.log(arr_action.max(data,'price'));/*js-模块化编程思维.html:95 {name: "php", price: "300"}  */
+    });
+
+    /* 一个模块a被定义的时候会自动被执行， 返回出模块里面的属性和方法 ，后续有模块依赖a的时候，这些模块和a共用一个返回结果！！！ */
+    module.define('a',[],function(){
+        console.log('a模块自动执行');
+        return {
+            sitename:'百度',
+            url:'www.baidu.com'
+        }
+    });
+
+    module.define('b',['a'],function(a){
+        a.sitename = "kugou";
+        a.url = 'www.kugou.com';
+    });
+
+    module.define('c',['a'],function(a){
+        console.log(a);
+        /* js-模块化编程思维.html:113 {sitename: "kugou", url: "www.kugou.com"}
+        可以看到 b改变了a，  c在依赖a时，获取到的a的值是b修改之后的值，
+        也就是 a，b，c 三个模块共用一个返回结果，都引用一个内存地址！！ */
+    })
+
+
+</script>
+</html>

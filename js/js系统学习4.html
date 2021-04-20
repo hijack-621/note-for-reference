@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>值操作</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let arr = [];
+    let obj = {};
+    console.log(typeof arr, typeof obj);
+    // 打印类型 发现数组和对象 都属于 对象类型object 没办法区分
+    console.log(arr instanceof Array, obj instanceof Object);
+    //可以用 instanceof 判断 arr/obj 原型链是否有这个属性Array/Object
+    let a = 'a';
+    let b = 'b';
+    console.log(a+b);
+    //现在推荐使用模板字符串的写法来完成一些字符串操作！！！
+    console.log(`${a}字符串相连${b}`);
+    /* 并且 `${}`里面 可以写绝大多数js表达式，计算，函数调用，三元运算等
+    `${4+5/func()/三元运算等等}`
+    */
+
+   /*模板字符串的标签  */
+   let name = '李四';
+   let age = 18;
+    //let tstr = `${name}的年龄是：${age}。`;
+   //let tstr = tag`${name}的年龄是：${age}。` 这里是给模板字符串起了个标签tag; 加上标签化必须写一个function tag(){}来对应这个tag，不然会报错tag未定义
+   let tstr = tag`${name}的年龄是：${age}。`;    
+   //console.log(tstr);//给模板字符串起tag后，这个模板字符串就不是一般的字符串了，这里打印起tag后的tstr 结果是undefined
+   function tag(str,name,age){
+       console.log(str);
+       //第一个参数是tstr中非变量的那些字符所组成的数组 js系统学习4.html:72 (3) ["", "的年龄是：", "。", raw: Array(3)]，
+       //就算tstr 中没有非变量【tag`${name}`】 第一个参数值也会有2个空字符串，也就是tag`${name}` 前后其实有两个空字符串 ，这个第一个参数长度是会大于变量个数的！！！
+       console.log(name,age);
+       //第一个参数后面的参数，就是对应模板字符串中的变量 
+   }
+
+   let book = [
+       {title:'php从入门到跑路', author:'小黑'},
+       {title:'js语法大全',author:'小红'},
+       {title:'10天入门mysql语法', author:'小蓝'}
+   ];
+  
+
+   function template(){
+       return `<ul>
+       ${book.map(item => //遍历将每一条的author和title 放到li中
+        links`<li>作者：${item.author}, 书名:${item.title}</li>`
+       ).join("")}
+       </ul>`;
+   }//遍历book，然后把每一条记录放到li中连起来，并且给 嵌套模板字符串起个标签links 
+   function links(strings, ...vars){
+    //第一个参数strings是tstr中非变量的那些字符所组成的数组 js系统学习4.html:72 (3) ["", "的年龄是：", "。", raw: Array(3)]，
+    //就算tstr 中没有非变量【tag`${name}`】 第一个参数值也会有2个空字符串，也就是tag`${name}` 前后其实有两个空字符串 ，这个第一个参数长度是会大于变量个数的！！！
+    //...vars 就是把links中的变量压缩到vars一个数组中去
+    console.log(strings, vars);
+
+    return strings.map((str, key)=>{
+        // console.log(str); 第一个value,第二个 key
+        return (str + (vars[key] ? vars[key].replace("语法",`<a href="https://www.baidu.com">语法</a>`) : "" ) );
+    }).join(""); 
+   }
+   document.body.innerHTML += template();
+</script>
+</html>

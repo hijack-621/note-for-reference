@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding:100px;
+        }
+        .c1 {
+            width:200px;
+            height:200px;
+            border:solid 2px pink;
+            position: relative;
+            transform-style: preserve-3d;
+            /* 不加这个3d属性,x轴旋转90度的话，实现从垂直显示器的方向看不到该平面了，加上就表示立体展示旋转过程 */
+
+            transform:perspective(900px) rotateX(-45deg) ;
+            /* 这里将父盒子旋转一下就是便于看到三维效果 */
+        }
+        .c1 div {
+            
+            background-clip: content-box;
+        }
+        .c2 {
+            position: absolute;
+            width:100px;
+            height:100px;
+            background-color: red;
+            top:50%;
+            left:50%;
+            margin-top:5px;
+            transition: 1s;
+            
+        }
+        .c3 {
+            position: absolute;
+            width:100px;
+            height:100px;
+            background-color: red;
+            transition: 1s;
+        }
+        .c4 {
+            position: absolute;
+            width:100px;
+            height:100px;
+            background-color: red;
+            top:0;
+            left:50%;
+            transition: 1s;
+            margin-left: 5px;
+            
+        }
+        div[class="c1"]:hover div[class="c2"] {
+            transform:perspective(900px)  rotateX(90deg);
+            /* 加上透视可以看见立体效果 */
+        }
+        div[class="c1"]:hover div[class="c3"] {
+            transform:perspective(900px)  rotateY(90deg);
+            /* 加上透视可以看见立体效果 */
+        }
+        div[class="c1"]:hover div[class="c4"] {
+            transform:perspective(900px)  rotate(360deg);
+            /* transform:perspective(900px)  rotateZ(360deg); */
+            /* 加上透视可以看见立体效果
+            这里 rotate(360deg) ==  rotateZ(360deg) 效果一样也就是按某个平面旋转 */
+        }
+
+        /* 可以简写：rotate3d(x,y,z,deg) 前三个参数为数值,0~int，表示旋转幅度，第四个为角度  */
+    
+        /* transform:中的移动translate 旋转rotate 缩放scale 并不会叠加和继承
+        也就是 同一个元素中
+        除非将 transform: 移动translate 旋转rotate 缩放scale 的2个或者三个写到一起 才会有多个效果
+        不会叠加：{
+            transform:translate;
+            transform:rotate;
+        }这样单独写不会叠加，后面的会覆盖前面的
+
+        不会继承：
+         div[class="c1"] {
+             transform:translate(100px);
+         }
+         然后对该div添加hover 让其缩放或者旋转，但是没把 translate(100px);和缩放或者旋转一起写进transform
+         这样 hover事件不会包含这个移动属性，那么就不会再元素开始位置执行缩放或者旋转属性
+        */
+
+    </style>
+</head>
+<body>
+    <div class="c1">
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+    </div>
+</body>
+</html>

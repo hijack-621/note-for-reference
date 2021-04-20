@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        main {
+            position: absolute;
+            left:50%;
+            top:50%;
+            transform:translate(-50%,-50%);
+        }
+        main ul {
+            display:flex;
+            list-style: none;
+        }
+
+        main ul li {
+            display:flex;
+            flex-direction: column;
+           
+           
+        }
+        ul li:hover strong+div {
+            transform:scale(1)
+        }
+        main ul li strong {
+            background-color:#2ecc71 ;
+            padding:20px;
+            cursor: pointer;
+        }
+        main ul li div {
+            display:flex;
+            flex-direction: column;
+            background-color:#8e44ad;
+            transform:scale(0);
+            transition: .5s;
+            transform-origin: left top;
+            /* 设置缩放的基点，默认元素的中心点，这里设置为左上角 */
+            /* scale(0) 表示缩放(0,0) 也就是隐藏元素 */
+
+        }
+        main ul li div a {
+            color:white;
+            padding:20px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <ul>
+            <li>
+                <strong>TEST</strong>
+                <div>
+                    <a href="">el1</a>
+                    <a href="">el2</a>
+                </div>
+            </li>
+            <li>
+                <strong>TEST2</strong>
+                <div>
+                    <a href="">el1</a>
+                    <a href="">el2</a>
+                </div>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>1</div>
+    <div>2</div>
+</body>
+<script>
+/* 数组 */
+    /* 数组js中也是 object，也是引用类型！！！ */
+    //const 定义引用类型【array/object】，可以修改，只要内存地址不变
+    /* 
+    let array = [1,2,3];
+    array[6] = 5;//array只有三个元素，index 0 1 2，当直接设置index 6 的值为5时
+    系统默认会用undefined来填充 3 4 5 这个几个位置！！！ 
+     */
+    //两中 数组构造方法创建的区别
+
+    let array = new Array(1,2,3);
+    let array1 = Array.of(1,2,3);
+    console.log(array);
+    console.log(array1);
+    /* 但是new Array 创建只有一个参数的数组时 */
+    let array2 = new Array(6);//这里本意事项创建一个只有一个元素6的数组
+    //但其实时创建了一个长度为六，每个元素都是undefined的数组
+    console.log(array2.length, array2[2]); //=> 6 undefined
+    let array3 = Array.of(6);//创建一个只有一个元素6的数组,使用Array。of()可以解决构造方法创建一个数组时的问题
+    console.log(array3);
+    console.table(array);//表格方式打印array！！！oh
+
+    /* 
+    Array
+    .isArray() 判断是否是数组
+    .join(',/./?'),将数组元素以逗号、句号、？等符号连接成字符串
+    .toString() 将数组每个元素以逗号连接成字符串 / String([1,2,3]) => '1,2,3';!!!     
+    
+    【转数组 from()方法，只要这个元素可以用或者有length这个属性来获取长度，就可以用这个方法来转数组
+    Array.from(string);string转数组，
+    let obj = {
+        name:'a',
+        age:18,
+    }
+    Array.from(obj);
+    这样转只会得到空数组，当obj加上length这个属性，就可以转了
+    并且key要是数字类型 】，并且length值就是转数组后数组的元素个数！，索引小于length，不够的用undefined填充！！！
+    */
+    let obj = {
+        0:'a',
+        1:18,
+        length:3
+        //第三个元素为undefined
+    }
+    console.log(Array.from(obj));
+    
+    /* Array.from(el, function(item){
+        //可以接函数-会遍历转换后数组，并对每一项进行后续操作！！！！！！
+    })  */
+
+    /* 展开语法 */
+    let array4 = ['a','b'];
+    let array5 = ['c','d'];
+    array4 = [...array4,...array5];
+    console.log(array4); //其实就把array5的每个元素都压入到array4中去了
+    /* 函数内应用 */
+    function sum(...args){
+        //使用展开语法把参数都交给args这一个变量接收！！！这里实现多个数相加求和
+        return args.reduce( (s, v) =>{
+            return (s+=v);
+        },0 )
+    } 
+    console.log(sum(1,4,6,8,9));//=> 28
+
+    /* DOM节点应用 */
+    let divs = document.querySelectorAll('div');
+    console.log(divs);
+   /*  divs.map(function(item){ //dom节点数组Nodelist 没办法使用map等方法 ，原型链上没有
+        console.log(item); 
+    }) */
+    /* 展开语法 处理 dom节点数组Nodelist 后 就可以使用map方法便利数组啦   */
+    [...divs].map(item=>{
+        console.log(item);
+    })
+    /* Array.from(divs).map() ok!
+    Array.prototype.map.call(divs, function(){})  ok!
+    三种方式都可，但是展开语法简单！！！ 
+     */
+
+
+     /* 结构语法 数组 对象  */
+    let array6 = ['阿毛',18];
+    let name = array6[0];
+    let age = array6[1];
+    console.log(name,age);
+    /* 结构语法赋值 语法糖 简化 数组，对象赋值操作*/
+    let [name1,age1] = array6;
+    console.log(name1,age1);
+    const [...arr] = "abcd";
+    console.log(arr);
+
+    let [, age11] = ['阿毛',18];
+    console.log(age11);//不用逗号占位，那么age11就是阿毛了！！！
+    let [name11,...args] = ['阿毛',1,2,3];
+    console.log(name11,args);//js系统学习7.html:144 阿毛  array(3) [1, 2, 3]
+   /*  let [a,b] = [1,2];// => a 1   b 2
+    let [a,b] = [1];// a 1   b undefined
+    let[a,b=0] = [1];// a-1 b=0，可以给默认值！！ */
+
+
+    /* 数据操作 
+    Array
+    .push(el) 尾追加元素 返回数组长度  ==| Array[array.length] = el; ==| array=array[...array,el];
+    .pop(el) 尾移除元素 返回弹出元素
+    .unshift() 首添加元素
+    .shift() 首移除元素 返回弹出元素
+    .fill(el, start , end) 从start 到 end 之间用 el 填充【替换】 包括 start end
+    .slice(start, end) 【不传参数默认从头截到尾】  起始截取数组 返回截取到的元素  不改变原数组
+    .splice(start, num, replacestr1, replacestr2 ...) 从start位置开始截取num个字符 返回截取到的元素数组，改变原数组,如果传递了replacestr 就会把截取走的字符用这个传递的字符替换掉
+    .splice(start ,0 ,replacestr1) 从某个位置开始 追加  replacestr1 字符！！！因为删除0个元素么
+    */
+    let aa  = [1, 2 ,3 , 4 , 5];
+    console.log(aa, aa.slice(0,3));//(5) [1, 2, 3, 4, 5] (3) [1, 2, 3]
+    console.log(aa, aa.splice(0,3, 'a','b','c'));//(5) ['a','b','c', 4, 5] (3) [1, 2, 3]
+    /* 小例子 移动 数组元素到指定位置 */
+    let aaa = [1,2,3,4,5,6];
+    function move(arr, from ,to){
+        let newarr = [...arr];//不希望改变原数组，这里新建一个数组
+        let item = newarr.splice(from,1);//这里返回数组
+        console.log(item);
+        /* 展开语法小技巧 如果 ... 位于表达式左边，一般表示收集到一个变量里面，位于右边表示以逗号展开数组 */
+        newarr.splice(to,0,...item);//这里不写展开语法 就要用 item[0]
+        return newarr;
+    }
+
+    // console.table( move(aaa, 1 , 3 ) );
+    /* 清空数组n种方式
+    直接赋值[];【
+    let hd = [1,2,3,4,5];
+    let arr = hd;
+    hd = [];直接赋值如果有上面这种赋值操作  
+    hd是为空了【其实是开辟一块值为空数组的内存空间，让hd指向它】，arr不会为空
+    】
+    arr.length = 0;
+    【  let hd = [1,2,3,4,5];
+        let arr = hd; arr hd 都指向一个内存空间
+        arr.length = 0; 这样 hd和arr都会清空，因为都指向一个内存空间，并且内存空间为空
+    】
+    arr.splice(0);
+    循环弹出元素 pop() shift()
+     */
+
+     /* 补 数组操作
+     Array
+     .concat(arr1,arr2 ...) 把arr1，arr2 合并到 array中
+     .copyWithin(target,start,end) 把 start 和 end 间的元素 复制【替换目标往后对应位数的元素】到 target位置，
+     .indexOf(target,begin) 指定从begin位置开始查找，默认begin ==0
+     .lastindexOf(target,begin) //右边开始查找 返回索引 找不到返回-1 严格类型匹配  查9的话 '9'不会被匹配到     
+     .includes(),返回boolean 找到立即终止查找循环，
+     
+     //高效查找
+     .find() 返回arr中你要查找的值 找到立即终止查找循环，【引申
+     引用类型【arr/obj】的比较，其实是比较内存地址
+     let b = []/{};
+     let a = []/{};
+     let c = a;
+     console.log( a == b )=>false
+     console.log( a == bc)=>true 地址一样！！
+     】
+
+     .findIndex() 返回索引  找到立即终止查找循环，
+      */
+    let aarr = [1,2,3,4,5,6];
+    // console.table(aarr.copyWithin(3,1,3));
+    /* 模拟find()方法 */
+     function find(arr,callback){
+         for (const value of arr) {
+            if( callback(value) ) return value;
+         }
+         return undefined;
+     }
+     let arra = [1,2,3,4,5,6];
+     console.log( find(arra,function(item){return item ==2}) );
+
+
+
+
+    /* 排序
+   Array =  Array.sort(function(a, b){
+        return a-b/b-a;
+        //a-b<0 从小到大 表示 a b 位置不变，大的在后面
+        //b-a>0 从大到小 表示 a b 位置改变 大的在前面
+    })
+
+    排序不仅限于纯数字数组！
+
+      */  
+
+    let arrr = [100,1,4,44,2,101,99,1000,55];
+    arrr = arrr.sort((a,b)=>{
+        return b-a;
+    })
+    console.table(arrr);  
+
+    let aaarr = [
+        {name:'pc',price:8888},
+        {name:'mobilephone',price:6666},
+        {name:'bike', price:3344}
+    ];
+    /*  排序不仅限于纯数字数组！ */
+    aaarr = aaarr.sort( (a,b)=>{ //这里的 a，b其实是aaarr的两个item
+        return a.price - b.price;
+    } )
+    console.table(aaarr);
+    /* 模拟.sort()方法 */
+
+    function sort(arr, callback){
+        for (const n in arr) {
+           for (const m in arr) {
+               if(  callback(arr[n],arr[m]) < 0 ){
+                   let temp = arr[n];
+                   arr[n] = arr[m];//大的
+                   arr[m] = temp; 
+               }
+           }
+        }
+        return arr;
+    }
+    console.table( sort(arrr,(a,b)=>{
+        return b-a;
+    })  )
+</script>
+</html>

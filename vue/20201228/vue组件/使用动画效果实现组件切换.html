@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<style>
+    .v-enter,
+    .v-leave-to{
+        transform: translateX(150px);
+    }
+    /* 动画四个阶段  */
+    .v-enter-active,
+    .v-leave-active{
+        opacity: 0 ;
+        transition: all 1s ease;
+    }
+</style>
+<body>
+    <div id="app">
+        <!-- prevent 阻止默认事件，a就是跳转这个默认事件
+        v-if为真就渲染v-if这个组件，而不会进入v-else，v-else亦然 -->
+        <a href="" @click.prevent="flag=true" >登录</a>
+        <a href="" @click.prevent="flag=false" >注册</a>
+       <login v-if="flag"></login>
+       <!-- 使用v-if v-else 实现组件切换 -->
+       <register v-else="flag"></register>
+    </div>
+
+    <div id="app2">
+        <!-- 点击a传入对应组件的名称 -->
+        <a href="" @click.prevent="componentname='login'" >登录</a>
+        <a href="" @click.prevent="componentname='register'" >注册</a>
+        <!--第二种方式实现组件切换，第一种有缺陷，多个vue组件时，无法使用v-if、else  -->
+        <!-- 使用vue  提供的 component标签  :is=" 组件名称 " 提供那个就展示那个 -->
+        
+        
+    </div>
+    <div id="app3">
+        <a href="" @click.prevent="componentname='login'" >登录</a>
+        <a href="" @click.prevent="componentname='register'" >注册</a>
+    <!--如果组件想要实现切换效果，只需要在transition 标签中，设定model='out-in{【先出再进】} /in-out【先进再出】'  -->
+     <transition model='out-in'>
+        <component :is="componentname">
+            <!-- 绑定一个变量，变量指向那个组件就展示那个组件， -->
+        </component>
+     </transition>   
+    </div>
+
+</body>
+<script>
+    Vue.component('login', {
+        template:'<h2>这是登录组件</h2>'
+    })
+    Vue.component('register', {
+        template:'<h3>这是注册组件</h2>'
+    })
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            vmsg:'hello world',
+            flag:true,
+            
+        }
+    })
+    let vm2 = new Vue({
+        el:'#app2',
+        data:{
+            componentname:'login',
+        }
+    })
+    let vm3 = new Vue({
+        el:'#app3',
+        data:{
+            componentname:'login',
+        }
+    })
+</script>
+</html>

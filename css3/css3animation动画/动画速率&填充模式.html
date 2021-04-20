@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        动画animation和 transition 跟过渡一样,也有过渡效果【先快后慢，还是先慢后快，还是匀速】变化
+        transition-timing-function
+        animation-timing-function  [【https://cubic-bezier.com/#.17,.67,.83,.67】]
+
+     -->
+     <!-- 场景应用  弹力小球 
+    开始落下的时候速度越来越快，
+落到地面谈起时候越来越慢 最后停下来静止在地面
+实现逻辑就是 先设置 几个帧，间隔大一些  比如 10 25 40 55 85 模拟下落 ，并且下落过程速度越来越快 可以设置速率animation-timing-function 为先慢后快 
+后面 再设置间隔小的密集一些的帧 并且 这些密集帧数值必须再上面间隔大的帧的中间 5% 15% 18% 22% 30% 35% 等等 来模拟 弹上去的过程 设置速率animation-timing-function 为先块后慢 
+-->
+<!-- 关于阴影的小知识点
+box-shadow: a b c d 四个参数
+a:水平 b:垂直 c:模糊量 d 颜色 默认shadow的颜色为 color:这个属性的颜色
+a/b 大于元素的宽高时，就会出现间隔（留白）的情况  -->
+
+<!-- 填充模式 
+animation-fill-mode:
+normal：普通模式：动画开始前使用元素样式；动画结束回到元素本来样式
+backwards:动画开始之前使用第零帧【from、0%】；动画结束回到元素本来样式
+forward:动画开始前使用元素样式，动画结束定到to/100%那一帧，不会到起始状态
+both:兼顾forwards和backwards,动画开始之前使用第零帧【from、0%】 动画结束定到to/100%那一帧。
+-->
+</body>
+</html>

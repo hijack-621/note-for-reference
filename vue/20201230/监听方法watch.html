@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='../js/vue.js'></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model='firstname' >
+        +
+        <input type="text" v-model='lastname' >
+        =
+        <input type="text" v-model=fullname >
+    </div>
+</body>
+<script>
+    let vm =  new Vue({
+        el:'#app',
+        data:{
+            firstname:'',
+            lastname:'',
+            fullname:'',
+        },
+        methods:{},
+        watch:{ //这个方法可以监听data中指定数据的变化，从而触发这个watch中的处理函数
+            'firstname':(newval,oldval)=>{ //表示监听data中firstname的变化，变化就执行后面的函数，newval为改变后的值，oldval为改变前的值
+                console.log(oldval +'---' + newval) //
+            },
+            'lastname':(newval,oldval)=>{ //表示监听data中lastname的变化，变化就执行后面的函数，newval为改变后的值，oldval为改变前的值
+                console.log(oldval +'---' + newval) //
+            }
+            
+        }//watch  除了能监听data中数据的变化、dom变化，还可以监听非dom元素的变化
+        //例如 路由的变化，
+        //引入 路由包 vue-router.js 后，vue实例就自动绑定了一个$router对象,
+        //使用 '$router.path[或者任务$router中的属性值]:function(){}'就可以监听到这些值的改变从而做出相应的动作！！！
+        
+    })
+</script>
+</html>

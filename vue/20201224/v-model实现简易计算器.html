@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+   <div id="app">
+        <input type="text" name=""  v-model='n1'>
+        <select name=""  v-model="opt">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input type="text" name=""  v-model='n2'>
+        <input type="button" name=""  value='=' @click='calc'>
+        <input type="text" name=""  v-model='result'>
+    </div>
+</body>
+<script>
+    let vm = new Vue({ //new 出的实例都会被放到浏览器内存中去，通过控制台都可以操作到！！！
+        el:'#app',
+        data:{
+            n1:0,
+            n2:0,
+            opt:'+',
+            result:0
+        },
+        methods:{
+           calc () {
+               switch(this.opt){
+                   case '+':
+                       this.result = parseInt(this.n1) + parseInt(this.n2)
+                   berak
+                   case '-':
+                   this.result = parseInt(this.n1) - parseInt(this.n2)
+                   berak
+                   case '*':
+                   this.result = parseInt(this.n1) * parseInt(this.n2)
+                   berak
+                   case '/':
+                   this.result = parseInt(this.n1) / parseInt(this.n2)
+                   berak
+               }
+               //比较简单的方式
+               // let calcstr = 'parseInt(this.n1)'+this.opt+'parseInt(this.n2)'
+               //this.result = eval(calcstr) // 
+                //eval eval() 函数可计算某个字符串，并执行其中的的 JavaScript 代码。
+                // 语法
+                // eval(string)
+                // 参数	描述
+                // string	必需。要计算的字符串，其中含有要计算的 JavaScript 表达式或要执行的语句。
+                // 返回值
+                // 通过计算 string 得到的值（如果有的话）。
+
+           }
+        }
+    })
+</script>
+</html>

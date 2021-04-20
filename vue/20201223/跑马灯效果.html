@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+      <input type="button" value='动起来' @click = 'move'>
+      <input type="button" value='停止' @click = 'stop'>
+      <p>{{ vmsg }}</p>
+    </div>
+
+</body>
+<script>
+    Vue.config.devtools = true;
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            vmsg:'vue learning',
+            interval:null
+        },
+        methods:{
+           move() { //es6语法  可以省略 move:function(){}
+           if(this.interval!=null){
+                return 
+           }     
+           this.interval =  setInterval(() => { //箭头函数 vue  写法  ，可以将move改变函数外部的this的指向,转为函数内部的this
+                let start =  this.vmsg.substring(0,1)
+                let end = this.vmsg.substring(1)
+                this.vmsg = end + start
+                }, 200)
+                //这种写法有问题，每次点击动起来按钮都会重新开启一个定时器，而不是在原来基础上进行操作
+                //所以 每次动起来之前需要判断是否为空，为空就return         
+           },
+           stop() {
+               clearInterval(this.interval)
+               this.interval=null
+               //这样直接清除定时器也会有问题，因为每次清除完后，虽然定时器不工作了
+               //但是没有赋值为null，上面判断为null就永远成立，动起来按钮就失效了
+                //this.interval=null
+           }
+        }
+        
+    })
+</script>
+</html>

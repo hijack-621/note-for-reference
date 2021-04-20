@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         * {
+            padding:0;
+            margin:0;
+        }
+        body {
+            width:100vw;
+            height:100vh;
+            display: grid;
+        }
+        main {
+            width:400px;
+            height:200px;
+            justify-self: center;
+            align-self: center;
+            display:grid;
+            grid-template: 1fr/1fr;
+            overflow: hidden;
+            position: relative;
+        }
+        section {
+            width: 1600px;
+            height:200px;
+            display:grid;
+            grid-template: 1fr/repeat(4,1fr);
+            animation-name: move-img;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+            animation-timing-function: steps(4, end);
+        }
+        div {
+            width:400px;
+            height:200px; 
+        }
+        img {
+            width: 100%;
+            overflow: hidden;
+        }
+        ul {
+            position:absolute;
+            width:220px;
+            left:50%;
+            bottom:20px;
+            transform:translateX(-50%);
+            display: grid;
+            grid-template: 1fr/repeat(4,1fr);
+            justify-items: center;
+            align-items: center;
+            list-style: none;
+            
+        }
+        ul li {
+            color:white;
+            font-size:1.2em;
+            width:25px;
+            height:25px;
+            background:rgba(0, 0, 0, .3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+       ul::before {
+            content:'';
+            width:25px;
+            height:25px;
+            border-radius: 50%;
+            left:15px;
+            top:0;
+            background-color:#ff4757;
+            opacity: 1;
+            position: absolute;
+            animation-name: move-li;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+            animation-timing-function: steps(4, end);
+        }
+        @keyframes move-img {
+            to{
+                transform: translateX(-1600px);
+            }
+        }
+        /* 起始到最终移动自己的宽度 */
+        @keyframes move-li {
+             to{
+                transform: translateX(220px);
+            }
+        }
+        /* 鼠标放上去停止动画轮播 */
+        /* section 以及 section紧挨着的ul的after伪元素 */
+        section:hover,section:hover+ul::before {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section>
+            <div>
+                <img src="../img/2.jpg" alt="">
+            </div>
+            <div>
+                <img src="../img/a.jpg" alt="">
+            </div>
+            <div>
+                <img src="../img/b.jpg" alt="">
+            </div>
+            <div>
+                <img src="../img/c.jpg" alt="">
+            </div>
+        </section>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </main>
+</body>
+</html>

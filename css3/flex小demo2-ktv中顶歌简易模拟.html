@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ktv中顶歌模拟</title>
+    <style>
+        body{
+            padding:100px;
+        }
+        main {
+            display: flex;
+            width:400px;
+            height:500px;
+            border:solid 2px pink;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        main section {
+            flex:1 0 100px;
+            background-color: purple;
+            padding:10px;
+            background-clip: content-box;
+            text-align: center;
+
+        }
+        main section {
+            display: flex;
+            flex-direction: column;
+            
+
+        }
+        main section div {
+            flex-grow:1;
+            color:white;
+            font-size:20px;
+            /* 1.line-height: 6em;
+            div中让文本居中两种方式
+            2.div->flex->flex-direction:column->justify-content:center  */
+           
+            display:flex;
+            flex-direction: column;
+            justify-content:center;
+            /* 也就是说 flex 弹性布局会影响文本【文本节点】，flex布局后，文字都会变成flex的元素，受justify-content属性的影响！！！ */
+        }
+        main section span {
+            height:30px;
+            background-color: orange;
+            color:purple;
+            cursor: pointer;
+        }
+
+        /* 定位对于flex盒子的影响跟普通块，行级块的影响是一样的，设置绝对定位【absolute】,
+        紧挨着的元素会将设置绝对定位的元素的空间位顶替，设置相对定位，空间位保留！！！ */
+       
+        
+    </style>
+</head>
+
+<body>
+    <main>
+        <section>
+            <div>上海滩</div>
+            <span onclick="up(this)">up</span>
+        </section>
+        <section>
+            <div>kong</div>
+            <span onclick="up(this)">up</span>
+        </section>
+        <section>
+            <div>笑看风云</div>
+            <span onclick="up(this)">up</span>
+        </section>
+
+    </main>
+</body>
+<script>
+    function up (e) {
+        let order = getComputedStyle(e.parentElement,null).order;
+        e.parentElement.style.order = order*1-1;
+          
+        //console.log(order);
+    }
+</script>
+</html>

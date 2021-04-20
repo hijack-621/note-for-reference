@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    body {
+        padding:100px;
+    }
+    table caption {
+        caption-side: bottom;
+        /* 设置caption位置 位于顶部或者底部 */
+    }
+
+    table{
+        border-collapse:collapse;
+        /* 两条重合边框合并成一条 */
+        empty-cells: hide;
+       /* 空单元格隐藏  */
+    }
+
+    ul{
+        list-style-type: armenian;
+        /* 列表样式 数字，实心点，罗马数字等 */
+        list-style: none;
+        /* list-style-image: linear-gradient();
+        可以设置列表图片和渐变背景  跟background一样 */
+
+        /* 去掉本来样式
+        
+         ul/ol 列表也都可以设置背景图片和边框，等样式！！！！
+         */
+    }
+    /* 链式操作 鼠标hover 追加伪元素 */
+    h2:hover::after {
+        /* content:"from b站";
+        除了自己写要追加在h2后面的内容，还可以读取h2属性的值 自定义的属性都可以读取到
+        */
+        content: attr(data-myattr);
+    }
+    .form{
+        position: relative;
+        margin-bottom:20px;
+    }
+
+    .form input {
+        outline:none;
+        border:none;
+        width: 100%;
+    }
+
+    .form::after {
+        content: "";
+        background:linear-gradient(to right, white, red,green,blue, white);
+        display:block;
+        height:1px;
+    }
+    .form:hover::before {
+        content:attr(data-help);
+        position:absolute;
+        margin-top:-30px;
+    }
+
+</style>
+</head>
+<body>
+
+   
+
+    <!-- 通过伪元素after before制作自定义表单 -->
+
+    <div class="form" data-help="请输入100以内的字符">
+        <input type="text">
+    </div>
+    <div class="form" data-help="请输入100以内的字符">
+        <input type="text">
+    </div>
+    <div class="form" data-help="请输入100以内的字符">
+        <input type="text">
+    </div>
+
+
+
+    <h2  data-myattr="自定义属性">css3-learning</h2>
+
+    <table border='1'>
+        <caption>123</caption>
+        <thead>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+<!-- 列表操作 -->
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <style>
+        main {
+            border:solid 3px black;
+            width:420px;
+            height:220px;
+            padding:10px;
+            /* 这里有一个问题，由于div设置了浮动，脱离了文档流【空间位 文档【document】 就不承认了，maIn就无法感知其子元素高度到底是多少，所以直接不设高度了】，所以这里设置边框，边框是没有高度的【上和下边框重合】，除非设置main的高度
+            除了直接对main设置高度,还有其他方式
+            1.就是在设置浮动的元素后面加上一个元素，并对新增元素加上清除浮动：clear:both属性，那么该新元素就会在原位不动
+            这样虽然main感知不到设置有float属性的高度，但是能感知到新增元素的位置，进而高度自己会调整
+            2.使用伪元素在main 后面追加一个元素，然后设置clear:both 一样可以清除浮动带来影响，
+            而且这种方式比较推荐
+            3.使用overflow:hidden 方式 对main 加上这个属性也可以让main宽度是因为内容高度 【BFC特性https://zhuanlan.zhihu.com/p/25321647】
+
+
+            如果去掉div的float属性，那么这里设置border后，main上下边框间距就为div的高度
+            而且div会顶着这个main的边框，但是不在padding里，main设置padding，设置了浮动的div也不会在这个padding里【无法逾越内边距】 */
+
+
+
+        }
+        div {
+            width:200px;
+            height:200px;
+            box-sizing:border-box;
+        }
+        div span {
+            background-color: red;
+            height:50px;
+            /* 可以这么理解，行级/块级浮动后，元素变为一个行级块元素，可以设置宽高
+            行级元素本来设置高度是无效的
+            但是当span元素浮动后 就可以设置宽高！！！
+            
+             */
+             float:left;
+
+        }
+
+        div:nth-of-type(1) {
+            border:solid 3px red;
+            float:left
+            /* float 浮动 是对后面元素有影响的，对前面的元素不会有！！！ 
+            
+
+
+            */
+        }
+        div:nth-of-type(2) {
+            background-color: pink;
+            float:right;
+            /* float right 应用场景之一， 父盒子 中放两个子盒子 两个子盒子一个向左浮动，一个向右子浮动，
+            就可以实现两个盒子之间出现间距，父盒子宽度稍大于两个子盒子宽度之和 */
+        }
+    </style>
+<body>
+    <main>
+        <div>1</div>
+        <div>2</div>
+        <!-- 清除浮动
+            div 1 2 默认上下排列 
+            但div1 设置浮动后【左/右浮动 脱离文档流】，由于浮动会对后面的元素有影响
+            ，所以div2会顶上去，
+            可以对div2设置 clear:left/right/both 来清除div2前面的元素由于浮动对div2的影响
+            这样div2就会在原位置不会顶上去
+        -->
+        <article class="clearfix"></article>
+    </main>
+    <div>
+        <span>test</span>
+    </div>
+  
+</body>
+</html>

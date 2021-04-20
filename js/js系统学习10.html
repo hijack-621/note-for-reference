@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        section{
+            display:flex;
+            margin-top: 100px;;
+        }
+       section div {
+            width:300px;
+            height:200px;
+            border:solid 2px #dcdde1;
+            box-sizing: border-box;
+           
+        }
+        section div ul {
+            list-style: none;
+        }
+        section div ul  li {
+            width:200px;
+            border:solid 2px #fbc531;
+            padding:10px;
+            margin:10px;
+            box-sizing: border-box;
+            display:flex;
+        }
+        span{
+            margin-right: auto;
+        }
+        li a{
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            text-decoration: none;
+            text-align: center;
+            background: #16a085;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 5px;
+        }
+        .se {
+            display:flex;
+            flex-direction: column;
+
+        }
+        .se div {
+            height:30px;
+            border: none;
+        }
+        .se span {
+            padding:3px;
+            color:white;
+            background-color: #0fb9b1 ;
+            border-radius: 3px;
+            margin-top:10px;
+            margin-left: 10px;
+            display:inline-block;
+           
+        }
+    </style>
+</head>
+<body>
+    <div name="d1">1</div>
+    <div name="d2">2</div>
+    <form action="http://doc.houdunren.com" onsubmit="return post()">
+        接受协议:
+        <input type="checkbox" name="agreement" error="请接受接受协议" />
+        我是学生:
+        <input type="checkbox" name="student" error="网站只对学生开放" />
+        <input type="submit" />
+      </form>
+
+      <section>
+          <div>
+            <ul>
+              <li><span>PHP</span> <a href="javascript:;">+</a></li>
+              <li><span>CSS</span> <a href="javascript:;">+</a></li>
+              <li><span>JS</span> <a href="javascript:;">+</a></li>
+            </ul>
+          </div> 
+          <div class="se">
+              <strong id="count">目前共选了0门课</strong>
+              <div class="span" id='span'>
+               
+              </div>
+          </div>
+      </section>
+</body>
+<script>
+/* map 和 WeakMap() 数据类型 以往的了解，对象的键名只能是字符串，不是也会强制转成字符串，
+但是map和WeakMap() 数据类型，键名可以不是字符串！！！ */  
+let map = new Map();
+map.set('a','string a');
+map.set(function(){},'函数键名');
+map.set({},'对象键名');
+map.set(1,'shuzi').set('abc','可以链式操作');
+console.log(map);
+/* map
+.delete(key) 删除 返回true/false
+.clear() 清空
+.keys() 返回所有的key
+.values() 返回所有的值
+.entries() 返回键值对
+遍历 
+for of /forEach
+转数组：
+[...map.keys()/values/map] 把索引/值/索引+值变数组
+同样很多时候需要转数组后操作元素，再转成map！！！
+*/  
+
+/* 把dom元素当做key  */
+    // let dmap = new Map();
+    // let divs = document.querySelectorAll('div');
+    // divs.forEach(item =>{
+    //     dmap.set(item,{content:item.getAttribute('name')});
+    // });
+    // dmap.forEach( (item ,el)=>{
+    //     el.addEventListener("click",()=>{
+    //         alert(item.content);
+    //     })
+    // } )
+
+
+    function post() {
+      let map = new Map();
+      let inputs = document.querySelectorAll("[error]");
+      inputs.forEach(item => {
+        map.set(item, {
+          error: item.getAttribute("error"),
+          status: item.checked
+        });
+      });
+      // console.log([...map]);
+      return [...map].every(([elem, config]) => {
+        config.status || alert(config.error); //
+        return config.status;
+      });
+    }
+    /*map 控制表单提交 
+   
+     config.status || alert(config.error); //短路特性
+     如果  config.status 为真，什么都不做，为假就弹出错误提示！！！
+    */
+   /* WeakMap() 弱类型引用map，跟WeakSet() 类似，垃圾回收机制不会通知到弱引用类型，
+   规定 key键必须为引用类型（对象） 判断元素has，删除元素delete等操作和set一致
+   但是无法使用.size .keys().values() for of[无法迭代1！！]  ！！！  */
+   let wp = new WeakMap();
+    //    wp.set('name','name'); typeerror
+    wp.set([],'aaa').set({},'bbb');
+    let input = document.querySelector("[error]");
+    wp.set(input,input.getAttribute('error'));
+    
+    console.log(wp);
+    /* WeakMap() 特性 */
+
+    class Lesson {
+        constructor(){
+            this.lis = document.querySelectorAll('ul>li');
+            this.count = document.getElementById('count');
+            this.alists = document.getElementById('span');//这里找class获取需要带上数组下标！！！
+            this.map = new WeakMap();
+            console.log(this.lis,this.count,this.alists);
+
+        }
+        run(){
+           this.lis.forEach( li =>{
+               li.querySelector('a').addEventListener('click',(ev)=>{
+                   if( li.getAttribute('selected') ){
+                        li.removeAttribute('selected');
+                        this.map.delete(li);
+                        console.log(this.map); 
+                        ev.target.innerHTML = "+";
+                        ev.target.style.backgroundColor= '#fbc531';
+                   }else {
+                    li.setAttribute('selected',true);
+                        this.map.set(li);
+                        ev.target.innerHTML = "-";
+                        ev.target.style.backgroundColor= 'red';
+                        console.log(this.map); 
+                   }
+                   this.render();
+               })
+           })
+           
+        }
+        acount() {
+           
+        return [...this.lis].reduce((count, li) => {
+          return (count += this.map.has(li) ? 1 : 0);
+        }, 0);
+      }
+      lists() {
+        return [...this.lis]
+          .filter(li => {
+            return this.map.has(li);
+          })
+          .map(li => {
+            return `<span>${li.querySelector("span").innerHTML}</span>`;
+          })
+          .join("");
+      }
+
+        render(){
+            console.log(this.lists());
+            this.count.innerHTML = `目前共选了${ this.acount() }门课`;
+            this.alists.innerHTML = this.lists();
+            /* document.getElementByClassName() 返回dom数组对象！！！~~~ById直接返回dom元素 */
+        }
+
+
+
+    }
+    new Lesson().run();
+</script>
+</html>

@@ -1,0 +1,1 @@
+(()=>{var e={672:e=>{e.exports="webpack learning"}},o={};function r(t){if(o[t])return o[t].exports;var l=o[t]={exports:{}};return e[t](l,l.exports,r),l.exports}(()=>{let e=r(672);console.log("hello webpack"),console.log(e)})()})();

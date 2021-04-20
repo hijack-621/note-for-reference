@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #7f8fa6;
+            width:100vw;
+            height:100vh;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 900px;
+            /* 这里直接给父元素设置透视，表示整体观察子元素，并且这个透视只影响子元素
+            如果这样设置的话：transform:perspective() rorateY(45deg) 就表示给这父元素设置观察自己的透视 ;
+            透视数值远大，表示观察点离元素越远 */
+        }
+        /* 透视可以单独设置，可也以对一组元素的父元素设置透视， */
+        div {
+            width:100px;
+            height:100px;
+            background-color: #fbc531;
+            margin-right: 100px;
+            transform: rotateY(45deg);
+            /*  transform: perspective(900px) rotateY(45deg);
+            单租设置透视，单独观察每个元素  */
+            /* 这里不设置透视的话，div按Y轴旋转的那种效果【畸变】就看不出来 */
+            
+        }
+        /* 当两个元素重叠在一起，然后其中一个按z轴旋转200px,不做任何处理我们是直接看不到效果的，
+        这就好比三个人 一前一后这样站，第三个人是看不到前面两个人相隔多元的，必须要侧身子去看，
+        上面所说的处理就是这个意思，改变观察元素的角度
+        给父元素加上  transform: perspective(900px) rotateY(45deg);这样就相当于改变观察者的角度，
+        然后加上 transform-style:preserve-3d; 表示看到三维空间【不加这个属性就相当于你去看vr电影，不给你vr眼镜一个道理】
+
+        */
+    </style>
+</head>
+<body>
+    <div>
+
+    </div>
+    <div>
+
+    </div>
+</body>
+</html>

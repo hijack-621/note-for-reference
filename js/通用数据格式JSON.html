@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /* json 通用数据格式，以前是xml，但是xml使用复杂，进而诞生json，现在json用的较多 */
+    /* 而且很多配置文件都使用json数据格式
+    json 为传输类型，是一种传输数据的格式 */
+
+    let data = {
+        name:'js',
+        data:{
+            title:'js',
+        },
+        toJSON:function(){ //这个方法用于调用JSON.stringify 后返回自定义的数据格式
+            return { //这里返回的就会被JSON.stringify 当做返回值！！
+
+            };
+        }
+    };
+    let arr = [
+        {name:'aaa'}
+    ]
+
+    let json = JSON.stringify(data);//把对象/数组arr转成标准json字符串数据格式-json序列化 
+    //后台传过来的json数据格式，通过 JSON.parse(json)，就可以被还原成对象或者数据等原来被转成json数据的源数据
+    console.log(json);//得到字符串！！
+    /* 
+    JSON.stringify(1,2,3) 传递三个参数 1表示数据源， 2表示保留的属性["name","data"]，就表示只保留name和data属性 3 缩进字符数
+     */
+     //JSON.parse(jsonstr,(key,val)=>{ if(key="price") return val +=100 }) 
+     /*JSON.parse()  第一个参数为json字符串用于解析成对象或者数组，
+      第二个为回调函数，相当于遍历每个属性和值 可以对每个属性的值单独操作！！！这里实现对属性为price值加100， */
+
+</script>
+</html>

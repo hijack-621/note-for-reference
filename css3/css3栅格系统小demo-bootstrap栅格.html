@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+           width:1020px;
+           margin: 0 auto;
+        }
+        .row {
+            display:grid;
+            grid-template-columns: repeat(12,1fr);
+            background-color: pink;
+            gap:10px;
+        }
+        .col-1 {
+            grid-column:span 1;
+        }
+        .col-2 {
+            grid-column:span 2;
+        }
+        .col-3 {
+            grid-column:span 3;
+        }
+        .col-4 {
+            grid-column:span 4;
+        }.col-5 {
+            grid-column:span 5;
+        }
+        .col-6 {
+            grid-column:span 6;
+        }
+        .col-7 {
+            grid-column:span 7;
+        }
+        .col-8 {
+            grid-column:span 8;
+        }
+        .col-9 {
+            grid-column:span 9;
+        }
+        .col-10 {
+            grid-column:span 10;
+        }
+        .col-11 {
+            grid-column:span 11;
+        }
+        .col-12 {
+            grid-column:span 12;
+        }
+
+    </style>
+</head>
+<body>
+    <article class="container">
+        <div class="row">
+            <div class="col-2">1</div>
+            <div class="col-8">2</div>
+            <div class="col-2">3</div>
+        </div>
+    </article>
+</body>
+</html>

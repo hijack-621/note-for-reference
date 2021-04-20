@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='../../js/vue.js'></script>
+</head>
+<body>
+    <!-- 组件是可复用的 Vue 实例，且带有一个名字
+            组件化和 nodejs 里的模块化是有区别的
+                组件化：是从ui界面角度进行划分的,前端的组件化，方法ui组件的重用
+                模块化：是从代码逻辑角度来分类的，方便代码分层开发，保证每个模块职能单一
+    -->
+    <div id="app">
+        <my-component></my-component>
+    </div>
+</body>
+<script>
+    //组件的定义方式1
+    let component =  Vue.extend({  //1.定义组件模板html
+        template:'<h3>这是定义的组件的内容</h3>'
+    })
+    Vue.component('myComponent',component)  //注册为一个真正的Vue组件 第一个参数为组件名，使用驼峰命名法的话，
+    //在<body>里使用就要用-来分割高峰位置,直接全小写的话，引用也直接和命名一样即可
+
+     
+    //方式二：不使用中间变量，直接把extend传入Vue.component('myComponent',Vue.extend({}) )
+
+    //方式三  直接 Vue.component('name', { 传入对象
+    //     template:'html code'  无论哪种方式创建的组件，template只能有一个根元素 
+    // })
+
+    //方式四： Vue.component('name', { 传入对象
+    //     template:'#tplid'
+    //     data:function(){return {} }                 无论哪种方式创建的组件，template只能有一个根元素 
+    //     <template id='tplid'></template>  把组件代码全部写到vue提供的
+    //标签中去  ！！！   
+    
+    
+    //只要定义在 vue 实例外的组件，都是全局组件，整个html里的vm实例都可以用到这个组件
+    // //     data:function(){return {} }  组件可以有自己的data属性【使用方式和vm实例一样】，但是data属性值必须是一个预定义函数，
+    并且返回值必须是一个对象
+    let vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{
+
+        },
+        components:{ //定义私有的组件
+            privatecomp:{
+                template:'#tplid'
+            }
+        }
+
+    })
+</script>
+</html>

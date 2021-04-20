@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0px;
+            margin:0px;
+        }
+        body{
+            width: 100vh;
+            height: 100vw;
+        }
+        main {
+            width:300px;
+            height:300px;
+            border:solid 5px silver;
+            float: left;
+            position: absolute;
+            transform-style: preserve-3d;
+            /* 第二个main 样式 */
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: perspective(900px) rotateY(45deg);
+            transition: 2s;
+        }
+
+        section {
+            margin-bottom:20px;
+            position: relative;
+            overflow: hidden;
+        }
+        section input {
+            background-color:#ecf0f1;
+            outline: none;
+            border:none;
+            padding:15px;
+        }
+        section::before {
+            content:"";
+            width: 100%;
+            position: absolute;
+            left:0;
+            bottom:0;
+            background:linear-gradient(to right,
+            white,#f1c40f,#e67e22,#2980b9,#2ecc71,white);
+            height:2px;
+            transition: 1s ease;
+            transform:translateX(-100%);
+            /* 先让在元素外边，溢出隐藏，最后移动，实现动画平移效果 */
+        }
+        section:hover::before {
+            transform:translateX(100%);
+
+            
+        }
+        body:hover main {
+            transform: perspective(900px) rotateY(45deg) scale3d(.2,.2,.3);
+         /* 上面都是移动=translate
+        使用 transform:scale/scaleX/scaleY 控制水平垂直一起/单独x轴/单独y轴的缩放，值大于1表示方法，小于1（.5）表示缩小
+        跟translate3d一样，scale3d()三个参数分别控制xyz三轴
+        */
+        }
+
+        main:hover div:nth-child(2) {
+            transform:perspective(800px) rotateY(45deg) translate3d(50%,150%,200px) ;
+            /* 简写 transform:translate(x轴，y轴)
+            这个简写只包含X轴和Y轴没有Z轴的席位
+            包含三个方位的简写：translate3d(X轴，Y轴，Z轴)
+            */
+            /*translateX/Y X表示水平移动，Y表示垂直
+            px,%,em等单位都可以使用,并且可以x、y、z都设置运动
+            此时使用百分比的话，%比参照为自身的宽高！！！
+            perspective 这个透视属性必须要设置，不然看不到立体效果，
+            translateZ:必须是具体的单位，%不能用
+            */
+        }
+        div {
+            width:200px;
+            height: 200px;
+            position: absolute;
+            top:50%;
+            left:50%;
+            margin-top:-100px;
+            margin-left:-100px;
+            transition: 1s ease;
+        }
+         
+        div:nth-child(1) {
+            background-color:#f1c40f ;
+            transform:perspective(800px) rotateY(45deg) translateZ(-100px);
+        }
+        div:nth-child(2) {
+            background-color:#3498db ;
+            transform:perspective(800px) rotateY(45deg) translate3d(0%,0%,300px) scaleZ(3);
+            /* 过渡 1s,这样移动不那么突兀 */
+        }
+
+        /* 上面都是移动=translate
+        使用 transform:scale/scaleX/scaleY 控制水平垂直一起/单独x轴/单独y轴的缩放，值大于1表示方法，小于1（.5）表示缩小
+        */
+    </style>
+</head>
+<body>
+    <main>
+        <div></div>
+        <div></div>
+    </main>
+
+    <main  style="display: none;">
+        <section class="field">
+            <input type="text" placeholder="请输入账号">
+        </section>
+        <section class="field">
+            <input type="text" placeholder="请输入密码">
+        </section>
+    </main>
+</body>
+</html>

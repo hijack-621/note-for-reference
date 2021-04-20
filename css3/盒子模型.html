@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        padding:100px;
+    }
+    /* article 虽然设置了固定宽高，但是设置padding后会被撑开
+    box-sizing:border-box;
+    设置这个属性后，就可以完全固定住宽高！！！
+    */
+    article {
+        border:solid 2px red;
+        width:300px;
+        height:300px;
+        padding:80px;
+
+        border-style: groove;
+        border-top-style: dashed;
+        border-top-color: green;
+        
+        /* 可以设置边框的样式，大小，颜色，不加具体方位就是四条边一起设置
+        也可以简写： border-top:double 10px red;
+        而且对于文本元素，行元素块元素都可以设置边框效果！！！【所以文本修饰技巧就可以用到这种边框来修饰，着重一些内容】
+
+        border-radius: 10px ;四个圆角
+
+        border-top-left-radius:10px;只控制左上的那个角 
+        */
+        border-width: 20px;
+
+        outline-style: double;
+        outline-width: 10px;
+        outline-color:yellow;
+        /* 轮廓线 最外面包裹盒子 不占用空间！！！ 同样可以简写 outline:double 3px #ccc */
+
+    }
+    div {
+        width: 100px;
+        height:100px;
+        background-color: pink;
+        margin-bottom: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        /* 溢出隐藏 还可以 scroll 出现滚动条 auto 自动 放的下不出现放不下出现滚动条
+        然后配合文本溢出不换行，多余的文字用...呈现即可
+        */
+    }
+    li{
+        display: inline-block;
+        /* display:inline 和 display: inline-block 显示效果一样，
+        但是前者设置宽高会不起作用，inline-block就可以 */
+    }
+    div:nth-of-type(1) {
+        display: none;
+    }
+    /* li 默认垂直排列 有时候想让元素水平或者垂直排列 可以使用display 改变显示模式【块，行】
+     两个啊元素挨一起是，由于a默认表现形式就是文本，所以会一行显示
+     加上 display:block;变成块元素
+     */
+</style>
+<body>
+    <!-- margin:top right bottom left -->
+
+    <!-- 
+    <h2>a</h2>
+    <h2>b</h2>
+
+    h2-a 有下外边距40px
+    h2-b 有上外边距30px
+    但是两者之间的间隔并不是70px,而是40px
+    这种情况只会取两者中较大的合并后当作外间距
+ -->
+    <ul>
+        <li>php</li>
+        <li>linux</li>
+        <li>mysql</li>
+    </ul>
+    <article>
+        <div>
+            css3-box
+        </div>
+        <div>
+            将下一个字符标记为一个特殊字符、或一个原义字符、或一个向后引用、或一个八进制转义符。例如，“n”匹配字符“n”。“\n”匹配一个换行符。串行“\\”匹配“\”而“\(”则匹配“(”。
+            ^	匹配输入字符串的开始位置。如果设置了RegExp对象的Multiline属性，^也匹配“\n”或“\r”之后的位置。
+            $	匹配输入字符串的结束位置。如果设置了RegExp对象的Multiline属性，$也匹配“\n”或“\r”之前的位置。
+            *	匹配前面的子表达式零次或多次。例如，zo*能匹配“z”以及“zoo”。*等价于{0,}。
+            +	匹配前面的子表达式一次或多次。例如，“zo+”能匹配“zo”以及“zoo”，但不能匹配“z”。+等价于{1,}。
+            ?	匹配前面的子表达式零次或一次。例如，“do(es)?”可以匹配“does”或“does”中的“do”。?等价于{0,1}。
+            {n}	n是一个非负整数。匹配确定的n次。例如，“o{2}”不能匹配“Bob”中的“o”，但是能匹配“food”中的两个o。
+            {n,}	n是一个非负整数。至少匹配n次。例如，“o{2,}”不能匹配“Bob”中的“o”，但能匹配“foooood”中的所有o。“o{1,}”等价于“o+”。“o{0,}”则等价于“o*”。
+            {n,m}	m和n均为非负整数，其中n<=m。最少匹配n次且最多匹配m次。例如，“o{1,3}”将匹配“fooooood”中的前三个o。“o{0,1}”等价于“o?”。请注意在逗号和两个数之间不能有空格。
+            ?	当该字符紧跟在任何一个其他限制符（*,+,?，{n}，{n,}，{n,m}）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串“oooo”，“o+?”将匹配单个“o”，而“o+”将匹配所有“o”。
+            .	匹配除“\n”之外的任何单个字符。要匹配包括“\n”在内的任何字符，请使用像“(.|\n)”的模式。
+            (pattern)	匹配pattern并获取这一匹配。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“\(”或“\)”。
+            (?:pattern)	匹配pattern但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用或字符“(|)”来组合一个模式的各个部分是很有用。例如“industr(?:y|ies)”就是一个比“industry|industries”更简略的表达式。
+        </div>
+        <!-- 控制元素的隐藏和消失，三种方式 
+        1.display:none  但是这种方式会影响布局，因为如果父级包裹子元素，子元素有宽高，隐藏子元素，子元素的宽高会丢失，下面的子元素就会顶上来影响布局
+        2.visibility：hidden;这种方式空间位不会丢失
+        3.设置透明度为零！！！
+    -->
+    </article>
+    
+    <div>
+        <img src="" alt="">
+        <!-- max-width min-width 使用场景 -->
+        <!-- 有时候为了内容宽高超过 盒子宽高时，样式难看，可以使用max-width min-width
+        来定义但内容小于 min-width/min-height 时，内容宽高使用定义的最小宽高，但内容宽高大于定义的
+        宽高时，内容使用定义的最大宽高 ，图片啥的就不会变形了
+        -->
+    </div>
+    <!-- width:
+    height:可以设置 -webkit-fill-avaiable 自动充满父级容器/自动填充剩余空间
+    
+    width:fit-content;  //让元素的宽度根据内容自适应
+
+    width:max-content/min-content //父级的宽度根据子元素的宽度来定义
+    max-content:就表示根据子元素的最大宽度来定义为父级的宽度，min-content反之
+
+
+-->
+</body>
+</html>

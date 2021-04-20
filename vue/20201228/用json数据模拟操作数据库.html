@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-resource.js"></script>
+   <link rel="stylesheet" href="../css/bootstrap.css">
+
+</head>
+<style>
+   
+</style>
+<body>
+    <div id="app">
+        
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加brand</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label for="">
+                    id:
+                    <input type="text" name="" id="" class="form-control" v-model="id">
+                </label>
+
+                <label for="">
+                    name:
+                    <input type="text" name="" id="" class="form-control" v-model="name">
+                </label>
+
+                <input type="button" value="添加" class="btn btn-primary" @click='add()'>
+                <!-- @ 绑定事件函数时，可带可不带括号，带括号就可以传参数给事件函数 -->
+
+                <label for="">
+                    输入关键字后查找:
+                    <input type="text" name="" id="" class="form-control" v-model="searchkey">
+                </label>
+            </div>
+        </div>
+
+         
+        <table class='table table-bordered table-hover table-striped'>
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Ctime</td>
+                    <td>operation</td>
+                </tr>
+            </thead>
+            <tbody><!-- v-for='item in list【数组，对象】【这里还可以写一个返回值是对象或者数组的函数，例如 v-for="(item, i) in function(param[可传参数])"】' -->
+                <!-- <tr v-for="(item, i) in list" :key='i'>
+                    
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.ctime }}</td>
+                    <td><a href="" @click.prevent='del(item.id)'>删除</a></td> <!-- 传入要删除的id 
+                </tr> -->
+                <tr v-for="(item, i) in search(searchkey)">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.ctime }}</td>
+                    <td><a href="" @click.prevent='del(item.id)'>删除</a></td>
+                </tr>
+            </tbody>
+        </table> 
+    </div>
+</body>
+<script>
+    Vue.config.devtools = true;
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+           id:'',
+           name:'',//v-model双向绑定数据时，就需要到data里初始化绑定数据的值，后面的函数就可以拿到前台修改后的数据 
+           searchkey:'',
+           list: [
+           
+            ]
+        },
+        created(){ //生命周期钩子函数，表示vue实例创建ok后执行的事件
+            this.getalllist()
+
+        },
+        methods:{
+            add () {
+
+                let addval = {id:this.id,name:this.name,ctime:new Date()}
+                this.$http.post('../data/data.json', addval,{emulateJSON:true})
+                .then( result => {                           //除了每次传入第三个参数来配置传入数据格式，
+                                                             //还可以通过Vue全局配置 emulate等参数
+                    result = result.body
+                    result.message.push(addval)
+                    this.getalllist()
+                })
+                // this.list.push(addval)
+                // this.id = this.name = '' //添加完后清空输入数据
+            },
+            del (id) {
+                //mothod1:  数组的some方法 满足条件后返回,跳出后续的数组循环
+                // this.list.some( (item,i) =>{ 
+                //     if(item.id===id){
+                //         this.list.splice(i,1)
+                //         return true;
+                //     }
+                // })      
+
+
+                //mothod2:  数组的findIndex方法  //返回具体的index
+               let index =  this.list.findIndex( item => {
+                   if(item.id===id){
+                        return true;
+                   }
+               })
+
+               this.list.splice(index,1)
+
+
+            },
+            search (keywords) { // v-for  可以 item in function
+                let newlist = [] //此处也可以选择 几个es6 数组新方法  forEach()、 some() 、filter()、 findIndex() 都可以对遍历数组每一项 
+                return this.list.filter( item => { 
+                    if (item.name.indexOf(keywords) != -1) {
+                        return item
+                    }
+                })
+            },
+            getalllist() {
+                
+                this.$http.get('../data/data.json').then( result => {
+                    result = result.body //通过vue-resource获取数据，数据在body属性上！！！
+                    console.log(result)
+                    if(result.status===0){
+                        this.list = result.message
+                    }else{
+                        alert('数据获取失败')
+                    }
+                })
+            } 
+        }
+            
+   
+    })
+    
+</script>
+</html>

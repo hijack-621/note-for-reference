@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<style>
+    [v-cloak] { display: none;}
+</style>
+<body>
+    <div id="app">
+       <!-- v-if,和v-show 都可以用于控制元素的展示与隐藏
+    区别是v-if每次都会重新删除或者添上这个元素，
+而v-show只是添加或者移除 display:none这个属性
+v-if有较高的切换性能消耗，v-show有较高的初始渲染消耗 -->
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            vmsg:'nihao',
+           
+        }
+    })
+</script>
+</html>

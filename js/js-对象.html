@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /* 面向对象编程思想 把一组功能/一个模块封装到一个对象中，避免其他功能/其他模块中类似的功能【比如全局中有a,是网站用户模块，有一个add方法，b是用户发表的文章的处理模块，也有一个add方法】为了避免两个add（）产生干扰，我们就把a，b两个模块分别封装到对象中，在各自的对象内部编写只属于自己的方法和属性 */
+    /* 对象内部的属性和函数 都可以通过this关键字获取到 
+    对象是引用类型，把一个对象赋值给其他变量，其实是把对象的内存地址赋值给其他变量，修改任何一个变量，两个变量都会被修改
+    */
+
+    /* 基本操作-对象的属性 */
+    let user = {
+        name:'jc',
+        "my age":18,
+    };
+    console.log(user.name);//获取属性
+    console.log(user["my age"]);//获取特殊属性，key为稍微特殊一点的字符串，就必须通过中括号获取
+    for (const key in user) {
+       console.log(key);
+       console.log(user.key);//可以会尝试去取key属性 =》undefined
+       console.log(user[key]);//这里也必须中括号取值
+    }
+    user.age = 19;
+    user.get = function(){
+        return `${this.name}的年龄是${this.age}`;
+    };//动态添加属性或属性方法
+    console.log(user.get());
+    delete user.age;
+    console.log(user.get());//删除age属性
+
+    /* 展开语法对对象依然适用 */
+    let obj = {name:'jc',age:18};
+    let objj = {...obj,sex:'男'};
+    console.log(obj,objj);//{name: "jc", age: 18}age: 18name: "jc"__proto__: Object {name: "jc", age: 18, sex: "男"}
+
+    /* 展开语法应用 */
+    function upload(params){
+       let config = {
+            type:'*.jpg,*.png',
+            size:20000
+        };
+        config = {...config, ...params};
+        return config;
+    }
+    console.log( upload() );
+    console.log( upload({type:'*.gif',size:'99999'} ));
+    //假如有个上传功能，用户不传参数就用默认的配置，只允许上传20000字节内的jgp或者png图片，
+    //传指定格式的参数就用用于传递的！！！【对象中重名的属性，后面的会覆盖前面的！】
+
+    /* 新增的 解构语法 */
+    user.age = 24;
+    //let {name:name,age:age} = user;
+   // let {name,age} = user; //对象的属性和你将要赋值的变量名一致可以简写
+    /*  */
+    function hd(){
+        return user = {
+        name:'jcc',
+        "age":188,
+        };
+    }
+    let {name,age} = hd();//函数返回的对象也可以解构赋值
+    console.log(name,age);
+    
+    //传参也可以使用解构语法
+    function uuser(realname,{name,age}){
+        console.log(realname,name,age)
+    }
+    uuser('人类',{name:'jjjccc',age:222});//可以普通传参和解构语法结合使用
+
+    let {random} = Math;
+    /* 其实可以理解Math对象
+    Math = {
+        random:function(){取0-1中间的随机数}
+        let {random} = Math;就把random函数解构赋值给random变量了
+    } */
+    console.log(random());
+    /* 与数组解构差别 */
+    let arr = [1,2];
+    let [a,b] = arr;
+    console.log(a,b);
+    let[,bb] = arr;
+    console.log(bb);//数组中跳着index取得话，必须加上占位符 ','
+    /* 对象中可以直接取 */
+
+    let aaa = 'aaa',
+        bbb = 'bbb';
+    let ab = {aaa,bbb};//这样也可以简写！！！
+    console.log(ab);//{aaa: "aaa", bbb: "bbb"}
+
+    let obj1 = {
+        namee:'js',
+        lesson:{title:'javascript'},
+    };
+
+    //let {namee,lesson} = obj1;  console.log(namee,lesson);
+    let {namee,lesson:{title},agee=28} = obj1; //多层对象解构！！！
+    console.log(namee,title,agee);//js javascript 28
+    //obj1中没有age属性，那么就用默认值28，有就用obj1中的age属性的值
+   
+   console.log(obj1.hasOwnProperty('namee'));//判断obj1自己是否有属性namee，不包括继承，原型链【类似于对象的父级，对象继承了父级，对象可以用到父级的属性】上的属性！！！
+
+   let aobj = {
+       name:'hou',
+   };
+   let bobj = {
+       name:'lai',
+   };
+
+   /* 将b设置为a的原型（父级） */
+   Object.setPrototypeOf(aobj ,bobj);
+   console.log(aobj);
+   /* {name: "hou"}
+        name: "hou"
+        __proto__:
+        name: "lai"
+        __proto__: Object
+ */
+   console.log(aobj.hasOwnProperty('url'));//false
+   console.log('url' in aobj);//true  判段 aobj 本身以及原型上是否有url属性
+   /* 这种方式可以用于检测用户传递配置项，没有就可以像用户提示相应的信息 */
+
+
+   let lessons = [
+       {
+           title:'mysql多表查询',
+           category:'mysql'
+       },
+       {
+           title:'flex布局',
+           category:'css'
+       },
+       {
+           title:'js对象',
+           category:'javascript'
+       }
+   ];
+
+   /* 需求，把lesson 转成对象，并且每一项元素加上分类+index */
+
+   let lessonobj = lessons.reduce((newobj,cur,index)=>{
+       newobj[`${cur.category}-${index+1}`] = cur;
+       return newobj;
+   },{})
+
+   console.log(JSON.stringify(lessonobj, null ,2));
+    /* {
+        "mysql-1": {
+            "title": "mysql多表查询",
+            "category": "mysql"
+        },
+        "css-2": {
+            "title": "flex布局",
+            "category": "css"
+        },
+        "javascript-3": {
+            "title": "js对象",
+            "category": "javascript"
+        }
+} */
+
+/* Object.assign(obj1,obj2) 可以实现把两个对象进行合并 返回一个新的对象！！！ */
+
+
+
+
+</script>
+</html>

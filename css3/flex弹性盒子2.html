@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        main {
+            display: flex;
+            width:350px;
+            height: 400px;
+            border:solid 2px purple;
+            /* 这里没有设置但元素总宽度超过flex盒子自动换行，所以默认系统会见四个盒子缩小后硬塞进盒子里
+            但是其实可以通过 单独或者整体设置缩小比例！！！
+             
+            */
+           
+        }
+        main div:nth-child(1) {
+            flex-shrink: 0;
+        }
+        main div:nth-child(2) {
+            flex-shrink: 1;
+        }
+        main div:nth-child(3) {
+            flex-shrink: 2;
+        }
+        main div:nth-child(4) {
+            flex-shrink: 3;
+            /* 这个缩小比例计算方法：
+
+            元素div宽度【这里是100】 (100/(100*1+200*2+200*3))*3[flex-shrink: 3]
+            所以实际大小：100-100*((100/(100*1+200*2+200*3))*3)
+            */
+        }
+        main div {
+            width: 100px;
+            height: 100px;
+            /* flex-shrink:0; */
+            /* 宽高不够谁也不缩小后硬塞而是溢出盒子 */
+            background-color: pink;
+            padding:10px;
+            background-clip: content-box;
+
+            /* 知识点1 
+            主轴的基准尺寸
+            flex-basis:100px;
+            如果这里div设置了【flex-basis:100px;】这个属性，并设置div为50px的宽度或者没设置宽度【主轴为row】，div的宽度就会
+            按照这个主轴基准尺寸来设置为100px【优先级：max/min-width/height>flex-basis>width/height】，
+            三个属性flex-grow/shrink/basix：简写：flex:1 0 100px[分别一一对应]
+            
+             知识点2
+             改变元素的排列顺序
+             order:-1/0/1
+             默认order:0;也就正常排列,数字越大越远离轴的起始
+
+
+            */
+            
+        }
+        main *:nth-child(3) {
+            order:1;
+            /* 这里吧div3 放到最后！！ */
+        } 
+    </style>
+</head>
+<body>
+    <main>
+
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        
+
+    </main>
+</body>
+</html>

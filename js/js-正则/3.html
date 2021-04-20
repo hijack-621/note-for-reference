@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        main span {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <p>正则表达式</p>
+    <h1>我是h1</h1>
+    <h3>我是h3</h3>
+    <h5>我是h5</h5>
+
+    <main>
+        <span>span1</span>
+        <span>span2</span>
+        <span>span3</span>
+    </main>
+</body>
+<script>
+    /* lastIndex 属性， 正则表达式中，lastIndex会保存上一次匹配成功的字符在源字符串的位置 */
+    let s = "yitiaolongfuwu";
+    let reg = /\w/g;
+    // console.log(s.match(reg));
+    /* ["y", "i", "t", "i", "a", "o", "l", "o", "n", "g", "f", "u", "w", "u"]
+    字符串用match方法开始全局匹配时，不会像单字符匹配一样保留某些属性【3.html:52 ["y", index: 0, input: "yitiaolongfuwu", groups: undefined]】 */
+
+    /*正则表达式的exec() 方法可以   */
+    console.log(reg.lastIndex);0
+    console.log( reg.exec(s));
+    console.log(reg.lastIndex);1
+    console.log(reg.exec(s));
+    console.log(reg.lastIndex);2
+    /* 每匹配一次，lastIndex指针就后移一位【只在全局模式下g才会后移，非全局永远是0】 */
+    while(( res = reg.exec(s))){ //遍历得到每一次匹配的结果
+        console.log(res);
+    }
+
+    /* y模式 和g 模式
+    y模式使用场景，用于匹配数据量大，并且已知要匹配的内容是连续一起出现的，就可以使用y模式，
+    y模式就是匹配到一个后，如果紧接着的不满足匹配，就会停止匹配，
+    g模式匹配到一个后，如果紧接着的不满足匹配，就会跳过不满足的，继续往后匹配。这样如果使用场景是，用于匹配数据量大，并且已知要匹配的内容是连续一起出现的。显然就耗时更长，会从头匹配到位！！
+    总结就是 y模式 匹配大文档中某个已知格式的字符串时效率更高
+    */  
+
+    let str = `每个 Unicode 【qq:555555555,666666666,88888888】 字符都只能属于一个 Unicode Property。所有的 Unicode Property 共分为7大类，30小类。大类的名字只有1个字母，小类的名字则不知1个字母，开头字母与所在大类的名字相同，小类包含的字符都属于它所在的大类。`;
+    let sreg = /(\d+),?/y;
+    sreg.lastIndex = 15;//修改检索开始位置为15
+    let qq = [];
+    // console.log(sreg.exec(str)); 
+    while((res = sreg.exec(str) )) qq.push(res[1]);
+    console.log(qq);/* ["555555555", "666666666", "88888888"] 这样就在一大段文本中知道了qq号码。也不用全局匹配到结尾！！！ */
+
+    /* []元字表：[]中随便出现一个就可匹配成功，    (元字组)：(abc)中必须一起连续出现才算匹配成功 */
+    /* 小细节：日期连接要么统一 用“-”或者“/” ，几乎没有混合用的情形
+    下面  /^ \d{4} ([-\/]) \d{2} \1 \d{2}/
+
+    ([-\/]) 把 [-\/] 放到 () 表示只能匹配 - / 中的任意一个， \1 表示引用([-\/]) 第一个元字组！！！ 这个匹配的结果 ，所以就做到了 日期连接符的统一！！
+    */
+    let date = '2021-02-23';
+    let dreg = /^\d{4}([-\/])\d{2}\1\d{2}/;
+    console.log(date.match(dreg));
+
+    /* [0-9|a-z] 区间匹配 
+    表示可以匹配 数字0-9 26字母 a-z 这个范围内的字符 只能是升序写  9-0 z-a 会报错
+    */
+   /* 排除匹配 [^ab]
+   元字表中的出现^ 就表示 匹配排除在元字表中的字符， 这里是排除 ab，也就是匹配出ab 之外的字符 */
+
+    /* 元字表中的字符不解析特性
+    . + 放在[]外面就有表示匹配换行之外的字符以及贪婪匹配这样的特殊含义，所以要匹配它们就得转义\
+    但是[.+] f放在元字表中的特殊字符就是普通字符.+ ！！！
+    */
+   let body = document.body;
+   console.log(body);
+    let breg = /<(h[1-6])>[\s\S]*<\/\1>/i;
+    /* 匹配h1-h6加里面的内容，替换成空白！！*表示匹配一个或者多个，不加只能替换innerHTML为一个字符的  */
+   // body.innerHTML = body.innerHTML.replace(breg,'');
+
+    /* 原子组
+    上面的(h[1-6]) 就是一个原子组 （1）（2）（3） 从左往右有三个原子组 
+    使用\1 \2 \3 就可以复用这个三个原子组！！！ 
+    */
+   console.dir(body.innerHTML.match(breg));
+   /* 0: "<h1>我是h1</h1>" 匹配到的内容
+    1: "h1" 1:原子编号 h1 原子组内容
+    groups: undefined 组别名
+    index: 22 匹配成功的索引
+    input: " 源字符串
+    */
+   
+    /*原子组匹配邮箱 */
+
+    let mail1 = 'hij-ackme@sina.com.cn';
+    let mail2  = '1h1-ia_jckm3@qq.com';
+    let mreg1 = /^[\w-]+@\w+\.(com|org|cn|cc|net)$/i;//以字母数字下划线或者横杠开始【^[\w-] 】，必须有@ .com/.org/.cc/.net 中的一个为结尾的邮箱，但是这种方式 如果 有 。com.cn 结尾的就匹配不到
+    let mreg2 = /^[\w-]+@([\w-]+\.)+(com|net|cc|org|cn)$/i; // ([\w-]+\.)+ 允许 出现多个 xxx./com. 这个格式的字符串出现 
+    console.log(mail2.match(mreg1));
+    console.log(mail1.match(mreg2));
+
+    /* 原子组替换  匹配到的原子组中的内容是可以取到并进行操作的 */
+    let replacestr = `
+        <h1>h11</h1>
+        <-span>span</span>
+        <h3>h33</h3>
+    `;
+    let rreg = /<(h[1-6])>([\s\S]+)<\/\1>/gi;
+    replacestr.replace(rreg, (s,a1,a2)=>{ //replace 可以接收一个回调 可以接收多个参数， 第一个参数就是源字符串，第一个参数就是第1个括号【第一个原子组】，第二参数个就是第二个原子组 ，假如第二个括号在嵌套原子组，嵌套的那个就是第三个参数，也就是第三个原子组
+        console.log(s,a1,a2)/* 源：<h1>h1</h1> ，第1个原子组内容：h1  第二个原子组内容：h11   */
+    })
+    /* method1 */
+   let r1 =  replacestr.replace(rreg,`<p>$2</p>`);//$2 就表示第二个原子组内容
+   let r2 = replacestr.replace(rreg, (s,a1,a2)=>{
+    return `<p>${a2}</p>`;
+   });
+   console.log(replacestr.match(rreg));
+   console.log(r1,r2);
+   /*   <p>h11</p>
+        -<1span>span</span>
+        <p>h33</p>
+        两个方法替换都可以
+        <p>h11</p>
+        -<1span>span</span>
+        <p>h33</p> */
+
+    /* 不记录组， (?: xxx)  这就表示这个原子组不会被编号， */    
+
+    let urls = `
+        https://www.baidu.com
+        http://www.youku.com
+        hao123.com
+    `;
+
+    let ureg = /(https?:\/\/)?((?:\w+\.)?\w+\.(?:com|org|cn))/gi;
+
+    /* /(https?:\/\/)? :表示 http(s):// 可以出现可以不出现，并且http与https都可
+    ((?:\w+\.)? : ?: 不记录原子组， 可出现可不出现 ？ 【匹配一次或者0次】
+    \w+\.
+    (?:com|org|cn))/gi; */
+
+    console.dir(urls.match(ureg)); //没有使用原子组编号取得 http(s):// 后的内容
+
+   /* method2 使用 原子组编号 */
+    let ureg1 = /https?:\/\/((?:\w+\.)?\w+\.(?:com|org|cn))/gi;
+   // console.log(ureg1.exec(urls));
+   let urlarr = [];
+   while( (res = ureg1.exec(urls)) ) urlarr.push(res[1]);//第一个原子组中内容压入到数组
+   console.log(urlarr);/*3.html:178 (2) ["www.baidu.com", "www.youku.com"]  hao123.com 没有 http(s) 所以匹配不到  */
+
+
+   /* 贪婪匹配 
+    a*:0个到多个a，可以没有a，有就是 有几个a有匹配几个a！！！
+    a+ ：1个到多个a，但是必须要有a，有几个a就匹配几个，不会匹配到一个就停止
+    c{a,b} ：a b 范围内的c个数  {0,b} 就是c没有也行，有就有几个b就匹配几个，{}这个多用于限制位数而使用，d{2,3} 就表示 2-3位的数字
+    {0,},没有也行 第二个参数空表示源数据有多少就匹配多少
+    a? 0个或者1个 相当于 a{0,1}；
+    (ab)+：原子组后跟+ 就表示原子组中这个整体要出现一次或者若干次， 
+
+    */
+    let tt = 'hdddd';
+    console.log( tt.match(/hd{0,3}/)  );
+
+   /* 多个正则表达式用于一个字符串上 */
+
+   let mstr = 'woshiL234';
+   let regarr = [
+       /^[a-z0-9]{5,10}$/i,
+       /[A-Z]/,
+       /[0-9]/
+   ];//规定 必须是五到十位的 至少包含一个大写字母 和必须含有数字
+   let state = regarr.every( e=> e.test(mstr) );
+   /* 这里就把多条正则用于匹配一个源字符串， every 只有当每一项返回的结果都为true 最终state才为true
+    */
+   console.log(state);
+
+   /* 禁止贪婪 ：=》 ? 
+
+    a*:0个到多个a，可以没有a，有就是 有几个a有匹配几个a！！！
+    a+ ：1个到多个a，但是必须要有a，有几个a就匹配几个，不会匹配到一个就停止
+    c{a,b} ：a b 范围内的c个数  {0,b} 就是c没有也行，有就有几个b就匹配几个，{}这个多用于限制位数而使用，d{2,3} 就表示 2-3位的数字
+    {0,},没有也行 第二个参数空表示源数据有多少就匹配多少
+    a?：一个或者多个
+    可以看到 上面只要出现目标，都会往多的那一方取匹配 
+    可以使用 ? 去改变倾斜天平 
+     a*? 【范围0-n】  / a+? 【1-n】  /c{a,b}? 【a-b （a<b）】 /{0,}? [0-n] /a?? [0-1]
+     上面表达式加上问号？ 后，匹配模式就会往范围中，小的那一方去匹配！！！
+     
+    */
+    // let tt = 'hdddd';
+    console.log( tt.match(/hd{0,3}?/) ,'?禁止贪婪' ); 
+    /* 3.html:220 ["h"=>只匹配0个 ‘d’ !!!, index: 0, input: "hdddd", groups: undefined] "?禁止贪婪" */
+
+    /* demo- 将main 中的 span 替换成 h4 并且变色 加上前缀  */
+   let main  = document.querySelector('main');
+   let mmreg = /<span>([\s\S]+?)<\/span>/gi; 
+   //这里一定要阻止贪婪 后面跟 [\s\S]+? ，不然会从第一个span的内容开始，匹配到最后一个span的结束，把中间的所有span都当做是第一个span的内容进行匹配
+   console.log( body.innerHTML.match(mmreg) );
+    main.innerHTML = main.innerHTML.replace(mmreg, (s,a1)=>{
+        return  `<h4 style="color:red">replaced-${a1}</h4>`;
+   } )
+</script>
+</html>

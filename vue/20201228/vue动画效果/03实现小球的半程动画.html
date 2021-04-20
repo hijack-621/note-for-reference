@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='../../js/vue.js' ></script>
+</head>
+<style>
+  .ball{
+        width:20px;
+        height:20px;
+        border-radius:50%;
+        background-color:red;
+    }
+</style>
+  
+<body>
+    <div id="app">
+        <input type="button" value="加入购物车" @click='flag=!flag'>
+        <!-- 本质就是v-on事件的绑定 
+        @before-enter/enter=""
+        @enter/leave=""
+        @after-ente/leaver="" -->
+        <transition
+            @before-enter="before_enter"
+            @enter="enter"
+            @after-enter="after_enter" 
+        >
+            <div class="ball" v-show='flag'>
+            </div>
+        </transition>
+        
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:false
+        },
+        methods:{
+            before_enter (el) { //此处接受的参数为原生的js dom对象，也就是transition包裹的dom元素对象
+                el.style.transform = "translate(0, 0)"
+            },
+            enter (el,done) {
+                el.offsetWidth
+                el.style.transform = "translate(150px, 300px)"
+                el.style.transition = "all 1s ease"
+                done() //在leave或者enter钩子函数中，动画完毕之后需要调用这个回调函数done
+                //表示立即执行after_eter或者after-leave这个钩子函数
+            },
+            after_enter (el) {
+                this.flag = !this.flag
+                //el.style.transform = "transform(0, 0)"
+            } 
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>abc</h3>
+    <h3>dfg</h3>
+    <h3>zxc</h3>
+    <main>
+        百度是一款国产的搜索引擎
+    </main>
+    <section>
+        <a href="http://www.youku.com">youku</a>
+        <a href="http://bilibili.com">bilibili</a>
+        <a href="http://yahoo.com">雅虎</a>
+        <h4>www.baidu.com</h4>
+    </section>
+</body>
+<script>
+    /* 全局匹配 matchAll() 方法：这个方法存在兼容性！！！ */
+    let body = document.body;
+    let m1  = /<(h[1-6])>([\s\S]+?)<\/\1>/gi;
+    let res1 = body.innerHTML.match(m1);
+    console.dir(res1);
+    /*  
+    0: "<-h3>abc</h3>" 1: "<-h3>dfg</h3>" 2: "<-h3>zxc</h3>
+    这个虽然匹配到了各个h3，但是没办法直接取得h3里面的内容
+     */
+    let res2 = body.innerHTML.matchAll(m1);
+    /* matchALl返回一个迭代对象,只要遍历这个迭代对象后，能直接取到h3
+    里面的内容！！！ */
+    console.log(res2);
+    let contents = [];
+    for (const val of res2) {
+        contents.push(val[2]);
+    }
+    console.table(contents);/* 
+    (index) Value
+        0	"abc"
+        1	"dfg"
+        2	"zxc"  这样就得到了内容 这就是使用matchAll 全局获取内容 的用法
+*/
+
+/* 自定义一个matchAll（） 用到递归和原型  方法来兼容低版本浏览器 */
+
+String.prototype.matchAll = function(reg){
+    let res = this.match(reg);
+    if(res){
+        let rstr = this.replace(res[0],'￥'.repeat(res[0].length));//第一次匹配成功，把匹配结果替换为特殊字符，
+        let match = rstr.matchAll(reg) || []; //匹配不到就传递一个空数组，不然就会报错，因为匹配不到就返回null ，其实展开语法 内部用到了迭代，而null不是个可以迭代的对象，下面紧接着的展开语法就报错了！！！
+        return [ res,...match ];
+    }
+}
+let str = "helloworld";
+
+console.log(str.matchAll(/(o)/i)); /* 只要是原子组里面的内容就可以直接取到了！！！！ */
+
+/* 正则方法完成 全局匹配 */
+
+let strreg = 'jssjhijack';
+let reg = /j/gi;
+let u = [];
+while( ( res=reg.exec(strreg) ) ) u.push(res)
+console.log(u);
+/*  这样就完成了全局匹配，reg.exec() 方法，每次匹配 会记录匹配到的 lastIndex 索引，当匹配不到，lastIndex 回归到0        
+    0: ["j", index: 0, input: "jssjhijack", groups: undefined]
+    1: ["j", index: 3, input: "jssjhijack", groups: undefined]
+    2: ["j", index: 6, input: "jssjhijack", groups: undefined]
+
+ */
+
+/* 字符串 的search和match matchAll split(拆分)，replace(字符串替换)  都可以传递正则来搜索匹配！！！  */
+
+console.log( strreg.search('s') );
+console.log( strreg.search(/s/gi) ); //成功返回目标在源数据中的索引，失败返回-1
+console.log( strreg.match(/j/ig));//只会返回匹配结果 ，细节信息不保存，
+console.log( strreg.matchAll(/j/i));//会返回匹配结果 ，细节信息得到保存
+
+let date = "2021-02/24";
+
+
+console.log(date.split('-'));
+console.log(date.split(/[-\/]/)); // split 传递正则，让- / 都可以拆分
+
+console.log( strreg.replace(/j/ig,'j2') );// j=> j2 jssjhijack => j2ssj2hij2ack
+
+let tel = '(010)8989898 (020)6666666';
+let t = /\((\d{3,4})\)(\d{7,8})/;
+// console.log(tel.match(t));//看匹配结果可以不加全局g，这样能清晰地看到 原子组内容是否ok
+// console.log(tel.matchAll(t));
+console.log(tel.replace(t,'$1-$2') );  //$1指正则中第一个组内容，$2 为第二个组内容， 结果就是把 (区号) 用 - 代替了！！
+// tel.replace(t,'$1-')
+
+/* replace 第二个参数---要替换的内容  一些指代
+ $`：匹配到内容的左边
+ $'：匹配到内容的右边
+ $&：指代匹配到的内容！！！
+  */
+  /* $&：指代匹配到的内容！！！ 应用demo- 把main 中的百度 替换成百度超链接 */
+
+    let main = document.querySelector('main');
+    console.log(main);
+    let t1 = /百度/g;
+    console.log(main.innerHTML.match(t1));
+    main.innerHTML = main.innerHTML.replace(t1,'<a href="https://www.baidu.com">$&</a>')
+
+/* demo : 把 section 中 youku和bilibili 的链接地址 完善成标准url地址  https://www.xxx.com格式  */
+
+let section = document.querySelector('section');
+//console.log(section);
+let areg = /(<a.*href=["'])(http)(:\/\/)(www\.)?(youku|bilibili)/ig;
+// console.log( section.innerHTML.match(areg) );
+// console.log(section.innerHTML.replace(areg));
+section.innerHTML = section.innerHTML.replace(areg, (s, ...a)=>{
+    /* 把各个组的内容用展开语法接收到a中 */
+    a[1] +='s';
+    a[3] = a[3] || 'www.'; //如果有内容就用你的内容，没有就赋值www.
+    return a.splice(0,5).join(''); //splice 返回截取的结果，0,5 不包括5，
+   
+} )
+
+/* 给原子组起别名  语法： ?<组别名>  一般用于 组比较多，使用数字编号不方便情况 */
+/* 起了别名后 全局匹配 匹配成功后，返回的数组中有一个属性 group 对象，结构为{别名:组的内容} */
+
+/* 正则对象中的 一些常用方法
+    //.test(string), 在string中 匹配正则中的表达式，符合返回true，否则false  多用于 测试正则是否ok  
+
+    //. exec(string),  匹配string，只执行一次，并且非全局下，返回结果 跟 match()一样，
+    如果正则加上g模式，match() 只返回匹配到的结果，没有索引，等信息，exec() 有详细信息
+    并且 exec() 可以多次使用，每次会记录lastIndex,也就是上次匹配成功的索引位置，第二次执行，检索位置就会从第一次成功位置继续检索！！！
+    当检索不到时，lastIndex就会归零，
+    所以exec() 适用于做统计，统计某个字符串在一大段文本中出现的次数等业务
+ */
+
+
+ /* 断言语法  零宽先行断言
+(?=xxx) 零宽【 零宽的意思是它只匹配一个位置】 正向【正向表示需要满足pattern】 先行【表示断言语法在期望匹配字符串后面】 断言   可以理解为正则中的条件语句 ,表示匹配目标后面必须是xxx
+ex1:匹配目标 后的条件  /百度(?=贴吧)/g  匹配百度并且后面跟着的要是贴吧 ，这个百度才会被匹配到， 什么百度文库，百度图片中的百度就不会被匹配到！！！
+取反： (?!xxx) 表示 断言 后面不是xxx 的string 是我要匹配的对象
+
+
+ (?<=xxx)零宽 正向  后行【表示断言语法在期望匹配字符串前面】  断言 可以理解为 匹配 前面符合xxx的string 
+ ex:  /(?<=finish)task/  匹配task，并且task前面要是finish的task 才会被匹配到， 什么 donetask，starttask中的task就不会被匹配到
+ 取反(?<!xxx) 表示断言前面不是xxx的 string 是我要匹配的对象   
+    
+    注意：断言表达式 中的（）不会被记录为原子组！！！，仅仅只是当个条件而已
+
+    /(?<=href=(["']))\.+(?=\1)/gi  使用断言去找a中的href的url地址内容
+    (?<=href=  (["']) ) \ .+ (?=\1)/gi  先断言url地址其面试href=  并且断言中必须出现组(["'])单双引号的一个， 后断言url地址后面 组(["']) 单双引号中的一个
+ */
+
+
+let  phone = `
+    jc电话号码:13585679040
+    js电话号码:12456789032
+
+`;//将电话尾号做模糊处理 断言前面有七位数字的 连续四位数字是我的匹配对象
+    let after = phone.replace(/(?<=\d{7})\d{4}/g,(v)=>{
+
+        return '*'.repeat(v.length);
+    })
+
+    console.log(after);
+    /*   jc电话号码:1358567****
+         js电话号码:1245678**** 
+         */
+ 
+    
+    //demo 
+    /* 使用断言 限制用户输入的关键词 
+    ex 
+    /^(?<!.*yellow.*)[a-z]{6,9}$/i;  用户输的内容必须是6到9位的字符，并且不能出现 yellow这个单词
+    /^-开始位置的后面 (?<!.*yellow.*)-字符的中间不能有yellow【* 表示出现一次或者0次，这里出现一次】 或者yellow不能作为输入内容的起始或者结束【出现0次】  [a-z]{6,9}-六到九为字母为结束$ /i;
+    
+    */
+
+   
+
+</script>
+</html>

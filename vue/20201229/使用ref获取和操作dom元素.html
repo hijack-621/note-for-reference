@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+</head>
+<style>
+   
+</style>
+<body>
+    <div id="app">
+      <h3 ref='thish3'>这是一个h3标签</h3>
+        <hr>
+        <template1 ref='mycom' >
+
+        </template1>
+      <input type="button" value="获取dom元素或组件" @click='getelement'>
+
+    </div>
+    <!-- 注意，组件也可以被$refs引用 -->
+
+</body>
+<script>
+    let template1 = {
+        template:'<h1>这是h1</h1>'
+        ,
+        data:function() {
+            return {id:1,val:'hhh'}
+        },
+        methods:{
+            myfunc(){
+                console.log('这是一个方法')
+            }
+        }
+    }
+    let vm = new Vue({
+        el:'#app',
+        data:{
+           
+        },
+        methods:{
+            getelement(){
+                this.$refs.mycom.myfunc() //引用组建后，可以使用$refs.引用组件时设置的ref属性.组件内容来获取被引用组件的数据和函数
+            }
+        },
+        components:{
+            template1
+        }
+    })
+</script>
+</html>

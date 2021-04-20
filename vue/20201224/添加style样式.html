@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<style>
+    [v-cloak] { display: none;}
+    .red{
+        color:red;
+    }
+
+    .italic {
+        font-style: italic ;
+        /* 倾斜字体 */
+    }
+
+    .thin {
+        font-weight: 200;
+    }
+    .hline{
+        line-height: 300px;
+    }
+</style>
+<body>
+    <div id="app">
+        <h1 v-bind:class="['red', 'thin', flag?'italic':'', {'hline':flag}]">vue 绑定样式</h1>
+        <!-- 里面可以使用三元表达式！
+        还可用对象！！！【】 -->
+        <!-- v-bind + attr  用于绑定属性 此处绑定class属性，并设置class为 red和thin [注意，数组方式传，必须传入字符串，不然汇报当做变量去vue实例中找对应的变量]  -->
+        <!-- v-bind:style 直接绑定内联样式 {对象 形式}
+        ex：v-bind:style='{'color:'red',font-size:24px}'
+        也可以 [obj1,obj2]以数组形式传入多个style对象obj
+    -->
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            vmsg:'nihao',
+            flag:true
+           
+        }
+    })
+</script>
+</html>

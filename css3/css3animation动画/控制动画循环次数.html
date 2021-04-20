@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding:0;
+            margin:0;
+        }
+        body{
+            background-color: #0097e6;
+            height:100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main {
+            height:400px;
+            width:400px;
+            border:solid 2px #7f8fa6;
+            position: relative;
+        }
+        div {
+            position:absolute;
+            background-color: #fbc531;
+            width:100px;
+            height:100px;
+            animation-name:demo1, bgc;
+            /* 多个动画用逗号隔开，设置一个过渡时间那么两个动画持续时间一样，
+            2个就分别对应各自的持续时间！当3动画，只设置了两个时间，那么多余的那个会应用第一个时间，四个动画2时间，那么多余的两个分别应用第一个和第二个时间！！！以此类推 */
+            animation-duration: 4s, 2s;
+
+            /* 不设置动画循环次数，默认只会执行一次 */
+            animation-iteration-count: infinite;
+            /* infinite 无线循环   也可以设置具体次数n， 一个值表示所有动画都是n，这个参数个数跟animation-duration 一样 可以一一对应，可以先对应，不够的从第一个一次往后对应   */
+        }
+        @keyframes demo1 {
+            /* 由于起始和终点位置一样，可以不用设 */
+            25% {
+                transform:translateX(300px);
+            }
+            50% {
+                transform:translate(300px,300px);
+                /* 这里必须加上上个过程x轴的运动量，因为transform无法继承， */
+            }
+            75% {
+                transform:translate(0px,300px);
+                /* 这里写 -300xp 300px 不对，25时x轴已经跑了300px，这里-300px的话，超出原来0 0 那个点了300px了  */
+            }
+            /* 假如定义的若干过程有重复的属性定义，除了各自重复书写到各个过程中，还可以统一书写 */
+            
+        }
+        @keyframes bgc {
+            25% {
+                background-color: green;
+            }
+            50% {
+                background-color: blue;
+                /* 这里必须加上上个过程x轴的运动量，因为transform无法继承， */
+            }
+            75% {
+                background-color: red;
+                /* 
+        }
+
+        /*注意：
+        当多个动画中包含重复的属性定义时，后面出现的【 animation-name:demo1, bgc;】优先级大于前面的【bgc>demo1】,如果bgc
+        动画时间大于等于demo1,那么demo1中的属性a就不会起作用;全部被bgc中的a属性占据（a为重复定义属性），当bgc动画时间【4s】小于demo1【8s】时，那么【8-4】还有四秒钟时间分配给demo1去完成a属性的变化过程！！！     */
+        
+    </style>
+</head>
+<body>
+    <main>
+        <div></div>
+    </main>
+</body>
+</html>

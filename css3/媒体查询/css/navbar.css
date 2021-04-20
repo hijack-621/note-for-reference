@@ -1,0 +1,81 @@
+header {
+  border-bottom: solid 2px #2ed573;
+  box-shadow: 0 2px 10px currentColor;
+  padding: 1.5rem;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+}
+.navbar .logo {
+  color: #2ed573;
+  font-weight: bold;
+  margin-right: 20px;
+}
+.navbar .logo + label {
+  display: none;
+}
+.navbar .logo + label + input {
+  display: none;
+}
+.navbar .collapse {
+  display: flex;
+  flex-grow: 1;
+}
+.navbar .collapse .links {
+  display: flex;
+  margin-right: auto;
+}
+.navbar .collapse .links li {
+  padding: 0px 10px;
+}
+.navbar .collapse .links li:hover {
+  font-weight: bold;
+  color: #2ed573;
+  transform: translateY(-5px);
+  transition: 0.5s;
+}
+.navbar .collapse .form a {
+  padding: 5px;
+  border: solid 1px #a4b0be;
+  border-radius: 5px;
+}
+.navbar .collapse .form a.form-bg {
+  background-color: #2ed573;
+  color: white;
+}
+@media only screen and (max-width: 960px) {
+  header .navbar {
+    width: 100%;
+    flex-flow: row wrap;
+  }
+  header .navbar .logo {
+    margin-right: auto;
+  }
+  header .navbar .logo + label {
+    border: solid 1px #a4b0be;
+    padding: 0.5rem 0.5rem;
+    border-radius: 4px;
+    color: #2ed573;
+    cursor: pointer;
+    display: block;
+  }
+  header .navbar .logo + label + input {
+    display: none;
+  }
+  header .navbar .logo + label + input:checked + .collapse {
+    display: block;
+  }
+  header .navbar .collapse {
+    display: none;
+    flex-flow: column;
+    width: 100%;
+  }
+  header .navbar .collapse .links {
+    flex-flow: column;
+    margin-bottom: 1rem;
+  }
+  header .navbar .collapse .links li {
+    padding: 0.2rem 0.1rem;
+  }
+}

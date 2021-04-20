@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3d图集</title>
+    <style>
+         * {
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: #353b48;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main {
+            width: 200px;
+            height:200px;
+            display:flex;
+            border:solid 3px silver;
+
+            /* transform:perspective(900px) rotateX(-45deg); */
+
+            /* 另一种效果，不转x轴，能看到图片全貌【正面】 */
+            transform:perspective(900px) ;
+
+            transform-style: preserve-3d;
+            transition: 1s;
+            transform-origin: center center -200px; ;
+        }
+
+        /* mian的宽高设置为div一样 旋转就不会跑偏 */
+
+        div {
+            width:200px;
+            height:200px;
+            position: absolute;
+            overflow: hidden;
+        }
+        div img {
+            height:100%;
+        }
+
+        main>div:nth-of-type(1) {
+            transform-origin: center center -200px;
+            transform: rotateY(90deg);
+        }
+        main>div:nth-of-type(2) {
+            transform-origin: center center -200px;
+            transform: rotateY(180deg);
+        }
+        main>div:nth-of-type(3) {
+            transform-origin: center center -200px;
+            transform: rotateY(270deg);
+        }
+        main>div:nth-of-type(4) {
+            transform-origin: center center -200px;
+            transform: rotateY(360deg);
+        }
+        article:hover main {
+            /*  transform:perspective(900px) rotateX(-45deg); 这里必须吧main原来的transform属性加上，还是那句话，transform属性只会覆盖，不会继承 */
+           
+            /* transform:perspective(900px) rotateX(-45deg) rotateY(300deg); */
+
+            /* 不转x轴 */
+            transform:perspective(900px)  rotateY(300deg);
+        }
+        
+    </style>
+</head>
+<body>
+    <article>
+        <main>
+            <div><img src="../img/a.jpg" alt=""></div>
+            <div><img src="../img/b.jpg" alt=""></div>
+            <div><img src="../img/c.jpg" alt=""></div>
+            <div><img src="../img/d.jpg" alt=""></div> 
+        </main>
+    </article>
+</body>
+</html>

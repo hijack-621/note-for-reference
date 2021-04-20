@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<style>
+    
+</style>
+<body>
+    <div id="app">
+   
+    </div>
+</body>
+<script>
+    let login = {
+        template:'<h1>模拟登录组件</h1>'
+    }
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            vmsg:'nihao',
+        },
+        methods:{
+
+        },
+        render:function (func) { 
+            //func 是一个方法，调用后能够把指定的组件模板渲染为html
+            return func(login)
+            //返回的html字符串 会替换el所指的那个容器
+            //也就是把【 <div id="app"></div>】 替换为 模板组件
+            //不管app这个容器是否有子元素节点，都会被一并替换
+        }
+
+    })
+</script>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    
+    //打印对象的属性特性描述
+    //console.log(JSON.stringify(Object.getOwnPropertyDescriptor(objarr,'name') ,null ,2));
+    /*
+      let objarr = {
+        name:'jjss',
+        age:{
+            myage:33
+        },
+        arr:[1,2,3]
+    };
+     {
+        "value": "jjss",
+        "writable": true,
+        "enumerable": true,
+        "configurable": true
+    } */
+   // console.log(JSON.stringify(Object.getOwnPropertyDescriptors(objarr) ,null ,2));
+
+    /* {
+        "name": {
+            "value": "jjss",值
+            "writable": true,是否可修改
+            "enumerable": true,是否可迭代
+            "configurable": true 是否允许删除 更新等操作
+        },
+        "age": {
+            "value": {
+            "myage": 33
+            },
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+        },
+        "arr": {
+            "value": [
+            1,
+            2,
+            3
+            ],
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+        }
+} */
+    /* 修改属性特性 */
+    let objarr = {
+        name:'jjss',
+        age:{
+            myage:33
+        },
+        arr:[1,2,3]
+    };
+    Object.defineProperty(objarr,'name', {
+        value:'niubiplus',//修改那么属性的值
+        writable:false,//设置name属性不可修改！
+        enumerable:false,//设置name属性及其值是否可以被遍历到
+        configurable:false //设置不可删除 delete,以及对该name属性的重新配置
+    });
+
+    //重新配置无效【configurable:false】,严格模式【use 'strict'】会报错！！！
+    Object.defineProperty(objarr,'name', {
+        value:'niubiplus',//修改那么属性的值
+        writable:false,//设置name属性不可修改！
+        enumerable:false,//设置name属性及其值是否可以被遍历到
+        configurable:false //设置不可删除 delete,以及对该name属性的重新配置
+    });
+
+    /* 批量设置
+     Object.defineProperties(objarr, {
+         name:{
+            value:'niubiplus',//修改那么属性的值
+            writable:false,//设置name属性不可修改！
+            enumerable:false,//设置name属性及其值是否可以被遍历到
+            configurable:false //设置不可删除 delete,以及对该name属性的重新配置
+         },
+         age:{
+             value:'niubiplus',//修改那么属性的值
+            writable:false,//设置name属性不可修改！
+            enumerable:false,//设置name属性及其值是否可以被遍历到
+            configurable:false //设置不可删除 delete,以及对该name属性的重新配置
+         }
+        }
+    );
+    */
+
+    objarr.name = '修改name';//修改无效！！！
+    console.log(Object.keys(objarr));//["age", "arr"] name属性遍历不到！！
+    console.log(objarr);
+    delete objarr.name;
+    console.log(objarr);//{age: {…}, arr: Array(3), name: "niubiplus"} name属性没被删掉！！
+    
+    /* 原生js提供一些方法！！！
+    Object
+        .preventExtensions(objarr); 不允许动态添加属性
+        .isExtensible(objarr);是否允许扩展属性，true表示可以
+        
+        .seal(objarr) 把对象封闭起来 被封闭的对象，不允许向内部添加属性，修改属性，也不允许配置属性特征【defineProperties】 
+        .isSealed(objarr) 判断对象是否被封闭
+
+        .freeze(objarr) 把对象冰封， 不允许修改属性值【writable：false】,不允许删除和配置[configurable::false]，迭代【enumerable:true】可以！！！
+        .isFrozen() 判断是否被冰封
+
+    */
+    /* 访问器（get:获取通过属性访问器的属性的 值 时，就会走到get age(){}这个函数里  | set：设置属性访问题）  使用场景，就就比如进货，老板会看一下货的质量过不过关，不过关就退货，
+    访问对象的属性并试图修改某属性时，也加入这样一个流程，修改的值，就会走到set age(){}这个函数里 传入方法的参数值不符合逻辑，就提示相应的信息！！！
+    */
+    let u = {
+        data:{ name:'jc',age:9 },
+        set age(value){ //加入判断age流程 
+            if(typeof value !=='number' || value <10 || value >100){
+                throw new Error('年龄格式错误');
+            }
+            this.data.age = value;
+        },
+        get age(){
+            return this.data.age +"岁";
+        }
+    };
+    // u.age = 8;
+    /* js-对象2-2.html:159 Uncaught Error: 年龄格式错误
+    */
+    u.age = 22;
+    console.log(u.age);//=> 22岁
+    /* 使用访问器 可以 伪造属性 */
+    let lesson = {
+        lists:[
+        {name:'js',price:100},
+        {name:'css',price:200},
+        {name:'vuejs', price:400},
+        ],
+        get total() {
+            return this.lists.reduce( (t,c)=>t+c.price,0);
+        }
+    };
+   
+    console.log(lesson.total);//=》700
+  
+    lesson.total = 7000;
+    console.log(lesson.total);////=》700 因为是伪造属性，其实lesson本身没有total属性，上面修改total其实无效，并且在严格模式[ "use strict";]下还会报错
+    
+    /* 批量赋值小技巧  使用访问器批量给name 赋值，并且赋值多个参数一行搞定*/
+    const DATA = Symbol();      
+   let obbj  = {
+       
+       age:18,
+       sex:'secret',
+       [DATA]:{name:'man'},
+       //可以使用Symbol()，把属性封闭起来,外面想修改只能通过name 访问器，
+       set name(val){
+        this[DATA].name = val;
+       },
+       get name(){
+           return this[DATA].name;
+       },
+       set assign(val){
+        [this.name,this.age,this.sex] = val.split(',');
+       },
+       get assign(){
+           return this;
+       }
+   };
+    obbj.name = 'man男';
+    console.log(obbj.name);//会打印 aaa,而不打印name:man,  说明访问器优先级大于属性！！
+     obbj.assign = "woman,28,女" ; 
+     console.log(obbj.assign);
+     // js-对象2-2.html:204 {name: "woman", age: "28", sex: "女"} 通过一行就完成了三次赋值
+     
+     
+     /* 访问器 与令牌结合 通过访问器把token存到本地  */
+
+     let request = {
+         set token(v){
+            localStorage.setItem('token',v);
+         },
+         get token(){
+            let token = localStorage.getItem('token');
+             if(!token){
+                 alert('请登录');
+             }
+             return token;
+         }
+     }
+
+     request.token = "asfngdahsfha223fdd"; //看起来时存到对象中，实际没有，而是存到本地存储！！！
+     console.log(request.token);
+
+     /* 
+      /* 抽象
+   有时候 我们不想让构造函数的中的方法和属性被外部修改，仅仅在构造函数内使用，
+   这个过程就可以理解为抽象。
+   实现抽象：
+   1.利用块作用域和闭包的特性，【这里是不能被修改】
+   2.利用属性特性定义，在属性特征里面定义访问器【这里时不能被随意修改，必须通过访问器，修改合理才能改，不合理就不允许修改！！！】
+   3.class 中使用语法糖中 使用 get () set ()  访问器
+   */
+
+   function User(name,age){
+      let data = {//利用let的块级作用域
+          name,
+          age,}
+        let info = function(){ //利用闭包，子函数可以访问到父函数中的数据
+              return data.age > 50 ? 'old':'young';
+          };
+         info();
+        this.show = function(){ 
+            console.log(data.name + info());
+        }
+        /* 或者
+        
+        Object.defineProperties(this,{
+            name:{//给name参数定义访问器，修改符合访问器逻辑才修改成功！！！
+                get(){return data.name},
+                set(val){
+                    if(val.trim() == "" || val.length>20 ){
+                        throw new Error('name不合法');
+                    }
+                    data.name = val;
+                },
+            },
+            
+        })
+        
+        */ 
+
+    };
+
+  let jc = new User('junc',19);
+    jc.name = 'jjccc';
+    jc.show();//juncyoung  name属性不会被外部实例改变！！
+    
+
+
+
+
+
+
+
+</script>
+</html>

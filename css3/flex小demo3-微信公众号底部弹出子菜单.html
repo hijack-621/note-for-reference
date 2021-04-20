@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding:0;
+            margin:0;
+        }
+        body{
+            display:flex;
+            height:100vh;
+            flex-direction:column;
+            background-color: #ccc;
+        }
+        header {
+            height:80px;
+            background-color: red;
+        }
+        main {
+            background-color: pink;
+            flex-grow: 1;
+        }
+        footer{
+            height:80px;
+            display:flex;
+            justify-content: space-evenly;
+        }
+        footer section{
+          flex:1 0 80px ;
+          padding:10px;
+          background-color: #ccc;
+          background-clip: content-box;
+          display: flex;
+          flex-direction: column-reverse;
+          border-right: solid 2px #fff;
+
+        }
+
+        footer section:hover ul {
+            visibility: visible;
+        }
+
+        
+        footer section h4 {
+            flex:0 0 60px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+        }
+
+        footer section ul {
+            flex:0 0 60px;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            border: solid 1px blue;
+            text-align: center;
+            margin-bottom: 15px;
+            visibility: hidden;
+        }
+
+        footer section ul:hover {
+            visibility: visible;
+        }
+
+        
+
+        footer section ul li {
+            flex:1 0 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: solid 1px #f3f3f3;
+            cursor: pointer;
+        }   
+
+        
+    </style>
+</head>
+<body>
+    <header>这是头部</header>
+    <main>内容区域</main>
+    <footer>
+        <section>
+            <h4>PHP</h4>
+            <ul>
+                <li>php原生</li>
+                <li>thinkphp</li>
+                <li>laravel</li>
+            </ul>
+        </section>
+        <section>
+            <h4>MYSQL</h4>
+            <ul>
+                <li>文档</li>
+                <li>怎删改查</li>
+                <li>事务</li>
+            </ul>
+        </section>
+        <section>
+            <h4>WEB前端</h4>
+            <ul>
+                <li>html</li>
+                <li>css</li>
+                <li>js</li>
+                <li>js</li>
+                <li>js</li>
+            </ul>
+        </section>
+    </footer>
+    <!-- 实现 移动端比较流行的 三层布局 顶部，底部和自适应的内容区域 -->
+
+    <!-- margin-right:auto 可以实现一个flex盒子中，一个元素顶到最右边!!! -->
+
+</body>
+</html>

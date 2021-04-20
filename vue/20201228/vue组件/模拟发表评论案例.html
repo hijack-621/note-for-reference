@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../js/vue.js"></script>
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+</head>
+<style>
+    .v-enter,
+    .v-leave-to{
+        transform: translateX(150px);
+    }
+    /* 动画四个阶段  */
+    .v-enter-active,
+    .v-leave-active{
+        opacity: 0 ;
+        transition: all 1s ease;
+    }
+</style>
+<body>
+    <div id="app">
+        <!-- 绑定自定义事件，给子组件调用 -->
+        <components1 @freshlist="load" ></components1>
+
+        <ul class="list-group">
+            <li class="list-group-item" v-for="item in list">
+                <span class="badge">评论人:{{ item.user }}</span>
+                {{ item.comment }}
+            </li>
+        </ul>
+
+
+
+
+    </div>
+    <template id='tpl1'>
+        <div>
+            <div class="form-group">
+                <label for="">评论人</label>
+                <input type="text" class="form-control" v-model='user'>
+            </div>
+
+            <div class="form-group">
+                <label for="">内容</label>
+                <textarea  class="form-control" v-model='comment'></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="button" class='btn btn-primary' value="发表" @click='publish'>
+            </div>
+        </div>
+    </template>
+    
+
+
+</body>
+<script>
+   Vue.config.devtools = true;
+    let template1 = {
+        data:function () {
+            return {user:'',comment:''}
+        }, 
+        template:'#tpl1',
+        methods:{
+            publish () {
+                let commobj = {id:Date.now,user:this.user,comment:this.comment}
+                //使用localstorage暂存数据，只能保存字符串，所以需要将json转成json字符串
+                let listarr  = JSON.parse(localStorage.getItem('cmts') || '[]')//获取不到就解析空数组字符串，
+                listarr.unshift(commobj) //最新评论在上面，数组头插
+                localStorage.setItem('cmts',JSON.stringify(listarr))//转为json字符串存储
+                //console.log(localStorage.getItem('cmts'))
+                this.$emit('freshlist')
+
+
+
+            }
+        }
+    }
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+          //user:'',
+          //comment:'',  不能发表人和评论初始值放到vm实例中的data中去，不是在template中定义的，template无法直接拿到 v-model就会报错
+          list:[
+              
+          ]
+
+        },
+        methods:{
+            load(){
+                let localitem = JSON.parse(localStorage.getItem('cmts'))
+                this.list = localitem  
+            }
+        },
+        created(){
+                let localitem = JSON.parse(localStorage.getItem('cmts'))
+                this.list = localitem  
+        }, 
+        components:{
+            'components1':template1//vm相当于父组件，里面的components为子组件      
+        } 
+               
+    })
+    
+</script>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding:0;
+            margin:0;
+        }
+        body {
+            background-color:#353b48;
+            width:100vw;
+            height:100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div {
+            width:300px;
+            height:300px;
+            background-color: #8c7ae6;
+            transition: 2s;
+            /* 可以独立设置那些属性要进行动画过渡，哪些不要！！
+            transition-property: all;全部默认就是all,要全部的话就可以不写
+            
+            transition-property:width,background,height，border-radius;多个属性就用逗号隔开;
+            当指定特定属性进行过渡时，
+            可以分别设置过渡时间==>第一种情况： transition:200ms,3s; 这就表示 transition-property中传入的的奇数属性【width,height】过渡时间为200ms，
+            偶数【background，border-radius】为2s
+            第二种情况:transition-property:width,background,height，border-radius;多个属性就用逗号隔开; 
+            transition:200ms,1s,3s  定义的过渡时间与属性不是倍数关系，也不相等[a b c d e] [1 2 3 ]，那么就重复套用：a-1 b-2 c-3 d-1 e-2 
+            第三种情况，时间和属性个数相等，那么就一一对应了
+
+
+
+            transition-property:none;所有都不应用过渡！！
+            */
+            transition-property: all;
+            position: relative;
+            display:flex;
+            justify-content: center;
+            align-items:center;
+        }
+        div::before {
+            content:"yyds";
+            width:100px;
+            height:100px;
+            position: absolute;
+            font-size:2.5em;
+            color:white;
+            background-color:#e84118 ;
+            transition-duration: 2s;
+        }
+        div::after {
+            content:"永远的神";
+            position: absolute;
+            top:200px;
+            color:white;
+            transform:translateX(-999px);
+            transition-duration: 2s;
+        }
+        
+        div:hover::before {
+           transform:rotate(360deg);
+        }
+        div.move::after {
+            transform:translateX(0px);
+        }
+        
+    </style>
+</head>
+<body>
+    <!--并不是所有的样式属性从一个值变成另一个值，然后设置 transition:2s 过渡属性就会看到
+    渐变的过程，有的属性 比如 一个元素的边框从实线solid 变成斑点线 dotted 设置多久的过渡也看不到渐变效果！！！
+-->
+<!-- 假如div默认为宽高400px的盒子，为其加上hover事件，
+鼠标移入div区域让div变成2倍宽高，
+不加大transition过渡时间，默认时间很短，人眼观察就是瞬间发生变化，
+transition:2s 设置过渡时间为2s[div cssz中设置]，此时鼠标移入和移开都是2s过渡时间
+假如在div:hover{} 这个伪类中在设置一个transition时间，表示鼠标移入的过渡时间就用这个伪类中设置的时间，同样的 伪类中设置过渡应用的属性，这些属性会应用伪类中设置的时间，其他继承div
+移开还是用div中transition时间，【因为div中的css样式是可以被 div：hover{}这个伪类继承的，伪类不设置过渡那就继承div中的过渡】 -->
+<div></div>
+</body>
+<script>
+    // 官方提供了api,可以捕捉到过渡完成的那个状态，并进行后续操作
+    //这里表示div过渡完成后给div加上move class
+    // transitionend 后面是end  不是ed  淦
+    document.querySelector('div').addEventListener('transitionend' , function(e){
+        document.querySelector('div').className = 'move';
+    })
+
+
+</script>
+</html>

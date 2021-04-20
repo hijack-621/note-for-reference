@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+          * {
+            padding:0;
+            margin:0;
+        }
+        body {
+            background-color:#353b48;
+            width:100vw;
+            height:100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div {
+            width:300px;
+            height:300px;
+            background-color: #8c7ae6;
+            transition: 3s;
+            transition-timing-function: steps(1,end);
+            /*steps(3,start)/steps(3,end) start 表示立即开始变化,end 表示先维持原来状态，在变化
+            所以设置为 step(1,end) 就可以实现延时变化，先延迟transition设置的时间，在立即变化|也可以使用 transition-delay:1s;直接定义延迟多少时间才开始过渡
+            有多个属性要设置delay时间 用法和 transition 一致
+            
+            transition-timing-function: steps(),有了这个属性，目前就可以实现秒钟的转动效果，
+            让秒钟旋转360deg;然后用 transition:60s;+transition:timing-function:steps(60,start)
+            就可以完成60s转一圈的效果
+            */
+        }
+        body:hover>div{
+            width:100px;
+            height:100px; 
+        }
+    </style>
+</head>
+<body>
+    <!-- 可以使用 transition-timing-function:来设置 过渡中间的具体表现形式，是一直同一个幅度买还是先慢后快，还是起始和结束慢，中间块，还是反之等过程
+    也可以简写：transition:3s ease/【https://cubic-bezier.com/#.17,.67,.83,.67】; 
+        还可以将过渡时间分成若干份 ，类似于一帧一帧那种感觉
+        transition-timing-function:step(3,start);一秒钟变化一个幅度，三次变化后到最终样式
+-->
+    <div></div>
+</body>
+</html>

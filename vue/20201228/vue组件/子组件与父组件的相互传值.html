@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<style>
+    .v-enter,
+    .v-leave-to{
+        transform: translateX(150px);
+    }
+    /* 动画四个阶段  */
+    .v-enter-active,
+    .v-leave-active{
+        opacity: 0 ;
+        transition: all 1s ease;
+    }
+</style>
+<body>
+    <div id="app">
+      <components1 :getparentdata="vmsg" v-on:func1='pclick'></components1>
+     
+    </div>
+    <template id='tpl'>
+        <div>
+            <h3>子组件</h3>
+            <input type="button" value="调用父组件的方法" @click='c2lick'>
+        </div>
+      
+        
+       
+    </template>
+    
+
+
+</body>
+<script>
+   Vue.config.devtools = true;
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            vmsg:'hello world',
+
+        },
+        methods:{
+            pclick(data){
+               console.log('我是父组件里的方法输出'+data) 
+            }
+        },
+        components:{
+            components1:{//vm相当于父组件，里面的components为子组件
+                data:function(){
+                    return {}
+                },
+                template:'#tpl',
+                props:['getparentdata'],
+                methods:{
+                    c2lick(){
+                        this.$emit('func1',arg)// 这里传入参数就相当于子组件给父组件传值，因为这里的数据父组件里定义的方法可以拿到这个数据
+                    }
+                } 
+                //向子组件传入数据需要两步
+                //1.为子组件标签绑定自定义属性，2.在props数组中传入这个自定义属性
+                //props 中的数据在子组件中是只读的，像自改的话，建议定义在data属性上
+            
+                //同样的  父组件的方法，也可以向子组件传递，
+                    //  1.首先在子组件标签 绑定【v-on:event='func'】自定义事件name='父组件里面的方法'
+                    //  2.在子组件的template中定义自己的事件方法,方法中使用{【vue 提供】this.$emit('第一步自定义事件name',arg1,arg2)}
+                    //arg1 arg2 都是传参 【如果父组件中的方法需要传参的话】
+                //
+            }
+        }
+    })
+    
+</script>
+</html>

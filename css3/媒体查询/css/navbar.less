@@ -1,0 +1,91 @@
+header {
+    border-bottom:solid 2px #2ed573;
+    box-shadow: 0 2px 10px currentColor;
+    padding:1.5rem;
+}
+.navbar {
+    display:flex;
+    align-items: center;
+    .logo {
+        color:#2ed573;
+        font-weight: bold;
+        margin-right: 20px;
+        &+label{
+            display:none;
+        }
+        &+label+input{
+            display: none;
+        }
+    }
+    .collapse {
+        display:flex;
+        flex-grow:1;
+        .links{
+            display: flex;
+            margin-right: auto;
+            li {
+                padding:0px 10px;
+            }
+            li:hover {
+                font-weight: bold;
+                color:#2ed573;
+                transform: translateY(-5px);
+                transition:.5s;
+            }
+        }
+        .form{
+            a{
+                padding: 5px;
+                border: solid 1px #a4b0be;
+                border-radius: 5px;
+                &.form-bg{
+                    // & 这里表示a
+                    background-color: #2ed573;
+                    color:white;
+                }
+            }
+        } 
+    }  
+}
+//小屏幕的时候将ul和登录注册按钮小时
+@media only screen and (max-width:960px) {
+    header{
+        .navbar{
+            width:100%;
+            flex-flow:row wrap;
+            .logo{
+                margin-right: auto;
+                &+label{//紧挨logo后面的label
+                    border:solid 1px #a4b0be;
+                    padding:.5rem .5rem;
+                    border-radius: 4px;
+                    color:#2ed573;
+                    cursor: pointer;
+                    display:block;
+                }
+                &+label+input{
+                    display: none;
+                }
+                // 这里纯css实现元素隐藏和出现 for属性实现！！！
+                &+label+input:checked{
+                   &+.collapse {
+                       display:block;
+                   } 
+                }
+            }
+            .collapse{
+                display:none;
+                flex-flow: column;
+                width:100%;
+                // 设置宽度为100%，然后设置.navbar row排列 wrap换行，！！！
+                .links {
+                    flex-flow: column;
+                    margin-bottom: 1rem;
+                    li {
+                        padding:.2rem .1rem;
+                    }
+                }
+            }
+        }
+    }
+}

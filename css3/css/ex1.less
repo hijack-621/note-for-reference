@@ -1,0 +1,90 @@
+*{
+    padding:0;
+    margin:0;
+}
+
+// 导航栏
+header {
+    background-color: red;
+    nav{
+        width:1200px;
+        padding:30px 40px;
+        background-color: green;
+        margin:0 auto;
+        overflow: hidden;
+        ul{
+            list-style: none;
+            float: left;
+            li{
+                a{
+                    text-decoration: none;
+                    background-color: yellow;
+                }
+            }
+        }
+        .button{
+            float:right;
+        }
+    }
+}
+//主体区域
+
+main {
+    margin:0 auto;
+    width:1200px;
+    margin-top:20px;
+    overflow: hidden;
+    article {
+        width: 900px;
+        float:left;
+        background-color:orange;
+        background-clip: padding-box;
+        height:300px;
+       
+        box-sizing:border-box;
+        p {
+            border:solid 1px blue;
+            padding:10px;
+            overflow: hidden;
+            span.shape {
+                width:100px;
+                height:100px;
+                float:left;
+                background:red;
+                padding:30px;
+                margin:0;
+                shape-outside: padding-box;
+                //clip-path:circle();//形状为圆形，还可以传入参数 指定圆心位置
+                //clip-path: ellipse(30% 60%);
+                clip-path:polygon(0 0,0 100%,100% 0);//用这个属性可以绘制多边形！！！
+                shape-outside: polygon(0 0,0 100%,100% 0);
+                //shape-outside 设置值为  clip-path 的值的话，文字内容就会根据你设置的图形的边界来围绕排列
+                // shape-outside:url(1.png);
+                //这里也可以让文字围绕图片排列
+                //这些属性在大部分元素中都可以使用！！！
+                // 控制 浮动元素与内容之间的距离！！！选项：外边距，内边距，边框，内容
+
+            }
+        }
+
+    }
+    aside {
+        width:290px;
+        float:right;
+        border:solid 2px blue;
+        height:300px; 
+        box-sizing: border-box;
+    }
+
+}
+
+//底部区域
+
+footer {
+    margin-top:30px;
+    padding:30px;
+    div{
+        text-align: center;
+        margin:0 auto;
+    }
+}

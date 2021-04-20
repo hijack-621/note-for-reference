@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script type="module">
+    console.log(document.querySelector('button'));
+    /* 开始打印null 因为浏览器默认从上到下执行，此时执行到这里，还没到body中的去，所以找不到button
+    但是 加上type="module"就可以【因为模块间可能有依赖，所以必须先找到所有模块，全部解析完毕，找到相应的依赖】，这个属性会让浏览器把所有的解析工作完成才执行渲染页面和执行js脚本
+   放到'./jsmodule/1.js' 中一样可以打印button dom  */
+   
+</script>
+<body>
+    <button>btn</button>
+    <script>
+        let name="js";
+        // console.log(title); not defined
+    </script>
+</body>
+<script type="module">
+    /* 这里有几个注意事项，
+    第一 因为script标签历史悠久，所以为了兼容新的js技术，需要加上type="module"  表示这里面要书写模块语法
+    二，import 表示导入'./jsmodule/1.js' 这个路径下的1，js模块，并且路径的相对路径符号不能省略
+    第三，{title,content} 这两个变量是否在1.js中被导出，导出才能用！！
+    */
+    import {title, content, show} from './jsmodule/1.js';
+    show();/* 未导出show方法时 Uncaught SyntaxError: The requested module './jsmodule/1.js' does not provide an export named 'show' */
+    console.log(title,content);
+
+    /*script 中  type="module" 特性
+    加上这个type属性，
+    1.浏览器就会把所有的js以及dom节点解析工作完成之后才进行工作
+    2.并且 加上这个  type="module" 就相当于使用严格模式
+    3.这个script标签内部成为一个独立作用域！！！ 而不是全局作用域,在普通的script中无法访问到 有 type="module" 属性的script中定义的变量，
+    但是反过来有type="module"可以访问到普通script中定义的变量
+    */
+    console.log(name);
+</script>
+
+
+<script>
+    /* 模块中的预解析，
+    当a模块用到b模块的请求后台数据的功能时，
+    加载a模块就可以获得数据，
+    然后c模块也用到了b模块的请求后台数据功能，加载c模块，
+    系统不会重新去请求后台拿到数据，而是 先预解析，看c前面有没有其他模块用到了b模块的请求后台数据功能，
+    有的话引入c，系统不会重复去后台请求数据，而是值请求一次，后面的引用第一次获得的数据就好了 */
+</script>
+
+<script type="module">
+ import {a,show,User} from './jsmodule/2.js'
+ console.log(a, User.s2how())
+ show();
+
+ /* 批量导入 */
+ import * as api from './jsmodule/2.js';//如果不是真的全部要用，就不要全部导入，因为到时候打包工具会分析，用多少就打包多少，以减少文件体积，
+ console.log(api);
+ console.log(api.a);
+
+/* 导入导出 都可以使用 as  关键字取别名，用的时候就必须用别名了！ */
+
+
+/* 默认导出  如果只导出一个变量或者函数，class时 可以使用默认导出,而且一个模块只能有一个默认导出
+1.export default let  params ='';
+2 .let params = ''; 
+export { params as default }
+
+接收时候 可以使用任意 变量名字 接收 而且不要加 {},
+
+/* 默认导出和具名导出 混合使用
+   导出： export let name = "后盾人";
+
+    export default class User{}
+
+    导入 ：
+    import user,{name} from '';  不带花括号的是默认导出！！！ 
+    */
+
+
+   /* 多个模块合并后导出 
+
+
+   通过一个中间模块，这个中间模块引入多个模块，然后全部导出，【
+   如果多个模块中有重名方法或者属性， 中间模块引入时，用 import * as 别名 from 通过一组一组的方式引入，即可。这样重名的方法分别位于不用的组里，不会干扰
+   】
+   页面script 引入这一个中间模块就好比引入了多个模块，后续其他页面要引入同样多个模块就方便了
+   
+   */
+
+
+  /* 动态加载模块，前面的都是静态加载的方式，import 都必须写在业务逻辑的最前面
+  
+  而动态加载就是需要的时候去动态加载，可以位于任何位置。不必非得在代码最开始。
+
+  语法：import()函数。 import('./jsmodule/1.js'); 
+  import() 函数返回一个 promise 对象，可以使用 .then(()=>{
+      执行一个回调
+  })
+  */
+</script>
+
+</html>

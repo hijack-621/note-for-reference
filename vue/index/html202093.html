@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vueday1</title>
+</head>
+<script src='../js/vue.js'></script>
+
+<body>
+    <div id='exp1'>
+        <span v-once>【v-once,加上这个指令，就表示这个span只会被渲染一次】data:{{a}}</span>
+        <p>use mustache:<span v-html='rhtml'></span></p>
+
+    </div>
+
+</body>
+<script>
+    let data = {
+        a: 1,
+        rhtml: '<span style="color:red">redredred</span>',
+
+
+    };
+    //Object.freeze(data);这会阻止修改现有的 property，也意味着响应系统无法再追踪变化。
+    let vm = new Vue({
+        el: '#exp1', //操作dom的id
+        data: data, // bind data
+    })
+    console.log(vm.a); //输出1
+    vm.a = 4;
+    console.log(data.a); //输出2
+</script>
+
+</html>

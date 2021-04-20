@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .article {
+            width: 100vh;
+            height: 100vw;
+            display: grid;
+            grid-template-rows: 60px 1fr 60px;
+            /* 表示 水平分成 三部分 上下为固定60px;中间占满剩余空间
+            垂直分成2部门，左边固定60，右边占满剩余空间 */
+            grid-template-columns:60px 1fr ;
+            /* 区域的命名，类似于 grid-template-rows/columns 对栅格线的命名,通过这个属性划分出若干区域 */
+            grid-template-areas: 
+                "header header"
+                "nav main"
+                "footer footer";
+            /* 三个双引号对应row,引号里的两个别名对应 column
+            有时候划分出来的区域有的够用，有的不够用，就比如，上面 header 和nav main 够用，footer 底部不够用，需要将两块footer合并成一块后分成若干区域用作底部nav导航，这时候，
+            够用的区域其实就不需要去特意取别名了，这时候可以使用占位符来占着这个区域就好，不占用的话，下面定义的footer就等于给第一个row取别名了！！！
+             grid-template-areas: 
+                ". ."
+                ". ."
+                "footer footer";
+
+            */
+        }
+        header,nav,main,footer {
+            background-color: blue;
+            padding:5px;
+            background-clip: content-box;
+        }
+        header {
+            grid-area:header ;
+            /* 这里grid-area:header;header就对应 grid-template-areas里定义的别名header */
+        }
+        nav {
+            grid-area:nav;
+        }
+        main {
+            grid-area:main;
+        }
+        footer {
+            grid-area:footer;
+            display:grid;
+            grid-template-columns: repeat(4,1fr);
+        }
+        footer div {
+            background-color: purple;
+            padding:5px;
+            background-clip: content-box;
+            border: solid 1px #ccc;
+        }
+        /* 总结就是 使用 grid-template-areas 划分区域，
+        然后使用grid-area 讲划分的区域分配给相应的元素！！！
+        还有需要注意的是，使用 grid-template-areas:"area1-1 area1-2" "area2-1 area2-2" "area3-1 area3-2"
+        定义区域后，区域的线的命令就会根据 area1-1-srart/end, area2-1-start/end 来自动命名！！！
+        */
+    </style>
+</head>
+<body>
+    <div class="article">
+        <!--  -->
+        <header></header>
+        <nav></nav>
+        <main></main>
+        <footer>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </footer>
+    </div>
+</body>
+</html>

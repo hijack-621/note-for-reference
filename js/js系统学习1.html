@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // var name = web  = url = 'www.baidu.com';
+    // var name = 'abc', age = 18, sex = '男';
+    //可以连续定义以及连等赋值定义
+    // console.log(window);
+    // js为弱类型语言，变量类型随着赋值改变而改变，赋值int型，变量就是int 赋值string就是string类型
+    //一些关键字是不能作为变量名定义的 比如 class this 
+    
+    //虽然js是从上到下执行的，但是浏览器在执行js之前会把代码分析一遍，当发现错误时，前面没问题的的语句也都不会执行！！！
+    //这就是【变量【定义】提升】这个概念 并且只会发生于 var定义变量的情形
+    /*
+    var a = 1;
+    var class = 'a';
+    console.log(a);
+    console.log(class);
+    因为 var class = 'a';相当于 var class; class='a';定义加赋值 两个操作
+    浏览器分析var声明的变量时，【预解析】的时候会把  var class;这个操作提到打印前面去，故而正确的打印也不会出现
+    */
+    console.log(web);
+    // 当直接打印为定义的变量的时候，浏览器报错web未定义
+    var web = 'a';//当这个语句存在，包含定义和赋值，上面的web就不报错未定义而是 undefined，这也是变量【定义】提升的体现，
+    //执行前浏览器分析【预解析】过程，把变量定义提升到前面去了，定义未赋值的变量打印就是undefined
+    //函数里var声明的变量也会有类似的问题，所以函数执行中要用到的变量，需要提前声明好！！！
+
+    
+    let web1 = 'b';
+    console.log(web1);
+    //使用let/const 定义的变量就不会出现变量提升的问题【这两种定义会产生临时性死区（TDC），可以避免变量提升。变量声明时使用关键字 let/const ，就约束了变量声明位置，编译时不会提升变量声明位置。】，let、const必须先定义在使用！！！函数中也一样！！！
+    //var const let 在函数内部定义的变量，在函数外是访问不到的，
+    function run (){
+       let web1 = 'c';//如果函数内未定义 就会往上找 这样打印结果就一样了
+       console.log(web1); 
+    }
+    run();//这里打印的两个web1 是不同的web1!!! var let const 定义都一样
+
+    //全局污染！！！
+    //假如a.js文件中有一个变量没有定义 var a=1  而是 直接 a = 1;
+    //那么b.html 引入这个a.js后这个a=1就会污染全局，b.html中 script定义的var a = 2;就会无效，打印a发现值是1，而不是2
+    //解决这种问题：使用严格模式  "use strict"; 使用严格模式，加上这个代码后，不定义就赋值使用就会报错
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding:0;
+            margin:0;
+        }
+        body {
+            background-color: #7f8fa6;
+            width:100vw;
+            height:100vh;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main{
+            background-color: #fff;
+            width:150px;
+            height: 150px;
+            animation-name: ani1;
+            animation-duration: 2s;
+            /*animation-name: ani1;
+            animation-duration: 2s;应用帧动画并设置动画2s内完成  */
+        }
+        /* 使用关键字 keyframes 声明帧动画名字 */
+        @keyframes ani1 {
+            /* from {
+                background-color: white;
+            }
+            to {
+                background-color: #e84118;
+            } 
+            除了使用from to 定义起始状态 还可以使用百分比来定义
+            0%就表示起始，100%表示结束，中间可以任意定义
+            而且 这些中间过程顺序可以随意书写，先写100%，在0 在80 在20%都无所谓，还是会按百分比值顺序执行动画
+            */
+            0%{
+                background-color: #fff;
+                /* 百分之0可以省略 不写相当于默认系统配置一个，状态就是元素本身的状态【没有设置延时情况下】 */
+            }
+            20% {
+                background-color: pink;
+                transform:scale(2);
+            }
+            80%{
+                transform:scale(1);
+                background-color: purple;
+            }
+            100%{
+                background-color: red;
+                /* 同理百分100没设置，0%设置了，那么100%系统默认回到元素初始状态【没有设置延时情况下】 */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <main>
+
+    </main>
+</body>
+</html>

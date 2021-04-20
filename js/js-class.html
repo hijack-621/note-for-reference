@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /* class内部也是依靠原型和继承来实现的，只不过是精简版的书写形式【语法糖】 */
+
+    class User{
+        age = 18;//也可这里定义属性，只不过不需要加上var let const等关键字
+        constructor(name){//类里面的构造方法，在类实例化时，会自动调用
+            this.name = name;
+        }
+        show(){ //class内定义的方法，系统自动会把这个方法放到User的原型中去
+           console.log('我是class中的show方法');
+       }
+        get(){
+            return this.name;
+        }//方法与方法之间不需要逗号隔开！！！
+        static property = "我是静态属性";  
+    }
+    /* typeof 打印 其实还是一个函数  */
+    let user = new User("jc");;
+    user.show();
+    console.log(user.name, user.get());
+    console.dir(User);
+    console.dir(User.property);/* 打印 我是静态属性  */
+    console.dir(user.property);/* 打印 undefined */
+    /* prototype:
+    onstructor: class User
+    get: ƒ get()
+    show: ƒ show() 
+    //class内定义的方法，系统自动会把这个方法放到User的原型中去
+    并且系统会自动去定义class内的方法不允许被遍历  enumerable:false;
+     */
+
+    /* 静态属性 分配给构造函数的属性为静态属性， 这个属性不会在实例化对象中被实例给继承到，而是属于构造函数自己的的【所以某些公用属性，就可以定义为static 属性】 */
+    /* 静态方法 这个方法不会在实例化对象中被实例给继承到，而是属于构造函数自己的   */
+    
+    /*父类中的 静态属性和方法，继承的子类的可以直接使用 */
+    /* function User(){}
+    User.url = "www.baidu.com " 这样定义的url就是静态属性，实例对象不会继承
+    User.show = function(){ 静态方法}
+
+    class中使用 关键字 static url = 'youku.com'; 来定义静态属性
+                       static show(){}来定义静态方法
+     
+     console.dir(User.property); 打印 我是静态属性  
+     console.dir(user.property); 打印 undefined */
+    const DATA =  Symbol();
+   class Member{
+       _site = "https://www.jd.com";
+       [DATA] = "我是要被保护的属性值";
+       /* 使用别名方式将属性保护起来，不让用户随意修改，修改必须通过访问器，符合要求才能被修改ok */
+       constructor(name,age,sex){
+        this.data = {};
+        this.data.age = age;
+        this.data.name = name;
+        this.data.sex  = sex;
+       }
+       static create(...args){ //返回自己实例
+           return new this(...args);//this就是指 Member
+       }
+       set name(name){
+        //console.log(name);
+        this.data['name'] = name;
+       }
+       get name(){
+        return this.data['name'];
+       }
+       set site(p){
+           if(!/^https?:/i.test(p)){
+            throw new Error("网址格式错误");
+           }
+          this._site = p;
+       }
+       get site(){
+           return this._site;
+       }
+       get data(){
+           return this[DATA];
+       }
+       set data(val){
+           this[DATA] = val;
+       }
+   }  
+   
+   let m = Member.create('js',22,'男');//调用create 直接得到实例
+   console.log(m);
+    m.name = 'he';
+   // m.site = "www.baidu.com";
+    /* js-class.html:111 Uncaught Error: 网址格式错误
+    at Member.set site [as site] (js-class.html:111)
+    at js-class.html:120 */
+    m.site = "https://www.baidu.com";
+    m._site = "aaa";
+    m.data = '被修改了';
+    console.log(m.data);
+    console.log(m.site);
+    /* 只开放site给用户， _site 被访问器保护！！！ */
+   console.log(m.name);
+   /* 访问器 访问某个属性，如果存在 同名方法，并且加上了关键字 get 获取/set 设置  那么这个方法就会在访问属性的时候自动执行
+   obj{
+       get show(){
+        console.log('aaa');
+       }
+   }
+   obj.show => 'aaa'
+    */
+
+    /* 保护类中的属性
+    1.起别名，加上访问器控制用户修改内容，不符合要求修改失败！ 但是外部如果知道了属性别名，直接修改别名属性是可以的
+    2.严格控制，外部不允许直接访问和修改，只能内部验证通过在修改！使用Symbol数据类型 加上访问器，实现只有class内部才可以访问并修改【注意：再来类中可以使用，如果有类继承了这个类，那么 类及其子类也是可以使用这个被保护的属性或者方法的！！！】
+    3.使用weakmap保护属性，使用Weakmap保护的属性，类实例的时候是看不见的，但其实可以通过访问器访问到！！！
+    4.private（#） 只有自己可以操作，其他任何人都不可以，真的要修改也得内部通过访问器，子类也用不了
+
+
+
+     */
+    
+    
+    class Vip extends Member {
+        constructor(){
+           super();
+        }
+    }
+    let vip =   Vip.create('jc',26,'nv');
+    console.log(vip);
+    vip.data = "在子类中可以使用到";
+    console.log(vip.data);
+
+
+    /* 3.weakmap  使用weakmap 加上访问器，只有通过访问器才可以取得值 */
+    const host = new WeakMap();/* 真实的生产环境时模块化的，真实情况下，只会把这个class导出给外部，Weakmap数据不导出，所以类实例是看不见的，但其实可以通过访问器访问到！！！ */
+    class UUser{
+        #private_property = "private";
+        //加上 #就表示定义的私有属性
+        constructor(name){
+            this.name = name;
+            host.set(this,"https://www.baidu.com");
+        }
+       get host(){
+        return  host.get(this);
+       }
+        set host(val){
+            host.set(this,val);
+        }
+        #check = () =>{
+            //定义私有方法！！！格式
+            //#check(){} 这样格式不对！！！
+        }
+    }
+    let uuser = new UUser('asd');
+    UUser.private_property  ="修改私有属性";
+    console.dir(UUser)
+    console.dir(uuser.host);
+    
+    /* 属性继承 */
+    class Usera{
+        constructor(name){
+            this.name = name;
+        }
+    }
+    class Userb extends Usera{
+        constructor(name){
+            /* super() 方法表示 调用父类的构造方法 */
+            super(name);
+        }
+    }
+    let b = new Userb('属性继承');
+    console.log(b);/* js-class.html:211 Userb {name: "属性继承"} */
+
+    /* super 关键字的 原理剖析：
+    1、跟this分工，super只负责原型攀升，this 还是谁调用就指向谁！！！
+    2.super 使用 只能在 show(){}这样定义下使用， show:function(){}这样super用不了，会报错！！！
+    3.子类继承父类，如果子类写了构造方法，必须在构造方法中调用super()，并且子类中this的使用必须置于super之后，做到子类可以重写父类的属性，而不是子类的属性被父类所取代，！！！
+     */
+
+     class p{
+         constructor(){
+             console.log('parent method');
+         }
+         show(){
+             console.log('父类的show方法');
+         }
+         /*父类中的 静态属性和方法，继承的子类的可以直接使用 */
+         static name="js";
+         static sshow(){
+             console.log('静态方法');
+         }
+     }
+     class C extends p{
+         constructor(){
+            super();
+            console.log(this);
+            super.show();//使用super关键字可以调用父类中的方法
+         }
+         show(){
+             return super.show().map();//获取到父类中的数据在进行相应的操作，或者另外书写全新的业务！
+         } //方法重写，子类重写父类中的方法
+     }
+
+     let c = new C();
+     console.dir(c);
+    console.log( C.name);
+     C.sshow();
+
+     /* 可以使用 自定义class a 来继承 内置类【Array Object 等，然后加入相应的业务，然后让其他类来继承a，就可以变向增强内置类的功能】 */
+
+     class Arr extends Array{
+        constructor(...args){
+            super(...args);
+        }
+        first(){ //返回数组第一个元素
+            return this[0];
+        }
+        max(){
+            return this.sort((a,b)=> b-a)[0];//降序排列，返回第一个得到最大值
+        }
+
+     }
+     let arr = new Arr(99,1,3,4,677,90,33);
+     console.log(arr.first());
+     console.log(arr.max());
+     class NewArr extends Arr{
+         constructor(...args){
+            super(...args);
+         }
+     }
+     let narr  = new NewArr(1,4,454,23,2222,111,5)
+     console.log(narr);
+     console.log(narr.max());
+     console.log(narr.sort((a,b)=>b-a)) ; //NewArr既具备了Array基类的功能，有具备了Arr自定义的扩展功能，这就是所谓的使用继承增强内置类！！！
+
+      
+     /* 使用对象 Object.assign(obj,module1,momdule2) 把多个模块moduleX中的方法，混入到obj中，让obj中也可以用到这些已有的方法而不需要重新定义！！！   */
+
+     let Tool = {
+         max(key){
+           console.log('混入tool中的方法');
+         }
+     };
+
+     let math ={
+         count(key){
+             console.log('混入 math模块中的方法');
+         }
+     };
+     class MixIn {
+        constructor(){}
+     }
+     Object.assign(MixIn.prototype,Tool,math);
+     let mixin = new MixIn();
+     console.dir(mixin);
+     mixin.max();
+</script>
+</html>

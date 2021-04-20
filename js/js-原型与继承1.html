@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /*原型就类似于现实生活中父与子中的父，每一个javascript（null除外）对象a【a就是子】，在创建的时候就会有另外一个对象b【b就是父】与之关联，这个b我们称之为原型，每一个对象都会从原型继承属性和方法
+    原型链：就类似于族谱，a 的原型是b，b的原型是c，a-b-c 这样的一代一代这样的链式关系就称之为原型链
+    https://www.bilibili.com/video/BV17J411y7XZ?p=6&spm_id_from=pageDriver  
+    */
+    let hd = {};
+    //每个正常定义的对象都有一个__proto__ 属性来记录原型，原型有的属性方法，对象可以使用（会自动继承原型）
+    console.dir(hd.__proto__);
+    let hd1 = {};
+    console.log( Object.getPrototypeOf(hd));
+    console.log( Object.getPrototypeOf(hd) == Object.getPrototypeOf(hd1)  );// =》 true hd1和hd 原型是同一个！！！
+    //Object.getPrototypeOf()，获得原型
+
+    let hd2 = Object.create(null,{
+        name:{
+            value:'后盾人',
+        }
+    });//Object.create（1,2） 使用这种方法创建的对象可以指定原型，参数1就是原型 2就是创建的对象的属性
+    console.log(hd2);//hd2原型就位null，没有原型，仅仅只是个纯数据，对象的任何操作都做不了
+
+    /* 对象a调用一个方法，会先去自己属性里面的找有没有这个方法，没有再去原型上找，都找不到就会报错！！！  */
+    /* a自己有方法b，a的原型也有方法b，执行 a.b()，会执行自己上的b方法，而不会执行原型上的！！！ */
+
+    hd.__proto__.render = function(){
+        console.log('给hd原型加上render方法');
+    }
+    hd.render();
+
+    /* 并不是只能有唯一的原型！！！  */
+
+    function User(){}
+   // 每一个函数都有一个prototype【原型，雏形】属性！！！
+   //加上一个__proto__两个原型！！！！
+   
+    console.dir(User);
+    /* 
+    arguments: null
+    caller: null
+    length: 0
+    name: "User"
+    prototype: {constructor: ƒ} 原型1 一般服务于 函数实例化出对象的
+    __proto__: ƒ () 原型2 一般服务于函数对象的
+    */
+    let user = new User();
+
+    console.log( User.prototype == user.__proto__ ); // 原型1 一般服务于 函数实例化出对象的 所以 User函数的prototype==User实例化的对象的__proto__  => true
+
+    let obj = new Object();
+    obj.name = 'name';
+    console.dir(Object);
+    /* 这里的Object也有两个原型 
+    
+    prototype: {render: ƒ, constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, …}
+    这个服务于new 出来的obj
+    
+    __proto__: ƒ ()
+    这个服务于对象直接调用
+    */ 
+
+    Object.prototype.show = function(){
+        console.log('prototype原型服务于实例化出的对象');
+    }
+    obj.show(); // 打印prototype原型服务于实例化出的对象
+    Object.__proto__.show1 = function(){
+        console.log('__proto__原型服务于对象直接调用');
+    }
+    //obj.show1();//js-原型与继承1.html:113 Uncaught TypeError: obj.show1 is not a function
+    Object.show1();//js-原型与继承1.html:111 __proto__原型服务于对象直接调用
+    console.dir(User);
+    /* 这里打印 User函数结构
+    发现 函数的两个原型 prototype以及__proto__的 原型 __proto__ 都有上面给Object.prototype添加的show方法
+
+    也就是说函数的两个原型 的原型就是 Object的原型-prototype
+    */
+    console.log( User.prototype.__proto__ == User.__proto__.__proto__  );//=>true
+    console.log(Object.prototype.__proto__);//=》null 也就是Object.prototype 为顶级原型，上面再没有原型了，或者说为null
+    /* 由于函数的原型的原型是Object的prototype原型 所以在Object.prototype中定义的方法，函数也可以使用！！【一层一层原型往上找，只要能找到就可以使用！！！】 */
+    User.show();
+    /* 函数以及console.log(jsss.show());函数实例化得到的对象 都可以使用 Object的 prototype原型中的方法！！！ */
+    user.show();
+</script>
+</html>

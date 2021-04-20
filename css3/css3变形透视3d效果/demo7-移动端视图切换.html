@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        body {
+            display:flex;
+            height:100vh;
+            width:100vw;
+            flex-direction: column;
+        }
+        main {
+            flex:1;
+            position: relative;
+        }
+
+        main div {
+            width:100%;
+            height:100%;
+            transform:translateY(-100%);
+            transition: 1s;
+            position: absolute;
+            left:0;
+            top:0;
+
+        }
+        main>div:target {
+            transform:translateY(0px);
+        }
+        main>div:nth-of-type(1):target {
+            background-color:#3498db;
+            
+        }
+        main>div:nth-of-type(2):target {
+            background-color: #f39c12;
+           
+        }
+        main>div:nth-of-type(3):target {
+            background-color:#8e44ad;
+           
+        }
+
+
+        nav {
+            height:10vh;
+            background-color: #34495e;
+            display:flex;
+            justify-content: space-evenly;
+            text-align:center;
+            align-items: center;
+
+        }
+        nav a {
+            flex:1;
+            color:white;
+            font-size:18px;
+            text-decoration: none;
+            border-left:solid 1px silver;
+            border-right:solid 1px silver;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div id="home"></div>
+        <div id="news"></div>
+        <div id="movies"></div>
+    </main>
+    <nav>
+        <a href="#home">home</a>
+        <a href="#news">news</a>
+        <a href="#movies">movies</a>
+    </nav>
+</body>
+</html>

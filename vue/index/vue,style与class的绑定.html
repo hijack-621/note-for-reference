@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bind</title>
+    <script src='../js/vue.js'></script>
+    <script src='../js/axios.min.js'></script>
+    <script src='../js/lodash.min.js'></script>
+</head>
+<style>
+
+</style>
+
+<body>
+    <!-- 对象语法 -->
+    <div id='scbind' v-bind:class='classObject'></div>
+    <!-- <div id='scbind' v-bind:class="{ active: isActive, 'text-danger': hasError }"></div> -->
+    <!-- 数组语法  我们可以把一个数组传给 v-bind:class，以应用一个 class 列表：   -->
+    <div id='scbind' v-bind:class='[index1 ,index2]'></div>
+</body>
+<script>
+    let data1 = {
+        isActive: true,
+        error: null
+    }
+    let vm = new Vue({
+        el: '#scbind',
+        data: {
+            classObject: {
+
+                active: true,
+                'text-danger': false //为 id为scbind的div绑定class，为true就表示success，false就无效
+            },
+            data1: data1
+        },
+        computed: {
+            classObject: function() {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type === 'fatal'
+                }
+            }
+        }
+    })
+</script>
+
+</html>
+
+</html>

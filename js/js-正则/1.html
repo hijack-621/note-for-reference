@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="con">nidename</div>
+</body>
+<script>
+      /* 创建正则表达式
+      1.字面量形式 ：/正则表达式/  字面量语法，有个缺点，无法操作变量，
+      如果想查找变量a中是否包含变量b ，字面量就需要特殊处理 eval(`/${b}/`.test(a))
+      2. new RegExp();对象形式创建
+
+
+      */
+     let b = 'hougea';
+     let a = 'ge';
+     console.log(eval(`/${a}/`).test(b) );/*  true */
+
+     let bb = new RegExp(a,'g');
+     console.log(bb.test(b));/* true 查看b中有没有符合变量a的字符存在 */
+
+     /* demo1  根据用户输入内容 描红符合内容的字符串 */
+     let con = prompt('请输入要检测的内容，支持正则');
+     let reg = new RegExp(con,'g');
+     let div = document.querySelector('div');
+     div.innerHTML = div.innerHTML.replace(reg,search=>{//replace 支持回调，回调函数中可以得到符合替换的数据search，回调函数 返回啥就替换啥！！！
+         return `<span style="color:red">${search}</span>`;
+     })
+</script>
+</html>

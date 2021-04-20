@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding:200px;
+            background-color:#2c3e50;
+        }
+        div {
+            font-size: 2em;
+            color:#ecf0f1
+        }
+        main div strong {
+            display: inline-block;
+            /* 有时候设置旋转后无效果，
+            注意排除是不是没把行元素转换成块元素 */
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 1.2em;
+            transition: 1s;
+        }
+        main div strong:nth-of-type(1){
+            background-color: #f1c40f;
+        }
+        main div strong:nth-of-type(2){
+            background-color:#1abc9c;
+        }
+
+        main div:hover>strong:nth-of-type(1) {
+            transform:rotate(360deg);
+
+        }
+        main div:hover>strong:nth-of-type(2) {
+            transform:rotate(-360deg);
+}
+    </style>
+</head>
+<body>
+    <main>
+        <div>
+            <strong>C</strong>ompal-<strong>S</strong>OD
+        </div>
+    </main>
+</body>
+</html>

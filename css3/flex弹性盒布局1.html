@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        /*footer:flex 弹性容器 */
+        footer {
+            display: flex;
+            height: 400px;
+            width: 400px;
+            border: 2px solid #ccc;
+            /* flex 也是块级元素，可以设置宽高 */
+            /* display:inline-flex 行级flex */
+            /* 设置flex 元素排列方向 水平或垂直 默认从左到右，从上到下分布，
+            加上-reverse 可以反转分布方式 下到上，右到左！！！  */
+            flex-direction: row;
+            /* 可以使用 flex-flow:cloumn wrap 简写 */
+            flex-wrap: wrap;
+            /* 有时候flex盒子一行或者一列放不下全部元素，设置这个属性后，装不下就自动跳行放置，
+            否则会将所有元素缩小后硬塞到盒子里justify-content:space-between;
+             flex-wrap:wrap-reverse：设置反转
+               */
+            /* justify-content: space-around; */
+            /*轴的概念，
+        flex中元素默认排列方式【水平，垂直】- 轴
+        没有换行【flex-wrap:wrap】，那么轴就只有一个，如果换行
+        那么就会出现副轴[交叉轴]
+        
+        主轴排列方式【justify-content】：
+        center:居中
+        space-between:首尾元素分别对齐主轴的开始和结束【有padding就从padding位置开始】，其他平均分布
+        space-around:元素左右两边都有间距，并且中间元素的间距是首尾元素的2倍
+        space-evenly：元素完全平均分布
+        =========================================================
+        交叉轴对齐方式[align-items]：
+        center:中心，
+        flex-start/end:交叉轴开始/结束
+        stretch:如果flex盒子子元素没有设置宽高，那么这个属性会见子元素宽或者高拉升为flex盒子的宽或者高，只要设置宽高，最大最小宽高，这个属性就失效
+        ========================================================
+        控制 换行后，多行元素在交叉轴的排列方式【algin-content】
+        属性选项和justify-content/align-items一样
+        ================================================================================
+        ||上面的所有属性都是对flex盒子中的所有子元素进行统一操作，可以单独对某个子元素进行操作||
+        ================================================================================
+        
+        */
+        /* align-content: space-evenly; */
+
+        }
+        /* footer 第一个子元素 交叉轴的位置的控制 */
+        footer :nth-child(1) {
+            /* align-self:flex-end ; */
+            /*  align-self【单个】 与 algin-content【多行】 冲突！！！  */
+           
+        }
+
+        footer div {
+            width: 100px;
+            height: 100px;
+            padding: 10px;
+            background-color: red;
+            background-clip: content-box;
+            flex-grow: 1;
+            /* 有时候，flex父盒子，没有设置元素平均分配，
+            元素可以在盒子中显示或者换行显示，但是会有剩余空间
+            导致不美观，这时候可以在元素中设置 flex-grow:1 表示将剩余空间平均分配和每个元素
+            【如果单独给某个元素设置 flex-grow:2 表示剩余空间占2分，0：表示元素原来多大就多大，不参与剩余空间分配】
+            */
+            
+            /* 表示背景不包括padding！！！ */
+
+        }
+    </style>
+</head>
+
+<body>
+    <main></main>
+    <footer>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" v-model="title">
+    <input type="text" v-model="title">
+    <h4 v-bind="title">使用代理实现vuejs中的数据双向绑定</h4>
+</body>
+<script>
+    /* Proxy 代理 通俗理解就是显示生活中的中介 */
+ 
+
+    let hd = {
+        name:'juncc',
+        age:18
+    };
+
+    /* 代理基本语法 */
+
+    let proxy = new Proxy(hd,{ //为hd设置代理
+        get(obj,property){//参数1，对象hd,参数2，属性
+            return obj[property];
+        },
+        set(obj,property,value){//参数1，对象hd,参数2，属性，3；值
+            //console.log(value);
+            obj[property] = value;
+            return true;
+        }
+    });
+    console.log(proxy.name);
+    proxy.name = "jjccc";
+    console.log(proxy.name, proxy);
+    /* Proxy {name: "jjccc", age: 18}
+            [[Handler]]: Object
+            get: ƒ get(obj,property)
+            set: ƒ set(obj,property,value)
+            __proto__: Object
+            [[Target]]: Object
+            age: 18
+            name: "jjccc"
+            __proto__: Object
+            [[IsRevoked]]: false */
+    /* 也可以代理函数，数组 */
+    function factorial(num){
+        return num==1? 1 : num*factorial(--num);
+    }
+    console.log(factorial(5));
+    let fproxy = new Proxy(factorial,{
+      apply(func,t,args){
+         console.log(func);//被代理的函数
+         console.log(t);//调用apply传递的第一个参数
+         console.log(args);//调用apply传递的第二个参数，传递数组
+            console.time('run');
+         func.apply(this,args); //求出阶乘执行的的时间！！
+         console.log(this,'打印this');
+            console.timeEnd('run');
+      }  
+    })
+    fproxy.apply({},[10]); //这里要传递第一个参数的原因是apply中有三个参数，第2个对应这里的第一个，不传，t对应的这个[10],args就对应的undefined,所以func.apply(this,args); 这里就会报错栈溢出
+
+    let arr = [];
+    let aproxy = new Proxy(arr,{
+        get(array,key){
+            /* array:原数组，key 数组索引 */
+            /* 通过代理就可以在调用数组时，自动完成对数组的操作！！！
+             */
+        }
+    })
+
+    /* 实现vuejs 中的双向数据绑定  使用代理以及构造函数
+    input s输入的内容先改变代理中的内容，然后代理渲染其他有 v-model v-bind 的元素！！！*/
+    function view(){
+        let aproxy = new Proxy({},{
+            get(obj,property){//执行obj.attr或obj[‘attr’]时被调用
+                
+            },
+            set(obj,property,value){ //set方法会随着 proxy代理.attr = value 赋值操作而被自动调用执行！！！
+                console.log(value);
+
+                document.querySelectorAll(`[v-model=${property}]`).forEach(item=>{
+                    item.value = value;
+                });
+                document.querySelectorAll(`[v-bind=${property}]`).forEach(item=>{
+                    item.innerHTML = value;
+                })
+                return true;
+            },
+        });
+        this.init = function(){
+            const els = document.querySelectorAll('[v-model]');
+            // console.log(els);
+            els.forEach( item => { 
+                item.addEventListener('keyup', function(){
+                    // console.log(this) 指向 input dom节点;
+                    aproxy[this.getAttribute('v-model')] = this.value;
+                    //aproxy['title'] = xxx  修改的title，所以set中 propperty就是title
+                })
+            })
+        }
+    }
+    new view().init();
+</script>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        .stop:阻止冒泡
+        .prevent：阻止默认事件[例如 <a>跳转/表单的默认submit提交]这种默认事件都可以用.prevent阻止
+        .capture：事件监听时的事件捕获【】
+        .self：事件只在自己身上触发，不包过子元素，父元素
+        .once：事件只触发一次
+        并且这些修饰符是可以串联使用的
+        【<a href="http://www.baidu.com" @click.prevent.once='aclick'>去百度</a>】
+            串联prevent和once【且与prevent和once 先后顺序无关】，表示只阻止一次prevent事件，因为once只执行一次！！！
+    -->
+    
+    <div id="app">
+        <div style="height:100px;background-color: aqua;" @click='divclick'>
+            <input type="button" value="点我" @click.stop ='btnclick'>
+        <!-- 默认 点击事件会从子元素像父元素传递（冒泡【如果父元素有点击事件的话】），
+            如果在子元素上绑定事件修饰符 .stop可以组织默认冒泡事件【从里到外】
+            如果在btn父级div上添加.capture修饰符，那么点击btn就不会是冒泡那样先执行子元素，在父元素，而是先执行
+            带有prevent修饰符的click事件【也就是从外到里】
+        -->
+        </div>
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{
+            divclick () {
+                console.log('点击了div')
+            },
+            btnclick () {
+                console.log('点击了btn')
+            },
+            aclick () {
+                console.log('点击了超链接a')
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    article {
+        /* background-image: url(),url();//可以定义多个背景
+        background-repeat:如果背景图片小于容器，是否重复
+        可以设置水平重复，垂直重复，平均分配【不会出现半边图片情况】，
+        background-attachment:fixed;但出现滚动条时，让背景跟随滚动条滑动，固定住背景
+        background-position:定义背景的位置
+        background-size:设置背景大小，显示方式，全部占满容器【图片可能显示不全】（cover）还是保证图片全部显示【容器可能会长不满出现空白】（contain）
+        可以简写：
+        background:red url() no-repeat center
+        */
+        background-color: red;
+        background-clip: content-box;
+        /* background-clip 用于设置背景延伸情况，有padding和border 的时候
+        content-box背景就只会在内容区域，padding-box:就会到padding和content区域，不到边框，
+        border-box:就是边框加上padding加上content
+        */
+        height:500px;
+        padding:50px;
+    }
+
+    .article{
+        background:linear-gradient(to top right,red,green,blue);
+        background:linear-gradient(90deg,red 50%,green,blue);
+        /*90deg 90度,red 50% 背景一半全是红，另外一半开始渐变效果,green,blue  */
+
+        background:linear-gradient(90deg,red ,50%，green,);
+        /* 50% 为 渐变中心点，50%表示两个颜色占背景一样多， */
+
+    }
+
+
+    /*条纹的样式 后面将这个动起来都产生进度条那种效果  */
+    .article1{
+        height:200px;
+        background:repeating-linear-gradient(90deg,blue,25px,yellow 25px, 25px, red 50px);
+    }
+</style>
+<body>
+    <article class="article1">
+        <h2>bgc&jianbian</h2>
+    </article>
+</body>
+</html>

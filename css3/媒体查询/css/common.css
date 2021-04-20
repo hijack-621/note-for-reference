@@ -1,0 +1,56 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+:root {
+  font-size: 15px;
+}
+.row {
+  display: grid;
+  grid-template: 1fr/repeat(12, 1fr);
+  gap: 10px;
+}
+
+/* 这个定义的是，不管在那个尺寸下都是占指定的份数，后续需要根据屏幕尺寸在设定份数，就可以在元素class上追加写上相应的样式 */
+.col-12 {
+  grid-column: span 12;
+}
+.col-11 {
+  grid-column: span 11;
+}
+.col-10 {
+  grid-column: span 10;
+}
+.col-9 {
+  grid-column: span 9;
+}
+.col-8 {
+  grid-column: span 8;
+}
+.col-7 {
+  grid-column: span 7;
+}
+.col-6 {
+  grid-column: span 6;
+}
+.col-5 {
+  grid-column: span 5;
+}
+.col-4 {
+  grid-column: span 4;
+}
+.col-3 {
+  grid-column: span 3;
+}
+.col-2 {
+  grid-column: span 2;
+}
+.col-1 {
+  grid-column: span 1;
+}

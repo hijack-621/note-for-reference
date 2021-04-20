@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         body{
+            padding:100px;
+        }
+        .c1 {
+            width:200px;
+            height:200px;
+            border:solid 2px pink;
+            position: relative;
+            /* transform-style: preserve-3d; */
+            /* 不加这个3d属性,x轴旋转90度的话，实现从垂直显示器的方向看不到该平面了，加上就表示立体展示旋转过程 */
+
+            /* transform:perspective(900px) rotateX(-45deg) ; */
+            /* 这里将父盒子旋转一下就是便于看到三维效果 */
+        }
+        .c2 {
+            position: absolute;
+            width:100px;
+            height:100px;
+            background-color: red;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            transition: 1s;
+            
+        }
+        .c3 {
+            position: absolute;
+            width:100px;
+            height:100px;
+            background-color:#f1c40f;
+            top:50%;
+            left:50%;
+            transition: 1s;
+            
+        }
+        .c1:hover .c3 {
+            /* skewX/Y 表示xy轴倾斜 */
+            /* transform:skewX(-45deg) ; */
+            transform:skew(-45deg,45deg);
+            /* x，y 分别倾斜 45deg */
+        }
+    </style>
+</head>
+<body>
+    <div class="c1">
+        <div class="c2"></div>
+        <div class="c3"></div>
+        
+    </div>
+</body>
+</html>

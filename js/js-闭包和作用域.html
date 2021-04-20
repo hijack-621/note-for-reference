@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <button>houdunren</button>
+    <button>hdcms</button>
+
+    <div>aaa</div>
+    <div desc="闭包的内存泄漏">bbb</div>
+    <div desc="闭包的内存泄漏解决">ccc</div>
+</body>
+<script>
+    /* 全局定义的变量，函数，当被执行完，js机制默认不会把这个全局环境的数据给回收的【只要网页还在正常运行显示】
+    
+    作用域：简单的来说，变量和函数都是有作用范围的，不是任何在代码的任何位置都是可以访问到的。作用域就是函数和变量的可访问范围。
+    
+    */
+    //函数作用域。函数里面定义的变量的作用域就是在函数内部，函数外无法访问到，
+    //并且函数执行完毕，为变量分配的内存空间会被回收，调用一次函数就重新分配！！！
+    //重复调用，分配的内存地址也是不一样的！！！
+    let title = "title";
+
+    function show() {
+        let url = "baidu.com";
+        function test() {
+            let a = 'a';
+            //url这里可以访问到，因为test() 也算show内部！！！ 作用域为show内部加其子函数！！！
+        }
+        // a变量 show内部，test()外部访问不到，因为a作用域仅在test内部
+    }
+
+    //函数执行完毕，为变量分配的内存空间会被回收 ，除非有其他的变量在引用这块内存区域
+
+    function hd() {
+        let n = 1;
+        return function () { //把函数返回出去并接收引用！！！就可以做到函数执行完内存不被清空。但是把变量n返回出去并不会起到保留空间的效果！！！
+            let m = 1;
+            return function () {
+                console.log(++m, '|m');
+                console.log(++n, '|n');
+            }
+
+        }
+    }
+
+    let a = hd()();
+    a();
+    a();
+    a();//像上面那样把函数返回出去，多次反复调用就不会重新开辟区域存放数据，因为后面的操作都是在引用第一次接收到的内存地址！！
+
+    //构造函数原理跟上面的吧函数返回出去一样,所以构造函数执行完，内存空间会被保留！！
+
+    function fc() {
+        let n = 1;
+        this.sum = function () {
+            console.log(++n);
+        }
+    }
+
+    let fcc = new fc();
+    fcc.sum(); 2
+    fcc.sum(); 3
+    fcc.sum(); 4
+    fcc.sum(); 5//内存空间保留
+
+    /* 块作用域 */
+    {
+        let a1 = 1;
+        const b = 1;
+    }
+    //console.log(a1);//取不到a1 和b  let const 定义的变量有块级作用域 {}外作用不到！！  
+    {
+        let a = 1;//两个a其实不是一回事，分别存放于两块内存地址！！
+    }
+
+    //var 可以借助函数作用于模拟出块级作用域 
+    for (let i = 1; i <= 3; i++) {
+        setTimeout(() => { //打印1 2 3
+            console.log(i);
+        }, 1000);
+    }
+    for (var i = 1; i <= 3; i++) {
+        setTimeout(() => {//打印三个4
+            console.log(i);
+        }, 1000);
+    }
+
+    for (var i = 1; i <= 3; i++) {
+        (function (i) {
+            setTimeout(() => {////打印1 2 3
+                console.log(i);
+            }, 1000);
+        })(i) //借助立即执行函数，函数有作用域 
+    }
+
+    //for(let i=1;i<=3;i++){ array.push(function(){return i;})} 循环执行完毕也会被回收机制回收，
+    //可以把每次的i放入到一个函数操作中将循环累加的次数i保留!!!
+
+    /* 闭包：函数中能访问到其他函数作用域的数据【子函数能访问到父函数中的数据，这也是闭包】  */
+
+    let barr = [1, 3, 4, 6, 8, 9, 10, 111];
+    //获取某一个区间中的子数组
+    function getcarr(a, b) {
+        return function (v) {
+            return v >= a && v <= b;
+        }
+    }
+    console.table(barr.filter(getcarr(1, 8)));
+    //这里就用到了闭包，getcarr中的子函数就用到了父函数中的数据，getcarr中返回的函数当做filter的回调函数使用!!!
+
+    let btns = document.querySelectorAll('button');
+    let left = 1;
+    let interval = false;
+    btns.forEach(i => { //点击 按钮，让按钮慢慢往右移动，多次点击会有问题出现
+        //left放这里每次点击会让button向右移动速度加快！！！每次点击都会产生一个定时器，点击n次，就相当于在原来基础上*n，本来一次运动跑1px,就变成了1*n px,就会越来越快
+        i.addEventListener('click', () => {
+            //没有判断interval 时 let left=1;//left放这里每次点击left都会重新从1px开始，从而产生抖动
+            if (!interval) {
+                interval=true;
+                setInterval(() => {
+                    i.style.left = left++ + 'px';
+                }, 100);
+            }
+
+        })
+    })
+
+    /* 闭包造成的内存泄漏问题  */
+    /* 给div加上点击事件 获得 属性desc的值 */
+    let divs  = document.querySelectorAll('div');
+    divs.forEach(item=>{
+        let desc =  item.getAttribute('desc');
+
+        item.addEventListener('click', function t(){
+           console.log(desc);
+           console.log(item);//获取不到dom对象了
+            /* 由于t 是事件处理函数，会一直存在，也就相当于与t一直在被外部所引用，所以其包括其父级的内存空间都会一直存在，也就是获取到的dom对象会一直保存在内存中，当dom对象多时，造成内存极大地浪费！！！
+
+            本来就指向简单获取一个属性的值，结果浪费内存资源，解决办法就是获取到属性后，将dom对象指向null  系统发现这个dom对象没人用就会把它空间回收！！！*/
+        })
+        item = null;
+    })
+
+    /* this 在闭包中的问题 */
+    let hdd = {
+        name:'houge',
+        get:function(){
+            let This = this;//自定义一个变量指向 hdd这个对象
+            //m1 return function(){
+            //     return This.name
+            // }
+            //m2 2 返回箭头函数！！！
+            return ()=>{
+                return this.name;
+            }
+        }
+    };
+    let ac = hdd.get();
+    console.log(ac());//输出houge
+    console.log(window.ac);    
+
+    //因为this 就是指向当前调用这个函数对象, ac() 其实就是 windows.ac(),所以这里调用ac() this指向就是window
+    //解决办法1 自定义一个变量指向 hdd这个对象 普通函数中，this指向的是调用这个函数所在的对象
+    //2 返回箭头函数！！！ 箭头函数可以通过闭包的方式正确找到 this!!!
+</script>
+
+</html>

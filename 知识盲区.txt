@@ -1,0 +1,2 @@
+1.除了  超链接 属性 download=‘url’可以实现文件下载外，window.open('url'),也可以实现文件下载！！！
+2.table.reload之后  table.on绑定的头部工具栏按钮会失效【https://www.cnblogs.com/jianquan100/p/12969408.html】

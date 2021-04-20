@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            padding:100px;
+        }
+        article {
+            width: 400px;
+            height: 400px;
+            display:grid;
+            grid-template-rows:repeat(3, [r] 1fr);
+            grid-template-columns:repeat(3, [c] 1fr);
+            gap:5px;
+            border:solid 2px purple;
+        }
+        div {
+            background-color: blue;
+            /* 除了使用 grid-row/column 的方式 来定位放置元素
+            还可以 使用区域定位 grid-area;
+             */
+            grid-area:2/2/3/3;
+            /* 四个参数分别为行开始/列开始/行结束/列结束
+            别名方式同样支持 r 1/c 1/r 3/c 3  */
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <div>1</div>
+    </article>
+</body>
+</html>

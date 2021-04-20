@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue组件</title>
+    <script src='../js/vue.js'></script>
+    <script src='../js/axios.min.js'></script>
+    <script src='../js/lodash.min.js'></script>
+</head>
+
+<body>
+    <input v-model='message' placeholder='edit me' />
+    <p> message is:{{message}} </p>
+    <div id='component-demo'>
+        <button-counter></button-counter>
+    </div>
+</body>
+<script>
+    Vue.component('button-counter', {
+        data: function() {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">you click me {{count}} times.</button>'
+    })
+    new Vue({
+        el: '#component-demo'
+    })
+</script>
+
+</html>

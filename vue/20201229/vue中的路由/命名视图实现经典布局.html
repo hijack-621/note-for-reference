@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/vue-router.js"></script>
+</head>
+<style>
+   .myactive{
+       color:red;
+       font-size:24px;
+   }
+   html body h1{
+       margin:0;
+       padding:0
+   }
+   .header{
+       background-color: orange;
+   }
+   .container{
+       display:flex;
+   }
+   .left{
+       flex:2;
+       background-color:red;
+   }
+   .main{
+       flex:8;
+       background-color: green;
+   }
+</style>
+<body>
+    <div id="app">
+     
+    
+     
+      <router-view></router-view>
+      <div class="container">
+        <router-view name='left'></router-view>
+        <!-- 设置了 name属性的router-view  只有在routes components中配置为【left：组件名】的组件才会展示到这里 -->
+        <router-view name='main'></router-view>
+      </div>
+     
+
+      
+       
+
+     
+     
+
+    </div>
+  
+
+</body>
+<script>
+     Vue.config.devtools = true;
+    //vue-rourer.js 被引入后，window全局就会多了一个VueRouter这样一个构造函数，可以new 一个路由配置实例
+    let comobj1 = {
+        template:'<h1 class="header">这是header</h1>',
+        created(){ 
+            console.log(this.$route.query)//vue-router 提供的用于访问url参数
+        }
+    }
+    let comobj2 = {
+        template:'<h1 class="left">这是nav</h1>',
+        created() {
+            console.log(this.$route)
+        }
+    }
+    let comobj3 = {
+        template:'<h1 class="main">这是主体</h2>',
+        created() {
+            console.log(this.$route)
+        }       
+    }
+    
+
+
+    let routerobj = new VueRouter({
+        routes:[ //注意此处为 routes  不是 routers
+            {path:'/', components:{ //此处除了可以用component指定展示特定的组件外，还可以使用components对象来展示若干组件
+                'default':comobj1, //router-view 默认展示键为default的组件
+                'left':comobj2,//router-view 命名 name='left'，就会展示这个comobj2组件
+                'main':comobj3////router-view 命名 name='main'，就会展示这个comobj3组件
+            } }, 
+
+        ] 
+       
+    }) 
+    
+    let vm = new Vue({
+        el:'#app',
+        data:{
+           
+        },
+        methods:{
+           
+        },
+        
+        router:routerobj //将路由实例与vue实例关联起来，注册路由实例
+    })
+</script>
+</html>

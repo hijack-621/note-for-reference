@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+   <!-- v-model 双向数据绑定【一般用于表单元素】
+        v-bind+attr只能实现数据的单向绑定！！ -->
+   <div id="app">
+    <h3 v-bind:title='vmsg'>{{ vmsg }}</h2>
+        <!-- v-model 绑定后，修改input里的value，vmsg值会同步变化！！！ -->
+        <input type="text" style="width:100%" v-model='vmsg'>
+   </div>
+</body>
+<script>
+    let vm = new Vue({ //new 出的实例都会被放到浏览器内存中去，通过控制台都可以操作到！！！
+        el:'#app',
+        data:{
+            vmsg:'v-model双向数据绑定的学习'
+        },
+        methods:{
+           
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         * {
+            padding:0;
+            margin:0;
+        }
+        body {
+            width:100vw;
+            height:100vh;
+            display: grid;
+        }
+        button {
+            width:200px;
+            height:50px;
+            border: solid 2px #ddd;
+            align-self: center;
+            /* 栅格居中 */
+            justify-self: center;
+        }
+        button:after {
+            content:"";
+            width: 3px;
+            height:3px;
+            display: inline-block;
+            /* 默认行元素，content为空就没有高度，需要设置为行级块 */
+            /* currentColor 表示使用当前color属性值 间隔6是 本身宽度加上3px的间隔 */
+            /* box-shadow: 3px 0 0 currentColor, 9px 0 0 currentColor, 15px 0 0 currentColor ;*/
+            animation-name: shadow; 
+            /* 默认没有动画效果，可以当点击按钮事件被触发，动态加上这个animation-name:shadow */
+            animation-duration: 1.5s;
+            animation-iteration-count: infinite;
+        }
+        @keyframes shadow {
+            30% {
+                box-shadow:none;
+            }
+            60%{
+                box-shadow: 3px 0 0 currentColor, 9px 0 0 currentColor; 
+            }
+            90% {
+                box-shadow: 3px 0 0 currentColor, 9px 0 0 currentColor, 15px 0 0 currentColor ;
+
+            }
+        }
+    </style>
+</head>
+<body>
+    <button>提交</button>
+</body>
+</html>

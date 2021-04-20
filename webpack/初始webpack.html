@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    1.什么是webpack
+        Webpack 是一个打包模块化 JavaScript 的工具，在 Webpack 里一 切文件皆模块，通过 Loader转换文件，通过 Plugin注入钩子，最后输出由多个模块组合成的文件。 Webpack专注于构建模块化项目。
+        webpack是一个前端项目构建工具，他是基于nodejs开发出来的一个前端工具
+    2.webpack对我们有什么帮助？
+        注于处理模块化的项目，能做到开箱即用、一步到位
+        可通过+Plugin +扩展，完整好用又不失灵活
+        使用场景不局限于+Web+开发
+        社区庞大活跃+，经常引入紧跟时代发展的新特性，能为大多数场景找到已有的开源扩展
+        良好的开发体验.
+    3.Webpack的缺点是只能用于采用模块化开发的项目
+
+    安装方式： npm install webpack -g 全局安装
+    2.npm install webpack --save--dev  安装到项目依赖中
+
+
+
+
+
+
+
+
+
+    【answer2：webpack的优点：
+    • 模块化
+    • 可以把复杂的程序细化为小的文件，webpack本来就会模块打包机，将项目结构模块化
+    • 代码拆分
+    • webpack有两种组织模块依赖的方式：同步和异步。异步依赖作为分割点，形成一个新的块。在优化了依赖树后，每一个异步区块都作为一个文件被打包
+    • Loader
+    • webpack 本身只能处理原生的 JavaScript 模块，但是 loader 转换器可以将各种类型的资源转换成 JavaScript  模块，这样，任何资源都可以成为 webpack  可以处理的模块。比如说 webpack 本身是处理不了 css 的，但是它有 css-loader，将 css 转换成 js 可以处理的模块
+    • 快速运行
+    • Webpack 使用异步 I/O 和多级缓存提高运行效率，这使得 Webpack 能够以令人难以置信的速度快速增量编译
+    webpack的缺点：
+    • 文档缺失，其中中文文档、官网文档比较少，例子也比较简单
+    • 打包后文件过大，打包慢
+    • Webpack 把我们所有的文件都打包成一个 JS 文件，这样即使是小项目，打包的文件也会非常大，不合理的文件合并策略，导致文件串行加载，所以打包编译会慢
+    Webpack和Grunt以及Gulp相比有什么特性
+    • Gulp/Grunt 是一种能够优化前端的开发流程的工具，而Webpack 是一种模块化的解决方案，不过Webpack 的优点使得Webpack可以替代Gulp/Grunt类的工具
+    • Grunt和Gulp的工作方式是
+    • 在一个配置文件中，指明对某些文件进行类似编译、组合、压缩等任务的具体步骤，这个工具之后可以自动替你完成这些任务。
+    • Webpack的工作方式是
+    • 把你的项目当成一个整体，通过一个给定的主文件（eg：index.js）,webpack将从这个文件开始找你项目的所有依赖文件，使用loaders处理他们，最后打包为一个浏览器可以识别的JavaScript文件。】
+</body>
+</html>

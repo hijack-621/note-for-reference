@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* 定义字体
+    font-test 为自定义字体名称，
+    后面在font-family中，想用这个字体就写上这个名字
+    url放置自定义字体的实体文件位置， format（）用于给浏览器判断是否能处理
+    这个字体，可以就加载这个字体，不可以就不加载，省带宽
+    字体大小百分比/em：参照父级的font-size的字体大小
+    */
+    /* @font-face 
+    {
+        font-family:"font-test" ;
+        src: url("") format();
+
+    } */
+    /* 
+    转大小写，首字母大写都可以用这个分属性 */
+    p {
+      text-transform: capitalize; 
+
+      text-decoration:line-through;
+      /* 加上删除线
+      文字阴影 text-shadow
+
+      white-space:pre 保留空格和换行  pre-line 保留一个空白和换行
+     
+      nowrap:禁止换行 overflow:hiden  text-overfolw:ellpsis;
+      文字超过盒子宽度就会显示 。。。
+
+      text-indent:本文缩进 尽量用 em为单位
+
+      
+      */
+    }
+
+    /* 
+    line-height: 设置行高：  一般用em来，%来定义，这样字体大小改变，文段看起来也是舒服的
+    
+    有时候设置字体  大小，行高，颜色，等样式  css比较占篇幅，
+    可以简写：  font:bold italic 30px/1.5em 'font-size';
+    设置加粗，倾斜，大小,1.5倍行高和字体样式，但是 字体大小和 font-family是必须的  其他可以加可不加
+    
+    text-transform:lowercase;转小写
+
+    letter-spacing 字符间距
+    word-spacing 单词间距
+    
+    writing-mode：设置文字排列方向，从左往右，从右往左，从上到下
+
+    */
+</style>
+<body>
+    <p>HTML css php</p>
+</body>
+</html>

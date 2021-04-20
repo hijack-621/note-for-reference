@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- vue 实例从被创建，运行，到销毁期间，会执行各种各样的事件，这些事件统称为生命周期 -->
+    <div id="app">
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({ //在发起new 一个 vue实例时 ，会执行一个生命周期函数 beforeCreate(),表示vue实例被完全创建出来之前，会执行这个生命周期函数
+        el:'#app',
+        data:{
+            vmsg:'vue xuexi'
+        },
+        beforeCreate() {
+            //这个函数里面获取不到data，和methods里面的任何数据,因为此时，vue 实例里的data数据，methods里面的函数都还没被初始化，
+        },
+        created () {
+            //表示 vue实例数据初始化完毕，此时可以调用vue实例里的数据和方法
+        },
+        beforeMount(){
+            //在将vue实例控制的 模板字符串【编译好的最终html代码】【也就是el这个key 的值的这个元素及其子元素 】挂载【渲染到页面】到页面 之前【此时html代码海在浏览器内存，还未渲染为dom元素】的生命周期钩子函数
+        },
+        mounted () {
+            // 将=编译好的最终的html渲染到html页面中去  到此函数位置，前面的都是创建过程中的钩子【生命周期】函数
+        },
+
+        beforeUpdated(){
+            //数据被更新时触发，但是页面界面的数据还未改变，只是浏览器内存中的数据改变了
+        },    // 两个运行时的两个钩子函数 
+        Updated () {
+            //同步浏览器内存中数据到页面界面中去【通过浏览器 在内存中虚拟出一份跟页面同样的虚拟dom树并更新数据，再将内存的虚拟dom树同步更新到页面】
+        },
+
+        beforeDestroy(){//执行了就表示vue进入销毁阶段
+            //此时vue实例还未被真的销毁，vue上所有的数据都处于可用状态
+        },//vue  实例被销毁时执行的钩子函数【//例如页面关闭时执行xxx】
+        destoryed(){
+            //真正销毁vue实例，所有数据都不可用
+        }
+    })
+</script>
+</html>

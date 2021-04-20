@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- backface-visibility:hidden
+    当一个元素正面朝我们视线时，可以看到，当翻转180度，背面朝向我们视线时，就不可见！！！！ -->
+    <style>
+        body {
+            padding:200px;
+        }
+        .d1 {
+            width: 300px;
+            height:300px;
+            border:solid 2px blue;
+            position: relative;
+            perspective: 900px;
+            transition: 2s;
+            transform-style: preserve-3d;
+             /* 同样效果就是 在旋转div1,div2的父元素，然后给父元素设置 transform-style:perserver-3d 就可以实现转动谁就隐藏谁，并显示其背面的元素*/
+        }
+        .d1 div {
+            font-size: 1.5em;
+            color:wheat;
+            transition: 2s;
+            backface-visibility: hidden;
+            /* 加上这个属性后,旋转div1后div1隐藏，能看见div2,反之亦 */
+            /* 同样效果就是 在旋转div1,div2的父元素，然后给父元素设置 transform-style:perserver-3d */
+        }
+        .d1 div:nth-of-type(1) {
+            width: 100px;
+            height:100px;
+            background-color: red;
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+            display: flex;
+            justify-content:center;
+            align-items: center;
+        }
+        .d1 div:nth-of-type(2) {
+            width: 100px;
+            height:100px;
+            background-color: green;
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%) rotateY(180deg) ;
+            display: flex;
+            justify-content:center;
+            align-items: center;
+        }
+        /* body:hover .d1 div:nth-of-type(1) {
+            transform: translate(-50%,-50%) rotateY(-180deg);
+        }
+        body:hover .d1 div:nth-of-type(2) {
+            transform: translate(-50%,-50%) rotateY(0deg);
+        } */
+        body:hover .d1 {
+            transform:  rotateY(-180deg);
+        }
+    </style>
+</head>
+<body>
+        <div class="d1">
+            <div>1</div>
+            <div>2</div>
+        </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='../../js/vue.js' ></script>
+</head>
+<style>
+  .ball{
+        width:20px;
+        height:20px;
+        border-radius:50%;
+        background-color:red;
+    }
+</style>
+  
+<body>
+    <div id="app">
+        <!-- <input type="button" value="加入购物车" @click='flag=!flag'>
+        <!-- 本质就是v-on事件的绑定 
+        @before-enter/enter=""
+        @enter/leave=""
+        @after-ente/leaver=""
+        <transition
+            @before-enter="before_enter"
+            @enter="enter"
+            @after-enter="after_enter" 
+        >
+            <div class="ball" v-show='flag'>
+            </div>
+        </transition> -->
+        <!-- 如果 想要实现动画效果的7元素是通过v-for循环生成的，不能使用<transition>包裹
+            而是应该用 <transiton-group> 包裹  也是vue提供
+                而且v-for的每一循环项都必须带有 :key 唯一标识符属性 -->
+                
+                <!-- <ul> -->
+<!-- 页面刷新此时li会直接显现在页面,在 transition-group 标签加上 appear 属性，可以实现出场效果 -->
+<!-- transition-group 有个很重要属性 tag 可以设置
+transition-group 最终被渲染为什么类型的元素，默认是span 
+如果是想ul的话，就可以吧外面的ul标签去掉，加上tag='ul'   -->
+                    <transition-group appear tag="ul">
+                        <li v-for="item in list" :key="item.id">
+                            {{ item.id }} --- {{ item.val }}
+                        </li>
+                    </transition-group>
+                <!-- </ul> -->
+                
+            </div>
+
+            <!-- 添加删除 li动画效果，
+                注意：删除li，如果后续还有，li,后面的li会往上顶，不是直接往前顶，而是慢慢的往前顶，也如排队一样，前面的人走了，后面的人往前补位，也不会瞬移到前面的人位置上去，而是慢慢的，
+                删除li时也想实现这种效果，需要用到两个css样式 【固定写法
+                 .v-move{
+                     transition:xxxx
+                 }以及
+                 .v-leave-active{
+                     position:absolute
+                 }
+                】
+            -->
+</body>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:false
+        },
+        methods:{
+            before_enter (el) { //此处接受的参数为原生的js dom对象，也就是transition包裹的dom元素对象
+                el.style.transform = "translate(0, 0)"
+            },
+            enter (el,done) {
+                el.offsetWidth
+                el.style.transform = "translate(150px, 300px)"
+                el.style.transition = "all 1s ease"
+                done() //在leave或者enter钩子函数中，动画完毕之后需要调用这个回调函数done
+                //表示立即执行after-eter或者after-leave这个钩子函数
+            },
+            after_enter (el) {
+                this.flag = !this.flag
+                //el.style.transform = "transform(0, 0)"
+            } 
+        }
+    })
+</script>
+</html>

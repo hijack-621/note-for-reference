@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            list-style: none;
+            display: inline-block;
+        }
+
+        ul>li {
+            border: solid 1px #ddd;
+            width: 200px;
+            padding: 10px 10px;
+            display: flex;
+        }
+
+        ul>li span {
+            margin-right: auto;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #7f8fa6;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            text-align: center;
+            color: white;
+        }
+
+        .remove {
+            opacity: .2;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" name='keywords'>
+    <ul></ul>
+
+    <ul name='ul'>
+        <li><span>php</span><a href="javascript:;">x</a></li>
+        <li><span>mysql</span><a href="javascript:;">x</a></li>
+        <li><span>js</span><a href="javascript:;">x</a></li>
+    </ul>
+</body>
+<script>
+    /* js 新特性 symbol 类型  === 看做 永远不会重复字符串 
+    使用场景1，用于区分某些数据接口中属性重名而某些被覆盖的情况【加上一个key:Symbol()属性！！！
+    2.如果某些属性不想暴露给外部，可以使用Symbol定义index【key】 【let symbol = Symbol('description')   [symbol]:"object" 这种方式】   
+    】
+    */
+
+    let sl = Symbol('这是一段描述');//Symbol('description')
+    console.log(sl.description);//获取描述
+    let sl1 = Symbol.for('另一种定义方式');
+    let sl2 = Symbol.for('另一种定义方式')
+    console.log(sl1 == sl2);//true 描述一样 第二个定义会引用第一次定义的 两个变量相等！！！
+    console.log(Symbol.keyFor(sl1));//另一种获取描述方式
+
+    let user1 = {
+        name: '李四',
+        key: Symbol()
+    };
+    let user2 = {
+        name: '李四',
+        key: Symbol()
+    };
+    let grade = {
+        [user1.key]: { js: 100, css: 89 },
+        [user2.key]: { js: 35, css: 55 }
+    };
+    console.log(grade[user2.key]);
+    // 可以使用Symbol()特性，来定义某个属性相同的key，而后者不会覆盖前者
+    let symbol = Symbol('description')
+    let data = {
+        name: '对象',
+        [symbol]: "object"
+    };
+    // for (const key in data) {
+    //     console.log(key);
+    // }
+    //这两种方式都没办法 获取到 [symbol]:"object" 这个 key 索引
+    // for (const val of Object.keys(data)) {
+    //     console.log(val);
+    // }
+    for (const val of Object.getOwnPropertySymbols(data)) {
+        console.log(val);
+    }
+    //遍历Symbol属性！！！
+
+    for (const val of Reflect.ownKeys(data)) { //全部获取到key
+        console.log(val);
+    }
+    console.log('````````````````````````````````````````````');
+    /* set 集合类型！！ 类似于数组，数组可以存放同样的数据，set不可以！
+    set 为严格数据类型
+    .has(el),判断set集合中有没有el 有 返回true 否false
+    .delete(el)，删除el  删除ok返回true 否false
+    .clear() 清空set集合
+    .values()/keys()/entries(); 获取set里面的元素
+    */
+    let set = new Set([3, 4]);
+    set.add(1);
+    set.add('1');
+    console.log(set);
+    let obj0 = {};
+    let obj = {
+        1: 'a',
+        '1': 'b',
+        [obj0]: 'c',
+    };
+    console.log(obj);
+    //对象的索引，系统默认都会转成字符串 所以 obj中后面的会覆盖前面的，
+    //所以obj的索引如果是 [obj0]:'c', 要用
+    console.log(obj[obj0.toString()]); //才能取到c！！！
+    let set1 = new Set('test');
+    console.log(set1);// Set(3) {"t", "e", "s"}！
+    let set2 = new Set(['test', 'test1']);
+    console.log(set2);
+    console.log(set2.has('test'), set2.delete('test1'), set2.clear);
+
+    /* set 转数组
+    1.Array.from(set) 
+    2.[...set] 展开语法
+    set 数据操作
+
+    可以先转成数组【[...set].filter()...】，然后使用数组相应的方法操作完数据 再转回去set
+    new Set(arr);得到set
+
+
+    */
+    //数组去重
+    let array = [1, 2, 1, 1, 3, 2, 3, 5, 6];
+    array = [... new Set(array)];
+    console.log(array);
+
+    /* 遍历set */
+    set.forEach(function (value, key, set) {
+        console.log(value, key); //value,key 内容一样
+        console.log(set);//原set集合
+    })
+    for (const val of set) {
+        console.log(val);
+    }
+
+    /* 对象里面元素除了可以使数据，还可以是函数！！！ vue那味了 */
+
+    let keyobj = {
+        data: new Set(),
+        keyword(word) {
+            this.data.add(word);
+        },
+        show() {
+            let ul = document.querySelector('ul');
+            ul.innerHTML = '';
+            this.data.forEach(function (value) {
+                ul.innerHTML += `<li>${value}</li>`;
+            })
+
+        }
+    };
+    let input = document.querySelector('[name="keywords"]');
+    input.addEventListener('blur', function () {
+        keyobj.keyword(this.value);
+        keyobj.show();
+    });
+
+
+    /* set  处理并集 交集 差集！！！  */
+    let aset = new Set([1, 2, 3, 4, 5]);
+    let bset = new Set([2, 4, 5, 9]);
+
+    // 交集
+    console.log(new Set([...aset, ...bset]));
+    /* 差集 bset中没有，aset有的 */
+    let aarr = new Set(
+        [...aset].filter(item => {
+            return !bset.has(item);
+        })
+    );
+    console.log(aarr);
+    /* 交集 */
+
+    let barr = new Set(
+        [...aset].filter(item => {
+            return bset.has(item);
+        })
+    );
+    console.log(barr);
+
+
+    /* Weakset()  类型 同set 值不重复，而且元素必须为引用类型  */
+    // let wt = new WeakSet([1,2]);//不能这样定义 报错 js系统学习9.html:196 Uncaught ReferenceError: Weakset is not defined
+    let wt = new WeakSet();
+    wt.add(['a', 'b']);
+    console.log(wt);//ok  ['a', 'b'] 系统会把这个数组当做一个元素放到WeakSet()中去
+    // 节点元素也可以add到WeakSet()中 
+    /* WeakSet() 跟set（）方法类似
+    .add()
+    .delete()
+    .has()
+    特性：弱引用 ，当吧一个对象obj add到WeakSet中，然后去掉对于这个obj的引用，
+    系统垃圾回收机制判断这个对象没有人再用，就会把obj当做垃圾清掉
+    但是这个清理的过程不会通知 WeakSet() ，WeakSet 认为还在！！！
+    由于这个特性，所以WeakSet() 弱引用类型 不被允许循环，遍历操作！！！.size() 判断长度也用不了！
+    */
+    let objj = {
+        name: 'test'
+    };
+    let wt1 = new WeakSet();
+    wt1.add(objj);
+    objj = null;
+    console.log(wt1); //浏览器问题 ，有的浏览器还会保留 objj = null; 之前的数据
+    setTimeout(() => {
+        console.log(wt1);
+    }, 2000);
+
+    class Todo {
+        constructor() {
+            this.items = document.querySelectorAll('[name="ul"]>li');
+            this.lists = new WeakSet();
+            this.items.forEach(item => this.lists.add(item));
+            console.log(this.items);//必须打印 this.items 打印items报错未定义！！！
+            console.log(this.lists);
+        }
+        run() {
+            this.addevent();
+        }
+        addevent() {
+            this.items.forEach(item => {
+                let a = item.querySelector('a');
+                a.addEventListener('click', (ev) => {//这个地方必须用箭头函数，不然this指向不对，会指向a元素！！！
+                    const parentElement = event.target.parentElement;
+                    console.log(parentElement);
+                    console.log(this.lists);
+                    if (this.lists.has(parentElement)) {
+                        parentElement.classList.add("remove");
+                        this.lists.delete(parentElement);
+                    } else {
+                        parentElement.classList.remove("remove");
+                        this.lists.add(parentElement);
+                    }
+
+
+                })
+
+            })
+        }
+
+    }
+    new Todo().run();
+
+
+</script>
+
+</html>

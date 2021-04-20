@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding:100px;
+        }
+        .c1 {
+            width:200px;
+            height:200px;
+            border:solid 2px pink;
+            position: relative;
+            transform-style: preserve-3d;
+            /* 不加这个3d属性,x轴旋转90度的话，实现从垂直显示器的方向看不到该平面了，加上就表示立体展示旋转过程 */
+
+            transform:perspective(900px) rotateY(45deg) rotateX(45deg) ;
+            /* 这里将父盒子旋转一下就是便于看到三维效果 */
+        }
+        .c1 div {
+            
+            background-clip: content-box;
+        }
+        .c2 {
+            position: absolute;
+            width:100px;
+            height:100px;
+            background-color: green;
+            top:50%;
+            left:50%;
+            margin-left:-50px;
+            margin-top:-50px;
+            transition: 1s;
+            
+        }
+        .c3 {
+            position: absolute;
+            width:100px;
+            height:100px;
+            background-color: red;
+            top:50%;
+            left:50%;
+            margin-left:-50px;
+            margin-top:-50px;
+            transition: 1s;
+            transform-origin: right bottom 100px;
+            /* 参照点属性 transform-origin 第三个参数为z轴（同样需要指定单位，百分比z轴无效）！！！加上就有加接近3d移动的效果 */
+            
+        }
+        .c1:hover .c3 {
+            transform:rotateY(245deg);
+        }
+       
+       
+
+    </style>
+</head>
+<body>
+    <div class="c1">
+        <div class="c2"></div>
+        <div class="c3"></div>
+        
+    </div>
+</body>
+</html>
+</body>
+</html>
+</body>
+</html>

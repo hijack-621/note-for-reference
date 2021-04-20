@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>按钮1</button>
+    <button class='b2'>按钮2-有class属性</button>
+</body>
+<script>
+    /* 构造函数小细节 */
+    function User(name){
+        this.name = name
+    }
+    User.prototype.show = function(){
+        console.log('gong gong de show')
+    }
+    let user1 = new User('user1');
+    let user2 = new User('user2');
+    console.log(user1);
+    console.log(user2);
+    user1.show();
+    user2.show();
+    /* 如果得到两个函数实例，那么每个实例中的show方法都会分别占用一块内存，造成浪费 
+    优化，把show方法放到User的原型中去，这样user1，user2 同样能用，也不浪费空间 */
+    
+    /*对象中this，跟function中的this不一样，会随着函数执行位置变化而变化，
+    对象中的this  始终指向 调用属性 的对象 
+    */
+
+    /* 老师的建议
+     不建议在顶级原型中定义属性和方法，
+     这样别人如果在顶级原型【Object.prototype】中写了和你方法名一样的方法，那么整个网页就是不稳定的，根据引入的js顺序就会有功能上的变化
+     */
+
+     /* 单独设置原型的两个方法
+     1.let hd = Object.create(hdd,{}) 创建一个对象hd,并把把hd的原型设置为hdd,第二个参数可以写上原型中的属性方法，
+     【这里只能设置，没办法获取原型】
+
+     2.let hd = {};
+     hd.__proto__ = hdd; //__proto__ 有值的时候为赋值，表示吧hd的原型设置为hdd
+     console.log(hd.__proto__)// 没有赋值表示获取hd的原型
+     [第二种为非标准方式]
+
+
+     3.标准方式 Object.set/getPrototypeOf(hd,hdd) 设置hdd为hd原型/获得原型
+      */
+
+     /*   __proto__ 剖析  */
+
+    /* 
+    其实__proto__ 来设置和获取原型的原理就是 getter 和setter 这两个
+
+    当使用 __proto__ 设置原型是，其实内部的 setter会去判断 设置的value是不是一个对象，不是其实设置会失败！！
+     */
+
+    let jss = {};
+    console.log(jss);
+    jss.__proto__ = {
+        show(){
+            console.log('通过__proto__ 设置原型');
+        }
+    };
+    jss.show();
+
+    jss.__proto__ = 'aaa';
+    /* 再次修改原型 为字符串aaa 发现其实修改失败，因为'aaa'不是一个合法的对象，实现__proto__的内部 setter 其实做了判断，判断不通过就不会修改原型！！！  */
+    jss.show();
+    /* 因为 jss 默认会继承Object的原型，原型中的 get __proto__ set __proto__  中的两个个钩子 就不允许你随意去设置prototype为非对象类型
+    
+    如果就想让jssde prototype为字符串，可以使用
+    let jss = Object.create(null,{name:'name'});
+    让jss的原型不继承Object的原型
+     */
+     let jsss = Object.create(null,{
+         name:{
+             value:'aaa',
+             show(){
+                 console.log(this.value);
+             }
+         },
+     });
+     jsss.__proto__ = 'aaa';
+     console.log(jsss.__proto__); //=> aaa
+
+     /* 原型的继承才叫继承，改变构造函数原型的方式不叫继承！！！
+     改变构造函数的原型，不叫继承！！！  */
+
+     function User2(){} //普通用户函数
+     let user22 = new User2();
+     console.dir(User2);
+     User2.prototype.view = function(){
+         console.log('gei user2 原型加上view方法');
+     }
+     console.log(user22);
+     /* 假如还有一个Admin构造函数，也想用veiw方法,那么可以使用继承，
+     这里就会有 改变构造函数的原型的操作
+     Admin.prototype = User2.prototype;
+     这样其实就把 -- Admin构造函数原来的原型换成User2的原型了 --  ，
+     虽然Admin new 出来的实例确实可以用到view（）方法了，但是会有问题
+
+     当管理员中要新增一个获取只有管理员能获取到的信息 getAdminInfo()方法时，你也想写在原型中，避免每次实例化 getInfo()方法都会占用内存
+     这里其实就和普通用户的view() 写到一起了，那这样普通用户执行这个GetAdminInfo()就也能获取到权限之外的数据，！！！
+     这是有问题的，因为   直接改变了构造函数的原型其实不是继承。
+     【可以这么理解，张三继承李四的财产，但是自己的财产应该得到保留，而改变构造函数我的原型，就相当于继承别人的 ，自己的却给丢弃了，这不叫真正的继承！！】
+      */ 
+      /* 正确的继承 
+     1 Admin.prototype.__proto__ = User2.prototype;
+      把admin的原型的原型设置为 User2的原型，这样 admin实例就可以用到view（）方法，构造函数原型也不会被改变！！！
+     2 Admin.prototype = Object.create(User2.prototype);
+     这里跟直接把User2.prototype 赋值给Admin.prototype 不一样，直接赋值由于对象赋值都是引用地址赋值，地址一样，那么添加删除方法都会在一块内存区域导致逻辑混乱，权限失效。
+     Object.create（）时开辟一块新的地址，然后把User2.prototype放进去，这样不会改变原本的构造函数原型。只是Admin的原型指针暂时到新的新的地址中的对象上，但是会丢失 constructor 不能通过constructor 找到构造函数，除非补上这个属性【 补也不能乱补， 关于 for-in 遍历 in关键字会有原型攀升，所以基本上会把constructor等原型链上的属性设置为不可遍历【DefineProperty(Admin.prototype,"constructor",{在这里设置enumerable:false不可遍历})】】
+     而且在这个 Object.create(User2.prototype); 这个操作之前的Admin实例的prototype不会随着改变！【https://www.bilibili.com/video/BV17J411y7XZ?p=26&spm_id_from=pageDriver】
+      */
+
+    //   重写父级中的方法 ，构造函数的原型的原型中的方法对于我构造函数的实例来说不好用，那么可以在构造函数的原型Admin.prototype中重写构造函数的原型的原型Admin.prototype.__proto__中的方法，！！
+    //Admin->Admin.prototype->Admin.prototype.__proto__->Object->prototype
+
+
+    /*继承=》多态！！！ 面对不同的对象，相应不同的结果 */
+
+    function Dt(name,age){
+        this.name = name;
+        this.age = age;
+        
+    }
+    Dt.prototype.show = function(){
+        console.log(this.description());
+        console.log(this.name,this.age);
+    };
+    console.dir(Dt);
+
+    function Aadmin(...args){
+        Dt.apply(this,args);
+        /*实现在继承Dt的子级中调用父级Dt中的方法
+        就不用每个子级要用的时候都去 
+        this.name = name;
+        this.age = age; 这样重复定义赋值了！！！  */
+    }
+    Aadmin.prototype = Object.create(Dt.prototype);
+        Aadmin.prototype.description = function(){
+            return '管理员态';
+    }
+    function Member(...args){
+        Dt.apply(this,args);
+    }
+    Member.prototype = Object.create(Dt.prototype);
+        Member.prototype.description = function(){
+            return '组员态';
+        }
+    function Enterprise(...args){
+        
+       Dt.apply(this,args);//因为 对象中this指向的就是调用方法的那个对象，
+       /* 下面new 一个实例时，this就指向的是那个实例对象， Dt.apply(this,args)就实现把这个实例对象传入到Dt构造方法中，因为直接调用函数的话【非严格模式下，严格模式this为undefined】，this指向就是window对象 */
+        
+        /* 这样就可以实现在继承Dt的子级中调用父级Dt中的方法！！！ */
+    }
+    Enterprise.prototype = Object.create(Dt.prototype);
+        Enterprise.prototype.description = function (){
+            return '企业账户态';
+        }
+    /* 让aadmin。menber。enterprise 函数的原型 继承dt的原型 ，然后同一个父级方法面对不同的子级状态，相应不同的结果
+    【就好比大儿子，二儿子，还有小儿子同时找你要零花钱买零食，你会根据年龄分别给他们不同数量的钱，大儿子买的东西贵，就相应的多给一点，最小的儿子可能就要个仔仔棒，你可能就给的最少！！！】 */
+
+    for (const obj of [new Aadmin("管理员",100), new Member("组员",25), new Enterprise("百度",20)]) {
+       obj.show() ;
+    } 
+    /* 没有继承特性的话，就需要分别在三个构造函数的原型上定义不同名字方法，然后分别判断实例是哪个构造函数实现的【obj instanceOf 构造函数name 】然后调用相应的方法 */
+
+    /* 调用函数原型的constructor所指向的构造函数 
+    
+    a构造函数的原型prototype 中的constructor属性指向就是该构造函数a
+    b构造函数的原型继承了a的原型，那么就可以在b中使用a中的方法！！！
+    */
+
+    /* 封装原型继承  只要代码业务逻辑一致，封装是必然的！！！ */
+    function extend(sub,sup,memo){
+        sub.prototype = Object.create(sup.prototype);
+        sub.prototype.description = function(){
+            return memo;
+        }
+    }
+    function Vip(...args){
+        Dt.apply(this,args);
+    }
+    extend(Vip,Dt,"我是vip")
+    let vip = new Vip('jc',24);
+    vip.show();
+
+    /* 使用对象工厂派生对象并实现继承  说白了 就是改变对象的__proto__ ,y因为对象obj只要被定义出来，它的默认obj.__proto__== Object.prototype!!! 使用对象工厂就是改变它的原型！！ */
+
+    function admin(name,age,memo){
+       
+        const instance = Object.create(Dt.prototype);//这里就直接改变了定义对象instance的原型为 Dt.prototype
+        console.log()
+        instance.__proto__.description = function(){
+            return memo;//给对象的原型加上方法
+        }
+        // instance.description = function(){
+        //     return memo;这是给对象自己添加方法
+        // }
+        console.dir(admin);
+        Dt.call(instance,name,age);
+        console.log(instance);
+        return instance;//把派生出来的对象返回
+    } //不是构造函数了  就是不同函数
+
+   let padmin = admin('jjcc',25,"我在学习js");
+   padmin.show();
+
+   /* js 没有多继承这一特性，
+   a继承了b，你就没办法让a取继承c的同时，保留a继承b，
+    
+    有一种办法就是a先继承b，然后让b继承c 这样 a就可以同时用到b，c中功能了，
+    但是这会有个问题，本来b，c是两个毫无关联的两个模块，为了方便a,硬给b，c加上了一层关联，这是我们不希望看到的！！！
+
+    可以使用 mixin 这个混合功能解决这个问题，因为原型也就是对象，可以往里面压入属性
+    具体实现 ：就是把某个模块定义为一个对象，
+    const b = {
+        bfunc(){}
+    };
+
+    const c = {
+        __proto__:b 设置c的原型为b
+        cfunc(){
+            this._proto__.bfunc();b 设置c的原型为b后，在c中就可以使用b中的方法！！！
+            == super.bfunc(); super == this._proto__ super指向的是当前对象的原型
+        }
+    };
+
+    然后 a需要用什么功能就用 a.prototype =  Object.Assign(a.prototype,a,b,...);
+    就把什么功能模块中的对象方法压入到 a的原型中，
+    这样 b，c，等其他模块之间就不会出现强行被加上关联的情况！！！
+
+    */
+</script>
+</html> 

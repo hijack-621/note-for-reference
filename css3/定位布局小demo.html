@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding:0;
+        margin:0;
+    }
+    body{
+        padding:200px;
+    }
+    article {
+        width:150px;
+        position: relative;
+    }
+    article div{
+        text-align: center;
+        height:40px;
+        font-size:14px;
+        line-height:3em;
+        border:solid 1px #555;
+    }
+    article:hover div:nth-of-type(1){
+        border-bottom:none;
+    }
+
+    article:hover div:nth-of-type(2){
+       display: block;
+    }
+
+    article div:nth-of-type(1){
+        position: relative;
+        background-color: #fff;
+        z-index:2;
+       
+    }
+    article div:nth-of-type(2){
+        width:300px;
+        position:absolute;
+        right:0;
+        top:40px;
+        display:none;
+    }
+    main {
+        margin-top:66px;
+        width:400px;
+        height:300px;
+        overflow: scroll;
+        border:solid 2px blue;
+    }
+    main section {
+        padding-bottom: 50px;
+        
+        
+    }
+    main section h2 {
+        background-color: orange;
+        position:sticky;
+        margin-bottom: 200px;
+        /* 粘性定位 此时 h2定位到article顶部
+        此时三个h2位于不同的section中，如果位于同一个section 效果有些许差别【可以看到多个h2固定在靠近顶部！！！】，
+        */
+        top:0;
+        /* 至于固定定位 fixed  参考的是页面，跟父级无关了 */
+    }
+   
+</style>
+<body>
+    <article>
+        <div>我的购物车</div>
+        <div>购物车中暂无商品</div>
+    </article>
+
+    <main>
+            <section>
+                <h2>南京红色文化</h2>
+                <h2>这次，全国第六！</h2>
+                <h2>充电4小时收费30元 共享充电宝涨价后“闷声发财”？</h2>
+                百年征程波澜壮阔，百年初心历久弥坚。3月23日，由南京市委网信办、南京报业传媒集团共同举办的百年辉煌南京红色文化体验活动暨声动金陵“宁听”展示活动启动仪式在玄武区举行。
+            </section>
+            <section>
+                <h2>这次，全国第六！</h2>
+                3月22日下午，在收听收看全国、全省新冠病毒疫苗接种工作电视电话会议后，市新冠肺炎疫情联防联控工作指挥部随即召开视频调度会议，深入贯彻习近平总书记关于疫情防控工作的系列重要讲话指示精神，全面落实全国、全省会议部署要求，切实增强做好疫苗接种工作的责任感、紧迫感，加快推进疫苗接种，真正以群体免疫巩固拓展疫情防控成果，奋力夺取疫情防控斗争的最终胜利。市长、指挥部指挥长韩立明出席会议并讲话，副市长胡万进参加。
+            </section>
+            <section>
+                <h2>充电4小时收费30元 共享充电宝涨价后“闷声发财”？</h2>
+                现阶段，怪兽充电采取直接运营和合作运营相结合的方式。其中，直营模式采用支付佣金和入场费的方式来锁定合作，这部分费用占到设备所产生收入的50%~70%；合作运营模式下，怪兽充电按月向网络合作伙伴支付佣金，这部分佣金比例一般在75%~90%之间。
+            </section>
+    </main>
+</body>
+</html>

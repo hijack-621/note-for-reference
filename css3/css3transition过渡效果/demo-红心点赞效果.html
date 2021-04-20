@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #dcdde1;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .c1 {
+            position: relative;
+            transition: 1s;
+        }
+
+        .heart {
+            width: 100px;
+            height: 100px;
+            transform: rotate(45deg);
+            background-color: #7f8fa6;
+            margin-top: 40px;
+            margin-left: 40px;
+            transition: 1s;
+            transform-origin: center;
+            position: absolute;
+        }
+
+        .heart::before {
+            position: absolute;
+            content: '';
+            background-color: #7f8fa6;
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            left: -50px;
+            transition: 1s;
+        }
+
+        .heart::after {
+            position: absolute;
+            content: '';
+            background-color: #7f8fa6;
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            top: -50px;
+            transition: 1s;
+        }
+        .c1.st div:nth-child(1){
+            transform:  rotate(45deg) scale(2.5);
+            opacity:0 ;
+        }
+        .c1.st div.heart::before{
+            transform:  rotate(45deg)  scale(1) ;
+            opacity: 1;
+            
+            background: red;
+        }
+        .c1.st div.heart::after{
+            transform:  rotate(45deg)  scale(1) ;
+            opacity: 1;
+           
+            background: red;
+        }
+        .c1.st div:nth-child(2){
+            transform:  rotate(45deg)  scale(1) ;
+            opacity: 1;
+            background: red;
+            transition: 1s;
+        }
+        /* :hover 伪类也是一个类，当:hover事件 控制元素的样式编写OK，可以把这个伪类替换成一个具体的类名，让给标签元素加上这个具体类名，就可以实现跟hover事件一样的效果 */
+       
+        
+    </style>
+
+
+</head>
+
+<body>
+    <!--
+        1-transition-durtation-过渡时间
+        2-transition-timing-function-过渡方式
+        3-transition-delay:过渡延时
+        4-transition-property:过渡应用属性
+        可以简写:
+        transition: 4 2 1 3, 4 2 1 3 四个参数都给 这样的方式 多个属性单独设置，用逗号合开
+        transition:all linear 2s / 4 2 1;
+        transition:2s,1s;延迟一秒开始2s的过渡
+     -->
+     <div class='c1'>
+        <div class="heart " onclick="dz()">
+        </div>
+        <div class="heart" onclick="dz()">
+        </div>
+     </div>
+    
+</body>
+<script>
+    function dz(){
+        $('.c1').toggleClass('st')
+    }
+</script>
+</html>

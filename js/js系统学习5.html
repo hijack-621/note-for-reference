@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let name = ' bob  ';
+    console.log(name.toUpperCase());
+    console.log(name.toLowerCase());
+    console.log(name.trim().length);
+    // 大小写转换,去掉两边空格
+
+    let name1 = 'htmljscss';
+    console.log(name1[2]);
+    console.log(name1.charAt(2));
+    //取得字符串中任意未知的字符 两者方式都可，当然遍历字符串取也行
+
+    //字符串截取 slice substr substring
+    //只传一个参数表示从第几位开始截取， substring不支持负数，负数的话就会从第0位开始，其他两个支持负数
+    
+    //slice(1,3)/substring(1,3) 表示截取第一位到第三位之间的字符
+    //substr(1.3) 表示从第一位开始往后截取3个字符！！！
+      
+    /* 检索
+    indexOf(‘X’,start),返回x所在位置,找不到返回-1
+
+    string。includes('X',start-查找起始位置),找到返回true，找不到返回false
+    
+    string.start/endWith('x'); 判断string是否以x开头/结束【区分大小写】，是返回true，不是返回false
+    
+    */
+    /* 替换
+    string.replace('x','y');把string中的x替换成y
+    重复： string.repeat(n);将string重复n次
+    
+    */ 
+    //手机号模糊处理
+    function phone(string,len=3){
+        return string.slice(0,len*-1)+'*'.repeat(len);
+    }
+    console.log(phone('13584957916',4));
+
+    /* 类型转换
+    let str = '99';
+    console.log(str + 99);//此时输出 9999，因为string类型 直接与数字相加，默认是字符串连接
+    1.console.log(str*1 + 99)
+    2.console.log(Number(str) +99)
+    let num = 99;
+    num => string 1.num+"";2.String(num);
+    let string = '99abc';
+    console.log(parseInt(string))  =>99 后面字符串自动忽略;
+    string.split('');将string以空白分割为数组
+    
+    /* 其实完整的 string/number/boolean/arr 定义方法
+    let str = new String('abc');//这里str是 object类型
+    既然是对象类型，就可以用里面的构造方法
+    str.substr(1);
+    直接 let str = 'abc'; str.substr(1); 其实系统默认会把str变成上面完整定义string那样变成对象！！！然后调用string里面的方法！
+    
+    arr.join('');将arr以空白连接成string
+
+    let arr =['a','b'];
+    arr.tostring();=>  'a,b'; 数组的tostring可以吧里面的元素默认以逗号连接成字符串！！！ 
+    【number 类型的也可以调用 toString（）变成string类型！！！】
+    */
+
+   /* boolean 中小知识点
+   一、隐式转换
+   let num = 99;
+   if(num) console.log('true') =>true; 当数值类型直接当做if条件是，系统默认会把它转成Boolean，并且为true 
+   但是 if(num == true ) console.log('true') =>不打印true 因为num ==true 比较时，因为num为数值 系统默认 会把true也转成数值==1【false==0】，
+   99 !== 1;所以判断不成立！！！ 字符串类型的数字原理一样！！！ 
+    let arr = [1];
+    let arr1 = [1,2,3];
+    if(arr == true){ } =>等于  因为系统默认把arr转成数值【Number(arr) == 1，如果是空数组转成0！！！】,true转成数值 ==1
+    if(arr == true){ } =>不等于 因为系统默认把arr转成数值，但是数组元素多于1个，转成数值为 NaN  ！== 1 所以不满足 
+    if([]/{}){console.log('abc')} => 这里空数组和空对象都满足if判断，因为 原理就是 Boolean([]/{}) == true  将空数组和空对象转成Boolean,而且转的结果就是true！！ if(true){满足if，进入} 
+    */
+   //总结就是 数值除了0都为真，字符串除了空字符串都为真，数组，对象等引用类型都为真，包括空对象和空数组！！！【原理就是 Boolean() 】
+   console.log(Boolean([]), Boolean({})); // => true true
+   /* 二、显示转换
+    1. !! 加上一个！就会发生取反【默认会转成boolean再取反，再加一个！取反，就达到显示转成boolean】，  
+    2.上面显示转换原理：直接使用方法  Bollean(string/number/array/object);
+    */
+   console.log( !![],!!{}, Boolean('abc'), Boolean(99) ,'显示boolean转换');
+   /* while(true){} 应用场景之一：
+   如果想让用户输入非空内容【使用trim()去掉前后空格】在退出
+   while(true){//死循环
+        const year = prompt('请输入非空内容').trim();
+        if(!year){ continue;}//如果一直为空或者输入空白字符串就继续，知道输入非空内容    
+        
+        break;//一旦输入非空内容就退出死循环！！！
+    }
+   */
+
+   /* 各种类型的一些方法
+   数值：Number
+   Number
+   .toString(); 转字符串
+   .isInterger(); 判断是否整数
+   .toFixed(2) 如果有小数点 保留两位
+   parseInt/Float('123.123abc')=> 123/123.123 /  parseInt/Float('abc123.123abc') => NaN!
+   .isNaN() 判断是否是 NaN / Object.is( 2/'abc', NaN ); Object。is()，判断类型 第一个参数要判断的元素 ，第二个 期望的类型 
+   NaN:Not a Number =>  Number('abc')=>NaN 2/'abc'=>NaN
+   但是 NAN 没办法跟自己比较 console.log(NaN == NaN )=>false  
+   Number([])=>0 Number( [1] )=>1 Number([1,2,3]) =>NaN
+   转成数值是很有必要的，因为很多时候表单里面输入的内容，包括纯数字，其实都是字符串类型的数字！
+   */
+
+   /* Math  数学方法
+    Math
+    .max(1,3,6,8,10)
+    .min(1,3,6,8,10) 最大10最小数1,默认不支持数组！！！因为默认只支持多参数
+    .ceil(5.1) =>6 上取整
+    .floor(5.1)=>5 下取整
+    .round() 四舍五入
+    .random() 获取随机数 默认范围 >=0 <1 不会等于1
+    结合 下去整 得到任意区间的随机数：
+   */
+   console.log(Math.floor( Math.random() * (5+1) ) ,'得到 0-5 [不加1只能取到0-4，因为下取整] 之间的任意整数！！！');
+   /* 一个小公式  取 n-m 之间的随机数
+   n+ Math.floor(  Math.random()*(m-n+1) ) //包含m就加一，不包含不用加
+    */
+
+</script>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin:0;
+        }
+        body {
+            background-color: #2f3640;
+            width: 100vw;
+            height:100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main {
+            position: relative;
+            transform:perspective(900px) rotateX(40deg);
+            /* transform:perspective(900px) rotateX(-45deg) 把x轴旋转去掉  */
+            transform-style: preserve-3d;
+            transition: 2s;
+            transform-origin:200px 100px -100px ;
+            /* transform-origin:center center -100px ; */
+        }
+        div {
+            background-color: #9c88ff;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            color:white;
+            opacity: .8;
+            
+        }
+        main>div:nth-child(1) {
+            width: 400px;
+            height: 200px;
+            background-color:#8c7ae6;
+            transform: rotateX(-90deg);
+            transform-origin:top ;
+            
+        }
+        main>div:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            background-color:#4cd137;
+            transform:rotateY(90deg);
+            /* 还可以直接把div2 往Z轴移动宽/高-200px, 这样 前后立体效果就会呈现！！！，还简单 */
+            transform-origin:left;
+        }
+        main>div:nth-child(3) {
+            background-color:#e84118;
+            width: 400px;
+            height: 200px;
+            transform:rotateX(90deg);
+            transform-origin:bottom;
+        }
+        main>div:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            background-color:#4cd137;
+            transform: translateX(200px) rotateY(-90deg);
+            /* 这里把div4 先移到紧靠右边 */
+            transform-origin:right;
+        }
+        main>div:nth-child(5) {
+            width: 400px;
+            height: 200px;
+            background-color:#7f8fa6;
+            transform-origin:center center;
+            transform:rotate(180deg) translateZ(-200px) ;
+        }
+        main>div:nth-child(6) {
+            width: 400px;
+            height: 200px;
+            background-color:#c23616;
+            transform-origin:center;
+            transform:rotate(-180deg) ;
+        }
+
+        /* 长方体绘制方法比较多 这里绕了圈子 还有简单一点的 https://www.bilibili.com/video/BV1i4411C711?p=39&spm_id_from=pageDriver */
+
+        body:hover main {
+            transform: perspective(900px)  rotateX(250deg)  ;
+        }
+         /*transform: perspective(900px)  rotateY(250deg) rotateX(50deg)  ; 
+           上面 把x轴旋转去掉 和这里把 x轴旋转去掉，就实现了只按y轴旋转
+          */
+       
+    </style>
+</head>
+<body>
+    <main>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>按钮</button>
+</body>
+<script>
+    /* 完整定义函数
+    let func = new Function('p-参数', "console.log(p)-函数体")
+    */
+    /* 字面量形式 */
+    function t(){
+        console.log('a');
+    }//直接这样定义的函数【或者用var 定义的变量接收的函数】会被挂载到window中去，当无意中声明函数名称和window中某一个一样时，会覆盖原本window属性的那个函数
+
+    let tt = function(e){//用let 定义的变量接收函数，不会被挂载到window对象中！！
+        console.log(e);
+    }
+    tt('函数赋值给变量');
+    let user = {
+        name:null,
+        setusername:function(){},
+        getusername:function(){},
+    };//对象属性也可以接收函数
+
+    /* 匿名函数【不会有函数提升发生】 、具名函数【会有函数提升情况，也就是函数的使用不必非在声明之后，类似于变量的提升】 */
+    //func();//js-function.html:68 Uncaught ReferenceError: Cannot access 'func' before initialization
+    // let func = function(){
+    //     console.log('aa');
+    // }
+    // func();
+    test();
+    function test(){
+        console.log('函数提升');
+    }
+    /* b();
+    var b = function e(){} 1
+    let b = function e(){} 2
+    var let 定义的变量接收 具名函数，不会有函数提升
+    但是 var 报错 b is not a function
+    let 报错 Cannot access 'b' before initialization
+
+    就普通定义 function hd(){} 这样的方式 定义的函数【因为会暴露给全局】会有覆盖的情况
+    假如自己定义一个函数f1，然后引入的第三方js库中恰巧也有函数叫f1，并且也是全局暴露的，那么第三方的f1可能就被自定义的覆盖掉或者自定义被第三方覆盖，先后问题，后会覆盖前者。
+    */
+    /* 立即执行函数！！！ */
+    
+    (function(){
+        console.log('立即执行函数');
+    })();
+
+
+    /* es6开始 函数支持默认参数值 而且一般默认参数要放到参数队列后边 */
+    function avg( a=1,b=2){
+        // let a=1; 默认参数不可以再次声明！！！
+        console.log( a+b);
+    }
+    avg();
+    avg(2,2);
+
+    /* 函数也可以作为参数执行传递 */
+    /* 展开语法可以解决参数个数不确定 */
+    function sum(...args){
+        console.log(arguments);//有使用参数的个数不确定，可以使用这个arguments来接收
+        console.log(args);
+    };
+    sum(1,2,3,4,5);
+   
+
+    
+    /* 箭头函数！！！ 有使用限制，不是所有场合都能使用箭头函数 */
+    let jt = () =>{
+        return 1+2;
+    }
+    console.log( jt());
+    let jt1 = [1,2,3,4,5,6].filter(value =>{
+        return value <=3;
+    } );
+    let jt2 = [1,2,3,4,5,6].filter(value => value <=3);
+    console.log(jt1);
+    console.log(jt2);//当函数体只有一行时，花括号，可以省略，return 也可省略，默认会把结果return出去
+
+
+    /* 递归调用 */
+    function factorial(num){
+        return  num==1 ? 1 : num*factorial(--num);
+        //这里必须是 --num  而不是num-- ，因为num-- 时先用再减，那么如果num是3，那么3会赋值给factorial 然后再变成2，下一次又是3 ，就无限递归了，因为每次都是赋值3！！！
+    }
+    console.log(factorial(3));
+
+    /* 递归数组求和 */
+
+    function asum(...args){
+        return args.length==0 ? 0 :args.pop() +asum(...args);
+        //args.pop() 弹出一个元素后返回的数组，使用参开语法在递归，不然第二次args接收到的是一个二维数组，！！！
+    }
+    console.log(asum(1,2,3));
+
+
+    /* 回调函数 callback */
+    /* 典型应用 addEventListener,.map(),.reduce .filter() .forEach() 这些数组方法都会传参回调函数 */
+    addEventListener('click', function(){} );
+    //添加事件第二个参数就是一个函数，也就是回调函数！！！
+
+    /* this  关键字  */
+
+    //对象中的方法中的 this 关键字就指向的是对象本身
+    //html js全局或者普通的函数中， this 指的是widows 对象
+    let fobj = {
+        name:'null',
+        show(){
+            console.log('aaa');
+            console.log(this);//指向的是对象本身
+            const self = this;
+            function ftest(){
+                console.log(this);// 指的是widow 对象,
+                console.log(self);//在普通函数外边，对象方法内部定义一个常量存放对象本身，然后普通函数内部就可以得到方法中一样的this的指向
+                //.map(p1-function,p2-第二个参数)，像map方法，可以传第二个参数，并把这个第二个参数赋值给第一个参数---函数 的this，也就是第一个参数内部的this等于第二个参数
+            }
+            ftest();
+        }
+    }
+    fobj.show();
+    /* 箭头函数与this 
+    箭头函数的this就是上下文，也就是父级作用域中的this
+    注意箭头函数this的使用！！！
+    */
+
+    let ffobj = {
+        site:'baidu.com',
+        handleEvent:function(event) {
+            console.log('abc');
+            console.log(this);// =>ffobj
+            console.log(event);//=>点击事件ev
+        },//可以被click执行到！！！
+        func2:function(){
+            console.log('cba');
+        },
+        bind:function(){
+            const button = document.querySelector('button');
+            button.addEventListener('click',this);
+            //addEventListener 除了传递一个function ，还可以传递任何带有handleEvent函数属性的对象也可以达到相同效果！！！
+        }
+    };
+    ffobj.bind();
+
+    /* apply  call  bind 等方法 */
+    let hd = {name1:'王五'};
+    function constructor(name){
+        this.name = name;
+    }
+    let ftest = new constructor('李四');//new 一个function 此时function==构造函数
+    console.log(ftest);//{name:'李四'}
+
+    constructor.call(hd,'李四');//使用function.call(hd,val) 方式来改变this指向 this->hd  并且立即执行function
+    console.log(hd);//{name1: "王五", name: "李四"}
+    
+    let l = {name:'lisi'};
+    let w = {name:'wangwu'};
+
+    function getname(p1,p2){
+        console.log(this.name+p1+p2);
+    }
+
+    getname.call(l,'a','b');//打印李四
+    getname.apply(w,['a','b']);//打印王五
+    //apply和call用法差不多，唯一区别在于传递参数时apply要用数组！！！
+    //第一个参数为要改变this指针的对象，后面是要传递的参数
+
+    //数组求最大值另一个方法 使用apply
+    let arr = [12,2,44,33,24,67,99,102];
+    console.log(Math.max.apply(Math,arr));
+    //call不行 apply 会把arr展开成多个数组传入到Math中，而且math.max 求最大值也只支持多个参数
+
+    /* 模拟场景，拼接地址栏 */
+    
+    function Request(){
+        this.get = function(params){
+            let str = Object.keys(params)
+            .map( k=>`${k}=${params[k]}` ).join('&');
+            let url = `https://api.url.com/${this.url}/?${str}`;
+            document.write(url+'<hr/>');
+        }
+    }
+
+    function Article(){
+          this.url = "article/lists";
+            Request.apply(this);
+            console.log(this);
+      }
+      function Uuser(){
+          this.url = "User/lists";
+          Request.apply(this);//把当前用户或者文章对象放到Request（）中，这样 new出来的两个对象就都有get方法了
+
+      }
+      let ae = new Article();//new 一个function 此时function==构造函数, 返回一个对象，并且this指向变成该函数实例对象！！！
+      let u = new Uuser();
+      ae.get({id:1,cate:'js'});
+      //分别获得di为1，的关于js的文章和 id为2的admin，完成url
+      u.get({id:2,role:"admin"}); 
+    /*  bind() 功能大体上和call apply 相似 ,只是bind（） 不会立即执行，而是返回一个新的函数 */
+    let acfun = function actest(a,b,c){
+        console.log(this.f+a+b+c);
+    };
+    acfun.bind({f:1},2,3,4,5)(6,7);
+    //可以bind时传值，也可以调用时传值
+    //只不过bind时传值如果参数够数，调用时的传值会被丢弃不用，！！！不够时，缺几个到调用里面拿几个【实际要5个，bind传了3个，那么还有两个去调用里头拿2个【如果调用传了的话】】！！！
+    
+    //bind,call,apply 应用场景最多的就是改变this的指向
+</script>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin:0;
+        }
+        body {
+            background-color: #2f3640;
+            width: 100vw;
+            height:100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        main {
+            width:150px;
+            height:150px;
+            position: relative;
+            transform:perspective(900px) ;
+            /* transform:perspective(900px) rotateX(-45deg) 把x轴旋转去掉  */
+            transform-style: preserve-3d;
+            transition: 2s;
+            transform-origin:center center 75px ;
+        }
+        div {
+            width:150px;
+            height:150px;
+            background-color: #9c88ff;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            color:white;
+            transform-origin:center center 75px ;
+            opacity: .8;
+           
+            /* 立方体 中心点先确定好，让每个面按照这个中心点去转动就能保证旋转出来一定是个规则立方体
+            也可以旋转后去移动位置拼成一个立方体也可以 */
+            
+        }
+        main>div:nth-child(1) {
+            background-color:#e84118;
+            transform: rotateY(90deg);
+        }
+        main>div:nth-child(2) {
+            background-color:#4cd137;
+            transform:rotateY(180deg);
+        }
+        main>div:nth-child(3) {
+            background-color:#e84118;
+            transform:rotateY(270deg);
+        }
+        main>div:nth-child(4) {
+            background-color:#4cd137;
+            transform:rotateY(360deg);
+        }
+        main>div:nth-child(5) {
+            background-color:#7f8fa6;
+            transform-origin:top;
+            transform:rotateX(90deg);
+            
+        }
+        main>div:nth-child(6) {
+            background-color:#c23616;
+            transform-origin:bottom;
+            transform:rotateX(-90deg);
+            
+        }
+
+        body:hover main {
+            transform: perspective(900px)  rotateY(250deg)  ;
+            /*transform: perspective(900px)  rotateY(250deg) rotateX(50deg)  ; 
+           上面 把x轴旋转去掉 和这里把 x轴旋转去掉，就实现了只按y轴旋转 */
+        }
+       
+    </style>
+</head>
+<body>
+    <main>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+    </main>
+</body>
+</html>
