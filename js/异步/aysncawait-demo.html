@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    async function aa(user){
+        //async  =》 new Promise()
+        let data = await  ajax(user); //await  =》.then()
+        console.log(data);
+
+    }
+    function ajax(user){
+        let url = `./php/user.php`;
+           return new Promise((resolve, reject)=> {
+               let xhr = new XMLHttpRequest();
+               xhr.open('GET', `${url}?name=${user}`);
+               xhr.send();
+               xhr.onload = function(){
+                   if(this.status ==200 ){
+                    resolve(JSON.parse(this.response));
+                   }else if(this.status ==  404){
+                       reject( new HttpError('用户不存在'));
+                   }else {
+                       reject('加载失败');
+                   }
+               }
+               xhr.onerror = function(){
+                   reject(this);
+               }
+           }) 
+    }
+    aa('后盾人')
+
+
+    async function sleep(delay = 2000){ //定义延时函数
+        return new Promise(resolve=>{
+            setTimeout(() => {
+                resolve();
+            }, 2000);
+        })
+    }
+    
+    async function show(){
+        for (const val of ['user','name','age']) {
+            await sleep(); //sleep就相当于一个promise  里面的状态每两秒改变，所以就是先每两秒打印一次val！！
+            console.log(val);
+        }
+    }
+
+    show();
+
+    /* https://www.bilibili.com/video/BV15J411G7FG?p=34   简易加载进度条 */
+</script>
+</html>

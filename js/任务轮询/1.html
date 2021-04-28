@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /* 任务的优先级  同步任务(赋值 console.log,for ) > 微任务(promise) > 宏任务(定时器 dom操作)
+    
+    注意点：new Promise(resolve=>{
+        这里面的都是同步任务！！！，构造函数！！！
+    })
+    */
+
+    setTimeout(() => {
+        console.log('定时器1');
+    }, 2000);
+    setTimeout(() => {
+        console.log('定时器2');
+    }, 1000);
+    console.log('我是同步任务');
+    /* 注意 这里定时器的时间会影响它们执行的先后顺序，同样是宏任务，并不一定都是按同步任务那样从上往下执行的，浏览器解析定时器2执行之间短，就会把2先放到宏任务队列中，再放1
+    这里执行顺序为 我是同步任务，定时器2 ，定时器1 
+    因为这个一秒是浏览器解析就开始即时， 1s时定时器2已经到执行时间并且同步任务（主任务也执行完毕），所以2先执行在1！！！
+    */
+
+   /* 因为dom渲染也是宏任务，所以 script标签的引入尽量放在试图页面最后面，这样就不会出现由于先加载js而导致页面dom渲染不及时而出现网页样式出问题的情况 */
+
+   let i=0;
+   setTimeout(() => {
+       console.log(++i);//1
+   }, 1000);
+   setTimeout(() => {
+       console.log(++i);//2  虽然两个定时器时间一样，但是并不会一起执行，（单线程一次只能执行一个任务，）
+   }, 1000);
+</script>
+</html>

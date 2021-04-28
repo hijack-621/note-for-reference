@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #hd{
+            height:30px;
+            text-align: center;
+            width:0;
+            background-color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="hd"></div>
+    <div id="sc"></div>
+</body>
+<script>
+    function handle(){
+        let i=0;
+        (function run(){
+            hd.style.width = i+'%';
+            hd.innerHTML = i;
+            if(++i <= 100){
+                setTimeout(run, 20);   
+            }
+        })()
+    }
+    handle()
+    console.log(sc);
+</script>
+</html>

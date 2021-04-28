@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function ajax(url) {
+        return new Promise((resolve, reject) => {
+            // loading.style.display = "block";
+            if (!/^http/.test(url)) { //立即抛出错误 ，不能放在then()里面，then里面是异步！
+                throw new ParamError("请求地址格式错误");
+                /* 这里如果出错，直接
+                1.reject(error);
+                2.new Error()
+                3.语法出错
+                系统都会用reject()来改变promise状态
+                */
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.send();
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    resolve(JSON.parse(this.response));
+                } else if (this.status == 404) {
+                    // throw new HttpError("用户不存在"); //这里抛错误不行！！！这里只能用reject
+                    reject(new HttpError("用户不存在"));
+                } else {
+                    reject("加载失败");
+                }
+            };
+            xhr.onerror = function () {
+                reject(this);
+            };
+        });
+    }
+    ajax('url').then(v=>{ //v-返回的值！！
+
+    })
+</script>
+
+</html>

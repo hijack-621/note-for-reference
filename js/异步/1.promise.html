@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+   <script>
+        new Promise((resolve, reject)=>{
+        resolve('success');//resolve 就进入成功回调
+        reject('error');//reject 进入失败回调 
+        //都调用，谁在前就进入谁的回调！！！另一个被摈弃
+        
+    }).then( 
+        (v)=>{ //成功回调
+            console.log('success callback1');
+        },
+        (e)=>{ //失败回调
+            console.log('error callback1');
+        }
+     ).then(  //.then()可以无限追加，并且也是由resolve还是reject决定！！！
+        (v)=>{ //成功回调
+            console.log('success callback2');
+        },
+        (e)=>{ //失败回调
+            console.log('error callback2');
+        }
+     )
+   </script>
+</html>

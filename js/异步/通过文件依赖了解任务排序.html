@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+    <script type="module">
+        function loadscript(src, resolve){
+            let script = document.createElement('script');
+            script.src=src;
+            script.onload = resolve;
+            document.body.appendChild(script);
+        }
+        loadscript('../jsmodule/1.js',()=>{
+            show();
+        });
+        loadscript('../jsmodule/2.js',()=>{
+            show();
+        });
+        console.log('我必先执行！！！')
+        /* 这是一直刷新页面，可以看到
+        一定是先打印我必先执行，
+        然后可能先执行1js中的show，有可能先执行2js中的show，这两个顺序不定【有可能2先加载，有可能1先加载！！！】，因为是队列，先进先出，谁先加载就先执行！！！ */
+
+        //要想先执行1再2，必须把2的加载放在1的回调中！！！
+    </script>
+</html>

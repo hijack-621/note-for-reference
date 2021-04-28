@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        Promise.resolve(value)
+    这种方式就会直接修改 promise 的状态为resolve 走成功的回调
+    
+    可能会有这样多次请求同一个数据接口的情况，使用这个Promise.resolve(value) 在配合map数据类型，就可以实现第一次请求
+    
+    先判断 map.get(key) 是否有值，因为第一次没有，所以就去请求后台，请求ok将 值放到 map中，
+    后续请求判断map.get(key) 有值，直接取值就完事了！！！
+    -->
+
+    <!--  Promise.resolve(value)  同理会直接修改promise 为 rejected！！  -->
+
+
+     <!-- promise.all() 批量处理 promise -->  
+     
+    
+</body>
+<script>
+    let p1 = new Promise( (resolve, reject)=>{
+            resolve('p1 success');111
+    } ).catch()//.catch 跟.then 一样都是返回一个promise对象，所以当加上.catch后整个p1的链式最终其实是返回一个resolve()!!!!默认promise就是resolve()
+
+    let p2  =  new Promise( (resolve, reject)=>{
+        resolve('p2 success');
+    } )
+    Promise.all([p1,p2]).then(v=>{ //批量调用 p1 p2两个promise，并且只有两个状态都是resolve是 all的then中的才是会两个promise返回的结果，
+                                   //否则只能是reject()
+        console.log(v);
+        /* Array(2) ["p1 success", "p2 success"] */
+    })
+
+    /* 跟 promise.all() 不同，all必须所有的promise都是resolve解决状态
+    而 Promise.allSettled() ,不论promise是resolve还是reject ，allSettled都会接受并返回它们的状态*/
+
+    /* promise.race([promise1, promise2 ,promise3]).then()
+    
+    整个race 也可以发送多个promise ，但是它只会取发送的块的那个【先被放到队列执行的那个！！！状态被改变得快的那个】
+    、、使用整个race 接口就可以定义请求服务器超时这一逻辑，
+    let promises = [
+       new promise(),
+       new promise(()=>{
+           setTimeout(()=>{
+               reject('请求超时！！')
+           },2000);
+       }) 
+    ];
+
+    let ap = Promise.race(promises).then(v=>{
+        console.log(v);
+        //设置向服务器请求时间最长为2s，超过两秒就拒绝并传递给ap 打印请求超时
+    })
+    
+    */
+
+</script>
+</html>

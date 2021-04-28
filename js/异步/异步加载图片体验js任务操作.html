@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function loadimg(src,resolve,reject){
+        let img = new Image();
+        img.src = src;
+        img.onload = resolve;
+        img.onerror = reject;
+    }
+    loadimg('../../../images/1.jpg',()=>{
+        console.log('图片加载完成')
+    },()=>{
+        console.log('加载失败');
+    });
+    console.log('jc');
+    /* 
+    jc
+    异步加载图片体验js任务操作.html:56 图片加载完成
+
+    可以看到其实是先执行打印jc在，打印loadimg中的。
+    这是我们所希望看到的，可以给用户更好的体验，因为图片加载是要时间的，
+    如果先等图片加载完，在执行其他操作，给用户就有那种卡顿的感觉。
+
+    耗时长的任务先在任务队列排队（资源的加载，定时器），先把主任务跑完。跑完后去任务队列里轮询然后一个个执行！
+    
+    */
+</script>
+</html>

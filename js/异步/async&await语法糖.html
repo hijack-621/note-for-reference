@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /* async 这个就是new Promise() 这种语法简化 */
+
+    async function test(){ //函数前面加上 async 关键字 就表示这个函数返回一个promise
+        return 'hello';
+        /* return new Promise(resolve=>{
+            resolve('hello')
+        }) */
+    }
+    console.log(test());
+    test().then(v=>{
+        console.log(v);// 打印 hello ，也就是这个返回值就类似于 resolve(value),改变状态并传值，所以 then里面可以接收到
+    })
+    /*Promise {<fulfilled>: undefined}  可以看到打印test执行结果，返回的是一个promise 对象！！！并且默认状态是fulfilled 解决状态
+    __proto__: Promise
+    [[PromiseState]]: "fulfilled"
+    [[PromiseResult]]: undefined  */
+
+    /* await  就是 .then() 语法糖
+    await 关键字必须放在async 定义的函数中使用，否则会报语法错误 */
+    /*  */
+
+    async function test1(){
+        let name = await 'nihao';
+        console.log(name);
+        let p = await new Promise(resolve=>{
+            setTimeout(() => {
+                resolve('await 语法糖');
+            }, 2000);
+        })
+        //这后面的内容都会等 resolve()状态才会执行！！！！
+        console.log(name);
+        console.log(p);
+        let pp = await new Promise(resolve=>{
+            setTimeout(() => {
+                resolve(p+'可以多个await，就是多个then链式！！！')
+            }, 2000);
+        })
+        console.log(pp);
+    }
+    /* 必须调用 test1 才触发！！ */
+    test1();
+</script>
+</html>
