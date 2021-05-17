@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,80 +9,96 @@
     <script src="../../js/vue-router.js"></script>
 </head>
 <style>
-   .myactive{
-       color:red;
-       font-size:24px;
-   }
+    .myactive {
+        color: red;
+        font-size: 24px;
+    }
 </style>
+
 <body>
     <div id="app">
-      <!-- <a href="#/login">登录</a> -->
-      <!-- 使用hash路由 来实现页面不刷新而页面元素改变，【也就是单页面网页差用方式-hash【#号】】 -->
-      <!-- <a href="#/register">注册</a>  【使用超链接实现hash路由也是一种方式，但是不推荐，因为vue-router 提供了一个 router-link这样一个标签，
+        <!-- <a href="#/login">登录</a> -->
+        <!-- 使用hash路由 来实现页面不刷新而页面元素改变，【也就是单页面网页差用方式-hash【#号】】 -->
+        <!-- <a href="#/register">注册</a>  【使用a超链接实现hash路由也是一种方式，但是不推荐，因为vue-router 提供了一个 router-link这样一个标签，
         供我们来hash路由】 -->
-      <router-link to='/login?id=10&name=zs'>登录</router-link>
-      <!-- to 就表示路由路径，不需要带上#号 route-link 默认会被渲染为超链接 可以使用 tag='span/label'改变渲染方式，但是点击事件一定会有，同样可以hash路由 -->
-      <router-link to='/register/621'>注册</router-link>
-      <router-view></router-view>
-       
+        <router-link to='/login/10/zs'>登录</router-link>
+        <!-- to 就表示路由路径，不需要带上#号 route-link 默认会被渲染为超链接 可以使用 tag='span/label'改变渲染方式，但是点击事件一定会有，同样可以hash路由 -->
+        <router-link to='/register/621'>注册</router-link>
+        <router-view></router-view>
 
-      <!-- 【既然是路由，当然可以进行参数传递 to='/login?id=10&name=zs'
+
+        <!-- 【既然是路由，当然可以进行参数传递 to='/login?id=10&name=zs'
         组件和vue实例一样都有自己的声明周期钩子函数，也可以进行值引用{{ val }}
         】 -->
-     
+
 
     </div>
     <!-- 注意，组件也可以被$refs引用 -->
 
 </body>
 <script>
-     Vue.config.devtools = true;
+    Vue.config.devtools = true;
     //vue-rourer.js 被引入后，window全局就会多了一个VueRouter这样一个构造函数，可以new 一个路由配置实例
     let comobj1 = {
-        template:'<h1>登录组件---{{ $route.query.id }} ---{{ $route.query.name}}  </h1>',
-        created(){ //传参方式一！！！
-            console.log(this.$route.query)//vue-router 提供的用于访问url参数
-        }
+        props: ['id', 'name'],
+        template: '<h1>登录组件---{{ id }} a---a{{ name}} ---   </h1>',
+        created() { //传参方式一！！！
+            console.log(this.$route.query) //vue-router 提供的用于访问url参数
+        },
+
     }
     let comobj2 = {
-        template:'<h1>注册组件 使用params接收占位符方式提供的参数---传入id为:{{$route.params.id }}</h1>',
+        props: ['id', 'name'],
+        template: '<h1>注册组件 使用params接收占位符方式提供的参数---传入id为:{{id }}</h1>',
         created() {
             console.log(this.$route)
         }
     }
     let routerobj = new VueRouter({
-        routes:[ //注意此处为 routes  不是 routers
-            {path:'/',redirect:'/login'},//如果请求的是其他路径，比如请求域名+’/‘这样一个路径，比较好的方式就是如果没登录过就跳转【redirect】到登录界面【与nodejs的redirect本质上不同】 
-            {path:'/login',component:comobj1},
-            {path:'/register/:id/:name',component:comobj2},
+        routes: [ //注意此处为 routes  不是 routers
+                {
+                    path: '/',
+                    redirect: '/login'
+                }, //如果请求的是其他路径，比如请求域名+’/‘这样一个路径，比较好的方式就是如果没登录过就跳转【redirect】到登录界面【与nodejs的redirect本质上不同】 
+                {
+                    path: '/login/:id/:name',
+                    component: comobj1,
+                    props: true,
+                }, {
+                    path: '/register/:id/',
+                    component: comobj2,
+                    props: true,
+                },
 
-            //《路由传参第二种方式，【/register/:id 后面跟上一个占位符 ：id,
-            //表示到时候你需要在url地址对应位置处给一个id值】【而且此处提供了几个占位符，到时候router-link to=“” 就必须提供几个参数，否则无法匹配成功】，然后可以用
-            // this.$route.params 接收并使用 》
+                //《路由传参第二种方式，【/register/:id 后面跟上一个占位符 ：id,
+                //表示到时候你需要在url地址对应位置处给一个id值】【而且此处提供了几个占位符，到时候router-link to=“” 就必须提供几个参数，否则无法匹配成功】，然后可以用
+                // this.$route.params 接收并使用 》
 
 
-        ] //routers 属性，数组，数组元素为对象，每个对象表示一个路由匹配规则【有两个属性，第一个path:匹配路由【url】，第二个component要展示的组件的【模板对象】】
-          //而且展示组件也需要借助 vue-router提供的 router-view这个标签来展示，要展示的组件内容就被被展示到 <router-view></router-view>位置处
+            ] //routers 属性，数组，数组元素为对象，每个对象表示一个路由匹配规则【有两个属性，第一个path:匹配路由【url】，第二个component要展示的组件的【模板对象】】
+            //而且展示组件也需要借助 vue-router提供的 router-view这个标签来展示，要展示的组件内容就被被展示到 <router-view></router-view>位置处
 
         //与routes平级的属性： linkActiveClass  默认值: "router-link-active" 全局配置 <router-link> 默认的激活的 class 可以修改为自己的样式
-        ,linkActiveClass:'myactive'
+        ,
+        linkActiveClass: 'myactive'
 
 
         //想实现动画效果 吧 <router-view></router-view> 包裹在 transition标签中，并且 加上两组【共四个【v-enter、v-leave-to v-enter-active,v-leave-active】 class 样式】即可
-       
+
         //
-    }) 
-    
+    })
+
     let vm = new Vue({
-        el:'#app',
-        data:{
-           
+        el: '#app',
+        data: {
+
         },
-        methods:{
-           
+        methods: {
+
         },
-        
-        router:routerobj //将路由实例与vue实例关联起来，注册路由实例
+
+        router: routerobj //将路由实例与vue实例关联起来，注册路由实例
     })
 </script>
+
 </html>

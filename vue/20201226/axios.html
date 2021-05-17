@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value='发送axios请求' @click='laxios'>
+    </div>
+</body>
+<script>
+    Vue.prototype.$http = axios;
+    //给Vue原型上添加$http属性，指向axios对象，跟vue-reource做到结构一样！！！
+    let vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {
+            laxios() {
+                this.$http.get('../data/data.json').then(v => {
+                    console.log(v);
+                    // config: {transformRequest: {…}, transformResponse: {…}, headers: {…}, timeout: 0, xsrfCookieName: "XSRF-TOKEN", …}
+                    // data: {status: 0, message: Array(3)}
+                    // headers: {accept-ranges: "bytes", connection: "Keep-Alive", content-length: "372", content-type: "application/json", date: "Wed, 05 May 2021 07:26:25 GMT", …}
+                    // request: XMLHttpRequest {readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, onreadystatechange: ƒ, …}
+                    // status: 200
+                    // statusText: "OK"
+                    // __proto__: Object
+                });
+            }
+        }
+    })
+</script>
+
+</html>

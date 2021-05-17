@@ -19,9 +19,9 @@
     -->
     
     <div id="app">
-        <div style="height:100px;background-color: aqua;" @click='divclick'>
-            <input type="button" value="点我" @click.stop ='btnclick'>
-        <!-- 默认 点击事件会从子元素像父元素传递（冒泡【如果父元素有点击事件的话】），
+        <div style="height:100px;background-color: aqua;" @click.capture='divclick'>
+            <input type="button" value="点我" @click ='btnclick'>
+        <!-- 默认 点击事件会从子元素向父元素传递（冒泡【如果父元素有点击事件的话】），
             如果在子元素上绑定事件修饰符 .stop可以组织默认冒泡事件【从里到外】
             如果在btn父级div上添加.capture修饰符，那么点击btn就不会是冒泡那样先执行子元素，在父元素，而是先执行
             带有prevent修饰符的click事件【也就是从外到里】

@@ -1,55 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src='../js/vue.js'></script>
 </head>
+
 <body>
     <div id="app">
-        <input type="text" v-model='firstname' >
-        +
-        <input type="text" v-model='lastname' >
-        =
-        <input type="text" v-model='fullname' >
+        <input type="text" v-model='firstname'> +
+        <input type="text" v-model='lastname'> =
+        <input type="text" v-model='fullname'>
+        <!-- 这里的full那么  是computed属性中的 fullname 这个key -->
     </div>
 </body>
 <script>
-    let vm =  new Vue({
-        el:'#app',
-        data:{
-            firstname:'',
-            lastname:'',
-           
-        },
-        methods:{
-        //methods/watch/computed 区别；
-        // computed必须有return 值、结果会被缓存，watch不一定需要，methods也不一定需要
-        // methods 适合写复杂的业务逻辑，watch可以写某些具体的业务逻辑 而computed主要负责简单的数据操作
-        //watch可以看做methods和computed的结合
-    },
-        watch:{ //这个方法可以监听data中指定数据的变化，从而触发这个watch中的处理函数
-            'firstname':(newval,oldval)=>{ //表示监听data中firstname的变化，变化就执行后面的函数，newval为改变后的值，oldval为改变前的值
-                console.log(oldval +'---' + newval) //
-            },
-            'lastname':(newval,oldval)=>{ //表示监听data中lastname的变化，变化就执行后面的函数，newval为改变后的值，oldval为改变前的值
-                console.log(oldval +'---' + newval) //
-            }
-            
-        },
-        computed:{ //计算属性 本质是function,但是调用的时候不需要加上()，直接当做属性即可使用
-            'fullname':function () { 
-//把原本定义在data中的fullname放到computed属性中，进行计算
-//这里引用了 data中的两个数据，只要被引用的数据任何一个改变
-//都会触发计算属性去重新求值并返回计算后的结果，并且缓存起来
-//如果数据不变，下次任何地方用到这个值就直接去缓存里拿数据，从而提高效率
-//  
-return this.firstname+'-'+this.lastname
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            firstname: '',
+            lastname: '',
 
+        },
+        methods: {
+            //methods/watch/computed 区别；
+            // computed必须有return 值、结果会被缓存，watch不一定需要，methods也不一定需要
+            // methods 适合写复杂的业务逻辑，watch可以写某些具体的业务逻辑 而computed主要负责简单的数据操作
+            //watch可以看做methods和computed的结合
+        },
+        watch: { //这个方法可以监听data中指定数据的变化，从而触发这个watch中的处理函数
+            'firstname': (newval, oldval) => { //表示监听data中firstname的变化，变化就执行后面的函数，newval为改变后的值，oldval为改变前的值
+                console.log(oldval + '---' + newval) //
+            },
+            'lastname': (newval, oldval) => { //表示监听data中lastname的变化，变化就执行后面的函数，newval为改变后的值，oldval为改变前的值
+                console.log(oldval + '---' + newval) //
             }
+
+        },
+        computed: { //计算属性 本质是function,但是调用的时候不需要加上()，直接当做属性即可使用,v-model 直接绑定计算属性 fullname
+            /* 'fullname': function() {
+                //把原本定义在data中的fullname放到computed属性中，进行计算
+                //这里引用了 data中的两个数据，只要被引用的数据任何一个改变
+                //都会触发计算属性去重新求值并返回计算后的结果，并且缓存起来
+                //如果数据不变，下次任何地方用到这个值就直接去缓存里拿数据，从而提高效率
+                //  
+                return this.firstname + '-' + this.lastname
+
+            } */
+
+            /* 'fullname':{
+                get(){}, //默认就会触发，当依赖改变也会触发这个get钩子
+                set(){}, //当计算属性结果改变不是通过依赖计算得到，而是直接修改这个结果，会触发这个set钩子函数
+            } */
         }
-        
+
     })
 </script>
+
 </html>

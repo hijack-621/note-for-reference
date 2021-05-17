@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta> 
+    <meta>
     <title>Document</title>
     <script src="../js/vue.js"></script>
     <script src="../js/vue-resource.js"></script>
     <!-- 引入 vue-resource 后 vue实例就会挂载一个$http对象，包含 get,post和jsonp等若干请求 -->
 </head>
 <style>
-    [v-cloak] { display: none;}
+    [v-cloak] {
+        display: none;
+    }
 </style>
+
 <body>
     <div id="app">
-    <input type="button" value="get 请求" @click='getrequest'>
-    <input type="button" value="post 请求" @click='postrequest'>
+        <input type="button" value="get 请求" @click='getrequest'>
+        <input type="button" value="post 请求" @click='postrequest'>
     </div>
 </body>
 <script>
     let vm = new Vue({
-        el:'#app',
-        data:{
-            vmsg:'vue',
-           
+        el: '#app',
+        data: {
+            vmsg: 'vue',
+
         },
-        methods:{
-            getrequest(){ //$http对象的get () 方法，用于发起get请求，第一个参数为请求url地址，第二个为可选参数， 通过调用.then(arg1[成功回调，必传],arg2【失败回调，可选】)方法获取返回的数据，
-                this.$http.get('../data/data.json',{emulateJSON:true}).then(result=>{
+        methods: {
+            getrequest() { //$http对象的get () 方法，用于发起get请求，第一个参数为请求url地址，第二个为可选参数， 通过调用.then(arg1[成功回调，必传],arg2【失败回调，可选】)方法获取返回的数据，
+                this.$http.get('../data/data.json', {
+                    emulateJSON: true
+                }).then(result => {
                     console.log(result)
                 })
             },
-            postrequest(){ //$http对象的get () 方法，用于发起get请求，第一个参数为请求url地址，第二个为可选参数， 通过调用.then(arg1[成功回调，必传],arg2【失败回调，可选】)方法获取返回的数据，
-                this.$http.post('../data/data.json', {}, {emulateJSON:true}).then(result=>{ // emulateJSON:true 参数设置button提交的内容为普通表单数据格式
-                    console.log(result)
-                })
+            async postrequest() { //$http对象的get () 方法，用于发起get请求，第一个参数为请求url地址，第二个为可选参数， 通过调用.then(arg1[成功回调，必传],arg2【失败回调，可选】)方法获取返回的数据，
+                // this.$http.post('../data/data.json', {}, {emulateJSON:true}).then(result=>{ // emulateJSON:true 参数设置button提交的内容为普通表单数据格式
+                //     console.log(result)
+                // })
+                let { //使用async await 异步语法糖
+                    body
+                } = await this.$http.post('../data/data.json', {}, {
+                    emulateJSON: true
+                });
+                console.log(body);
             },
         }
     })
 </script>
+
 </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../js/vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <com1 :pmsg="parentInfo" :pobj="obj"></com1>
+        <!-- 渲染结果： 这就是子组件h3---这是父组件的消息：这是父组件-vm实例的讯息
+                        父组件传来的对象---{"name":"jc","age":188}
+        
+        -->
+
+        <!--父组件通过属性绑定像、向子组件传值
+        step1：:attr="parentInfo"  在子组件标签 绑定属性
+        step2: props:['attr'], props 注册这个属性
+    -->
+        <com2 @funclick="show"></com2>
+        <!-- 调用show，输出aaa -->
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            parentInfo: '这是父组件-vm实例的讯息', //给子组件传递文本
+            obj: {
+                name: 'jc',
+                age: 188
+            },
+        },
+        methods: {
+            show(a) {
+                console.log('调用show，输出' + a.name);
+            }
+        },
+        filters: {},
+        components: {
+            'com1': {
+                template: `<div><h3>这就是子组件h3---这是父组件的消息：{{ pmsg }}</h3><h2>父组件传来的对象---{{ JSON.stringify(pobj) }}</h2></div>`,
+                props: ['pmsg', 'pobj'], //vue中，只有这个props/prop 是数组，其他属性都是对象
+                data: function() {
+                    return {}
+                },
+                methods: {}
+
+            },
+            'com2': {
+                template: `<input type='button' value='点我触发父组件上的show方法' @click='com2click'>`,
+                methods: {
+                    com2click() {
+                        this.$emit('funclick', {
+                            name: 'vue'
+                        }); //触发子组件绑定的funclick这个函数【而funclick引用的是父组件中的show方法】！
+                    }
+                }
+            }
+        },
+    })
+</script>
+
+</html>

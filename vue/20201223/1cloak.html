@@ -14,15 +14,17 @@
         <!-- 使用v-cloak 指令可以解决渲染模板字符串之前，页面显示模板字符串后再显示
         替换结果的情况，
         -->
-        <p v-cloak>{{ vmsg }}</p>
+        <p >{{ vmsg }}</p> {{}}语法：插值表达式
+       
         <!--<p v-cloak>{{ vmsg }}</p>
         渲染效果等同于 <p v-text='vmsg'></p>
          区别，v-text不会出现显示模板字符串以及会覆盖原来的内容   
     -->
+    <p v-text='vmsg+"aaa" '>我会被覆盖？</p>
     <!-- {{ msg }}字符串和v-text 无法渲染html字符串，而是当成不同字符串作为innertext渲染
     v-html=‘vmsg2’指令可以做到
     -->
-    <div v-html='vmsg2'></div>
+    <div v-html='vmsg2'>aaa</div>
     </div>
 </body>
 <script>

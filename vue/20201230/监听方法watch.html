@@ -1,42 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src='../js/vue.js'></script>
 </head>
+
 <body>
     <div id="app">
-        <input type="text" v-model='firstname' >
-        +
-        <input type="text" v-model='lastname' >
-        =
-        <input type="text" v-model=fullname >
+        <input type="text" v-model='firstname'> +
+        <input type="text" v-model='lastname'> =
+        <input type="text" v-model=fullname>
     </div>
 </body>
 <script>
-    let vm =  new Vue({
-        el:'#app',
-        data:{
-            firstname:'',
-            lastname:'',
-            fullname:'',
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            a: 1,
+
         },
-        methods:{},
-        watch:{ //这个方法可以监听data中指定数据的变化，从而触发这个watch中的处理函数
-            'firstname':(newval,oldval)=>{ //表示监听data中firstname的变化，变化就执行后面的函数，newval为改变后的值，oldval为改变前的值
-                console.log(oldval +'---' + newval) //
-            },
-            'lastname':(newval,oldval)=>{ //表示监听data中lastname的变化，变化就执行后面的函数，newval为改变后的值，oldval为改变前的值
-                console.log(oldval +'---' + newval) //
-            }
-            
-        }//watch  除了能监听data中数据的变化、dom变化，还可以监听非dom元素的变化
-        //例如 路由的变化，
-        //引入 路由包 vue-router.js 后，vue实例就自动绑定了一个$router对象,
-        //使用 '$router.path[或者任务$router中的属性值]:function(){}'就可以监听到这些值的改变从而做出相应的动作！！！
-        
+        methods: {},
+        watch: { //这个方法可以监听data中指定数据的变化，从而触发这个watch中的处理函数  watch对象里面采用键值对方式，key:监听的数据，val:监听的回调
+            'a': () => {}
+        }
+        /* watch 属性中不能用箭头函数
+        JS 代码分为 预解析阶段和执行阶段，在预解析阶段遇到函数声明会提前进行预解析，此时下面代码中的箭头函数会在全局定义，
+        因为 var vm = new Vue({...}) 这句代码在预解析阶段还没有被执行。当到了执行阶段并且改变 a 的值后，
+        watch 中的箭头函数开始执行，此时的运行环境确实是新创建的 vm 对象。但是对于箭头函数来说，
+        箭头函数中的 this 指向的是定义时的对象而不是函数运行时所在的对象，普通函数指向的是运行时所在的的对象。
+        这一点与普通函数有很大的区别。 */
     })
 </script>
+
 </html>

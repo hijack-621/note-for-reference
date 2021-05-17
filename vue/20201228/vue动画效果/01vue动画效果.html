@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,25 +9,29 @@
 </head>
 <style>
     .v-enter,
+    /* 时间点 */
+    
     .v-leave-to {
         opacity: 0;
-
         transform: translateX(100px);
         /* 默认先在其他位置，从而实现从别的地方淡入淡出的效果 */
     }
-
+    
     .v-enter-active,
     /* 入场动画和离场动画 过程 */
+    
     .v-leave-active {
+        /* 一个过程 */
         transition: all 0.7s ease;
     }
 </style>
+
 <body>
     <div id="app">
         <input type="button" value="toggle" @click="flag=!flag">
-        
+
         <!-- 点击按钮控制h3的显现和隐藏 -->
-        
+
         <!-- vue  动画过渡 分为六个class
             v-enter：定义进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。
 
@@ -56,14 +61,15 @@
 </body>
 <script>
     let vm = new Vue({
-        el:'#app',
-        data:{
-            flag:false
+        el: '#app',
+        data: {
+            flag: false
         },
-        methods:{
+        methods: {
 
         }
 
     })
 </script>
+
 </html>

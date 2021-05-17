@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,81 +9,100 @@
     <script src="../../js/vue-router.js"></script>
 </head>
 <style>
-   .myactive{
-       color:red;
-       font-size:24px;
-   }
+    .myactive {
+        color: red;
+        font-size: 24px;
+    }
 </style>
+
 <body>
     <div id="app">
-     
-      <router-link to='/login'>登录</router-link>
-      <!-- to 就表示路由路径，不需要带上#号 route-link 默认会被渲染为超链接 可以使用 tag='span/label'改变渲染方式，但是点击事件一定会有，同样可以hash路由 -->
-      <router-link to='/register/621/lisi'>注册</router-link>
-      <router-view></router-view>
-      
-       
 
-     
-     
+        <router-link to='/login'>登录</router-link>
+        <!-- to 就表示路由路径，不需要带上#号 route-link 默认会被渲染为超链接 可以使用 tag='span/label'改变渲染方式，但是点击事件一定会有，同样可以hash路由 -->
+        <router-link to='/register/621/lisi'>注册</router-link>
+        <router-view></router-view>
+
+
+
+
+
 
     </div>
-  
+
 
 </body>
 <script>
-     Vue.config.devtools = true;
+    Vue.config.devtools = true;
     //vue-rourer.js 被引入后，window全局就会多了一个VueRouter这样一个构造函数，可以new 一个路由配置实例
     let comobj1 = {
-        template:'<h1>登录组件<br> <router-link to="/login/loginqiantao">登录</router-link><router-view></router-view>  </h1>',
-        created(){ //传参方式一！！！
-            console.log(this.$route.query)//vue-router 提供的用于访问url参数
+        template: '<h1>登录组件<br> <router-link to="/login/loginqiantao">登录</router-link><router-view></router-view>  </h1>',
+        created() { //传参方式一！！！
+            console.log(this.$route.query) //vue-router 提供的用于访问url参数
         }
     }
     let comobj2 = {
-        template:'<h1>注册组件 使用params接收占位符方式提供的参数---传入id为:{{$route.params.id }}</h1>',
+        template: '<h1>注册组件 使用params接收占位符方式提供的参数---传入id为:{{$route.params.id }}</h1>',
         created() {
             console.log(this.$route)
         }
     }
     let comobj3 = {
-        template:'<h2>这是嵌套路由1所展示的组件</h2>',
+        template: '<h2>这是嵌套路由1所展示的组件</h2>',
         created() {
             console.log(this.$route)
-        }       
+        }
     }
     let comobj4 = {
-        template:'<h2>这是嵌套路由2所展示的组件</h2>',
+        template: '<h2>这是嵌套路由2所展示的组件</h2>',
         created() {
             console.log(this.$route)
-        }       
+        }
     }
 
 
     let routerobj = new VueRouter({
-        routes:[ //注意此处为 routes  不是 routers
-            {path:'/',redirect:'/login'},//如果请求的是其他路径，比如请求域名+’/‘这样一个路径，比较好的方式就是如果没登录过就跳转【redirect】到登录界面【与nodejs的redirect本质上不同】 
-            {path:'/login',component:comobj1,children:[{path:'loginqiantao',component:comobj3}]},
+        routes: [ //注意此处为 routes  不是 routers
+            {
+                path: '/',
+                redirect: '/login'
+            }, //如果请求的是其他路径，比如请求域名+’/‘这样一个路径，比较好的方式就是如果没登录过就跳转【redirect】到登录界面【与nodejs的redirect本质上不同】 
+            {
+                path: '/login',
+                component: comobj1,
+                children: [{
+                    path: 'loginqiantao',
+                    component: comobj3
+                }]
+            },
             //children 属性用于设置 嵌套路由【嵌套路由也需要router-link和 router-view进行链接和占位显示】【嵌套路由不需要带'/' 】，
 
-            {path:'/register/:id/:name',component:comobj2,children:[{path:'registerqiantao',component:comobj4}]},//传参方拾式二
-        ] 
-        ,linkActiveClass:'myactive'
+            {
+                path: '/register/:id/:name',
+                component: comobj2,
+                children: [{
+                    path: 'registerqiantao',
+                    component: comobj4
+                }]
+            }, //传参方拾式二
+        ],
+        linkActiveClass: 'myactive'
 
 
-       
-    }) 
-    
+
+    })
+
     let vm = new Vue({
-        el:'#app',
-        data:{
-           
+        el: '#app',
+        data: {
+
         },
-        methods:{
-           
+        methods: {
+
         },
-        
-        router:routerobj //将路由实例与vue实例关联起来，注册路由实例
+
+        router: routerobj //将路由实例与vue实例关联起来，注册路由实例
     })
 </script>
+
 </html>

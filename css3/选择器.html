@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet"  href="./css/1.css"/>
+    <link rel="stylesheet" href="./css/1.css" />
 </head>
 <style>
     /* 通配符 表示全部选择 */
@@ -12,14 +13,13 @@
         
         color:RED;
     } */
-    /* 结构选择器 【后代选择器】*/ 
+    /* 结构选择器 【后代选择器】*/
     /* 表示选择 article 中的孩子节点h2 孙子的不管  */
     /* main article>h2 { 
         
         color: yellow;
     } */
-
-     /* 表示 选择 article 中 h1 后面的h2 */
+    /* 表示 选择 article 中 h1 后面的h2 */
     /* main article h1~h2 { 
        
         background-color: blue;
@@ -28,8 +28,7 @@
     /* main article h1+h2 { 
         background-color: rgb(76, 76, 167);
     } */
-
-     /* 属性选择 选择有title 属性的h1 后面在跟 [id] 就表示既要有id还要有title 才会被选中 */
+    /* 属性选择 选择有title 属性的h1 后面在跟 [id] 就表示既要有id还要有title 才会被选中 */
     /* 选择 title和id属性为 title和id的元素 */
     /* title ^="t" 选择有title属性，并且title以t开头
         title$="t" 选择有title属性，并且title以t结尾
@@ -37,85 +36,88 @@
          title~="title" 选择有title属性，并且title属性的值中title以一个独立的单词出现
            title|="title" 选择有title属性，并且title属性的值中以title为开头或者 以title-xxx 这种形式出现的
     */
-     /* h1[title="title"][id="id"] { 
+    /* h1[title="title"][id="id"] { 
         
         font-family: 'Courier New', Courier, monospace;
         color:green;
     } */
-
-
     /* 伪类选择器 鞋面定义四个超链接的伪类 表示 超链接字体开始为黑色，
     鼠标放上去 变红，点击瞬间变黄 点击跳转后为红色 */
-   
-    a:link{
-        color:red;
+    
+    a:link {
+        color: red;
     }
+    
     a:visited {
-        color:yellow;
+        color: yellow;
     }
+    
     a:hover {
-        color:blue;
+        color: blue;
     }
-   a:active {
-       color:black;
-   }
-   /* 输入框获取焦点时候 让那个边框消失 */
-   input:focus {
-       outline: none;
-
-   }
-   body div:not(:first-child){
-       height:600px;
-       border:solid 1px blue;
-   }
-   /* 表示 锚点触发样式控制 */
-   div:target{
-       color:yellow;
-   }
-
+    
+    a:active {
+        color: black;
+    }
+    /* 输入框获取焦点时候 让那个边框消失 */
+    
+    input:focus {
+        outline: none;
+    }
+    
+    body div:not(:first-child) {
+        height: 600px;
+        border: solid 1px blue;
+    }
+    /* 表示 锚点触发样式控制 */
+    
+    div:target {
+        color: yellow;
+    }
     /* 表示最顶级的根元素的伪类选择器  ===html{}*/
-   :root {
-       font-size:25px;
-   }
-   li{
-       border:2px solid orange;
-   }
-   /* 页面中空标签的伪类选择器
+    
+     :root {
+        font-size: 25px;
+    }
+    
+    li {
+        border: 2px solid orange;
+    }
+    /* 页面中空标签的伪类选择器
    这里表示将空的li元素隐藏 */
-   li:empty{
-      display:none; 
-   }
-
-   /* 结构伪类选择器 */
-   /* 这里空格表示 选择所有后代元素   也就是选择article 后代中的第一个元素
+    
+    li:empty {
+        display: none;
+    }
+    /* 结构伪类选择器 */
+    /* 这里空格表示 选择所有后代元素   也就是选择article 后代中的第一个元素
     也就是id为1和孙子【aside也是article后代】的元素会被选中，
    */
-   /* article :first-child{
+    /* article :first-child{
        color:purple;
    } */
-   /* 只选择article 孩子的第一个 */
-   article>:first-child{
-       color:yellow;
-   }
-
-/* 表示选择 article 孩子中最后一个h2
+    /* 只选择article 孩子的第一个 */
+    
+    article>:first-child {
+        color: yellow;
+    }
+    /* 表示选择 article 孩子中最后一个h2
    only-of-type  ：唯一
    nth-child(n):表示找第几个孩子
    h1：nth-of-type（n）：表示找第n个为h1的元素【排除不是h1的元素，后剩下的第几个h1】
 */
-   article>h2:last-of-type{
-       color:yellow;
-   }
-
-   /* 这个伪类选择器可以链式书写
+    
+    article>h2:last-of-type {
+        color: yellow;
+    }
+    /* 这个伪类选择器可以链式书写
    这里表示 排除不是h2的元素中，排除第二个和最后一个
    */
-
-   article>h2:last-of-type:not(:nth-child(2)):not(:last-child){
-       color:yellow;
-   }
-
-   /* 一些表单中的伪类选择 */
+    
+    article>h2:last-of-type:not(:nth-child(2)):not(:last-child) {
+        color: yellow;
+    }
+    /* 一些表单中的伪类选择 */
     /* 
     :required:必须的
     :optional:非必需的
@@ -125,43 +127,44 @@
     :enable:禁用的。。。等等
 
     */
-
     /* 对文本进行伪类操作
      每个段落首个字符颜色为黄色,首行为蓝色
     */
+    
     p::first-letter {
-        color:yellow;
+        color: yellow;
     }
+    
     p::first-line {
-        color:blue;
+        color: blue;
     }
     /* 在span元素后面after 前面before 加上内容并修改添加内容样式 */
+    
     span::after {
-        content:"world";
-        color:orange;
+        content: "world";
+        color: orange;
     }
-
     /* 小例子 使用div 模拟表单输入提交 */
-   div {
-       border: solid 1px #ddd;
-       width: 200px;
-       height:30px;
-       line-height: 15px;
-   }
-
+    
+    div {
+        border: solid 1px #ddd;
+        width: 200px;
+        height: 30px;
+        line-height: 15px;
+    }
+    
     div>input[type="text"] {
-        border:none;
+        border: none;
         outline: none;
     }
-
+    
     div>input[type="text"]+span::after {
-        content:'\293D';
+        content: '\293D';
         cursor: pointer;
         line-height: 30px;
     }
-
-
 </style>
+
 <body>
     <div>
         <input type="text">
@@ -172,28 +175,22 @@
         <a href="#div2">百度</a>
     </header>
     <h1>hello</h1>
-    <p>（观察者网讯）“我今天看到拜登上舷梯那一幕了，”台下的人群爆发出笑声，特朗普继续说道，“我想说，我并没有输给他，我们并没有输给他”。
-
-        当地时间3月20日，美国前总统特朗普在佛罗里达州海湖庄园发表演讲时嘲笑了拜登的“三连摔”。随后，他不忘继续宣扬自己一贯的观点，认为总统选举被人为操纵，存在舞弊行为。他再次强调自己拥有的选票有近7500万张，甚至可能更多。
-        
-        21日，特朗普的高级顾问在接受采访时透露，特朗普计划在未来几个月内通过“自己的平台”重返社交媒体。
+    <p>（观察者网讯）“我今天看到拜登上舷梯那一幕了，”台下的人群爆发出笑声，特朗普继续说道，“我想说，我并没有输给他，我们并没有输给他”。 当地时间3月20日，美国前总统特朗普在佛罗里达州海湖庄园发表演讲时嘲笑了拜登的“三连摔”。随后，他不忘继续宣扬自己一贯的观点，认为总统选举被人为操纵，存在舞弊行为。他再次强调自己拥有的选票有近7500万张，甚至可能更多。 21日，特朗普的高级顾问在接受采访时透露，特朗普计划在未来几个月内通过“自己的平台”重返社交媒体。
     </p>
     <p>
-        沉睡三千年，一醒惊天下，被誉为“20世纪人类最重大考古发现之一”的三星堆遗址，又有重要收获！
-
-20日在成都举行的，“考古中国”重大项目工作进展会通报，考古工作者在三星堆遗址，新发现6座三星堆文化“祭祀坑”，现已出土金面具残片、巨青铜面具、青铜神树、象牙等重要文物500余件，其中一件黄金面具体量非常大，有可能成为国内所发现的同时期最大黄金面具和最重金器。
+        沉睡三千年，一醒惊天下，被誉为“20世纪人类最重大考古发现之一”的三星堆遗址，又有重要收获！ 20日在成都举行的，“考古中国”重大项目工作进展会通报，考古工作者在三星堆遗址，新发现6座三星堆文化“祭祀坑”，现已出土金面具残片、巨青铜面具、青铜神树、象牙等重要文物500余件，其中一件黄金面具体量非常大，有可能成为国内所发现的同时期最大黄金面具和最重金器。
     </p>
     <span>hello</span>
     <main>
         <article>
-           
+
             <h1 title="title" id='1'>1</h1>
             <h3 id="haizi">2</h2>
-            <aside>
-                <h2 id='sunzi'>3</h2>
-            </aside>
-            <h2 id="haizi">4</h2>
-            <h2 id="haizi2">5</h2>
+                <aside>
+                    <h2 id='sunzi'>3</h2>
+                </aside>
+                <h2 id="haizi">4</h2>
+                <h2 id="haizi2">5</h2>
         </article>
 
         <div>
@@ -204,8 +201,9 @@
         </div>
         <div id='div2'>test content</div>
 
-        
+
     </main>
 
 </body>
+
 </html>

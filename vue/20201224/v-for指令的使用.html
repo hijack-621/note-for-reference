@@ -22,21 +22,10 @@
             <li v-for="(item,i) in varr1">id：{{ item.id }}---name:{{ item.name }}</li>
             <!-- v-for 可以直接遍历对象！！！ -->
             <li v-for="(val, key, i) in obj">val:{{ val }}---key:{{ key }}--index:{{ i }}</li>
-            <!-- 索引值：0---每一项：1
-            索引值：1---每一项：2
-            索引值：2---每一项：3
-            索引值：3---每一项：4
-            索引值：4---每一项：5
-            索引值：5---每一项：6
-            id：1---name:zs1
-            id：2---name:zs2
-            id：3---name:zs3
-            val:zx---key:name--index:0
-            val:男---key:gender--index:1
-            val:18---key:age--index:2
+            <!--
             还可以直接放数字【v-for="count in 10" 这是 {{count }} 次循环，下标从1开始，不是0！！！】
         -->
-            <!--注意：vue高版本使用v-for的使用，必须配合key属性一起使用，是的每个item标示为唯一
+            <!--注意：vue高版本使用v-for的使用，必须配合key属性一起使用，意义在为每个item标示为唯一
             ex:<li v-for="(item, i) in varr" :key="item.id/i【key属性只支持number或者string两组类型，当数组时，可以用索引当做可以，对象时，可以用obj.id当做key！！！】">索引值：{{ i }}---每一项：{{ item }}</li> 
             -->
         </ul>

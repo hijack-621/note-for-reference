@@ -1,96 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="../js/vue.js"></script>
-   <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
 
 </head>
 <style>
-   
+
 </style>
+
 <body>
     <div id="app">
-                    <!-- 过滤器【filter】可用于常见的文本格式化 注意过滤器可用在两个：插值表达式【{{msg}}】 和v-bind 表达式两个地方
-                    过滤器语法  {{msg | filtermsg(args1,args2，args3【可以传参数，到过滤器中用第二个形参接收这里穿的第一次参数，以此类推】)[过滤器名称1] | filtermsg[过滤器名称2] | filtermsg[过滤器名称3]}} 可链式操作 执行先后顺序按过滤器排列顺序进行
+        <!-- 过滤器【filter】可用于常见的文本格式化 注意过滤器可用在两个：插值表达式【{{msg}}】 和v-bind 表达式两个地方
+                    过滤器语法  {{msg | filter_name(args1,args2，args3【可以传参数，然后调用过滤器方法filter()中用第二个形参接收这里传的第一次参数，以此类推】)[过滤器名称1] | filtermsg[过滤器名称2] | filtermsg[过滤器名称3]}} 可链式操作 执行先后顺序按过滤器排列顺序进行
                     然后用 Vue.filter("过滤器名称"， function(msg【msg就是过滤器管道符'|' 前面的数据，这是是固定的！！！】) {
                         return ...
                         模板字符串：https://www.downzz.com/es6jiaocheng/34268.html
                     }) 
 
                 -->
-                 <p>{{ vmsg | fvmsg(arg1,arg2) }}</p> 
-                 <!-- 用过滤器实现当vmsg里出现’真‘的时候替换成’假‘ -->
+        <p>{{ vmsg | fvmsg('test') }}</p>
+        <!-- 用过滤器实现当vmsg里出现’真‘的时候替换成’假‘ -->
     </div>
 </body>
 <script>
     Vue.config.devtools = true;
-    Vue.filter('fvmsg', function (vmsg,arg2,arg3) {// 【arg2】对应 fvmsg(arg1,arg2)里的arg1,arg3对应arg2。。。类推
-        if(vmsg.indexOf('真') != -1){
-            //return vmsg.replace('真','假') //这样只有第一个真被替换成假
-            return vmsg.replace(/真/g,'假')
-        }
-    }) //这属于全局过滤器，后面vue实例都可与调用，定义私有的过滤器 采用filters 关键字，并且定义在vm实例当中
+    Vue.filter('fvmsg', function(vmsg, arg2, arg3) { // 【arg2】对应 fvmsg(arg1,arg2)里的arg1,arg3对应arg2。。。类推
+            if (vmsg.indexOf('真') != -1) {
+                //return vmsg.replace('真','假') //这样只有第一个真被替换成假
+                console.log(arg2);
+                return vmsg.replace(/真/g, '假')
+            }
+        }) //这属于全局过滤器，后面vue实例都可与调用，定义私有的过滤器 采用filters 关键字，并且定义在vm实例当中
     let vm = new Vue({
-        el:'#app',
-        data:{
-           vmsg:'真真假假假假真真',
-            id:'',
-           name:'',//v-model双向绑定数据时，就需要到data里初始化绑定数据的值，后面的函数就可以拿到前台修改后的数据 
-           searchkey:'',
-           list: [
-            {id:1, name:'奔驰', ctime:'2020-1-1'}, 
-            {id:2, name:'大众', ctime:'2020-3-1'},
-            {id:3, name:'奥迪', ctime:'2020-5-1'},
-            ]
+        el: '#app',
+        data: {
+            vmsg: '真真假假假假真真',
         },
-        // filters:{
-        //     fvmsg:function (data, arg='') {  这是一个私有的过滤器，并且采用就近原则如果vm实例自身带有和全局重名的私有过滤器，系统默认采用自身的私有过滤器
-        //         console.log('这是一个私有的过滤器')
-        //     }
-        // },
-        methods:{
-            add () {
-                let addval = {id:this.id,name:this.name,ctime:new Date()}
-                this.list.push(addval)
-                this.id = this.name = '' //添加完后清空输入数据
-            },
-            del (id) {
-                //mothod1:  数组的some方法 满足条件后返回,跳出后续的数组循环
-                // this.list.some( (item,i) =>{ 
-                //     if(item.id===id){
-                //         this.list.splice(i,1)
-                //         return true;
-                //     }
-                // })      
-
-
-                //mothod2:  数组的findIndex方法  //返回具体的index
-               let index =  this.list.findIndex( item => {
-                   if(item.id===id){
-                        return true;
-                   }
-               })
-
-               this.list.splice(index,1)
-
-
-            },
-            search (keywords) { // v-for  可以 item in function
-                let newlist = [] //此处也可以选择 几个es6 数组新方法  forEach()、 some() 、filter()、 findIndex() 都可以对遍历数组每一项 
-                return this.list.filter( item => { 
-                    if (item.name.indexOf(keywords) != -1) {
-                        return item
-                    }
-                })
-            } 
-        }
-            
-   
     })
-    
-    
 </script>
+
 </html>
