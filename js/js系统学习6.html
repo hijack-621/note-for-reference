@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+
 </body>
 <script>
-   
     let date = new Date();
     let date1 = Date();
-    console.log(date); 
-    console.log(date1); 
+
     console.log(date, date1);
-     /* 日期！！！
+    /* 日期！！！
      date date1 其实不一样！
      date =>object   date*1就返回unix时间戳 小技巧！！！还有几种方式
-     Number(date)/date.valueOf()/date.getTime() 都可以获得unix时间戳
-    unix时间戳=>标准iso格式 new Date(unix时间戳);
+     Number(date)/date.valueOf()/date.getTime() 都可以获得unix时间戳！
+     unix时间戳=>标准iso格式 new Date(unix时间戳);
 
      date1 =>string  date1*1 => NaN
       */
-    console.log(date*1, date1*1); 
+    console.log(date * 1, date1 * 1);
+
     /*  console.log(date.now(), date1.now()); 会报错 要直接Date.now() 返回unix时间戳 */
-    console.log(Date.now()); 
+    console.log(Date.now());
     /* 显示脚本执行时间两种方式
     1. const begin = Date.now(){
        for(){}
@@ -37,22 +38,23 @@
     }
     */
     /* 一个日期格式化函数 */
-    function dateformat(date,format="YYYY-MM-DD HH:mm:ss"){
+    function dateformat(date, format = "YYYY-MM-DD HH:mm:ss") {
         const Config = {
-            YYYY:date.getFullYear(),
-            MM:date.getMonth()+1,
-            DD:date.getDate(),
-            HH:date.getHours(),
-            mm:date.getMinutes(),
-            ss:date.getSeconds(),
+            YYYY: date.getFullYear(),
+            MM: date.getMonth() + 1,
+            DD: date.getDate(),
+            HH: date.getHours(),
+            mm: date.getMinutes(),
+            ss: date.getSeconds(),
         }
 
-        for( const key in Config){
-            format = format.replace(key,Config[key]);
+        for (const key in Config) {
+            format = format.replace(key, Config[key]);
         }
         return format;
     }
-    console.log(dateformat( new Date(),"YYYY/DD/MM HH:mm:ss" ));
+    console.log(dateformat(new Date(), "YYYY/DD/MM HH:mm:ss"));
     // moment.js  优秀的专门的时间处理js库
 </script>
+
 </html>

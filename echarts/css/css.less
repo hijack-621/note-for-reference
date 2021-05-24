@@ -1,0 +1,260 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+li{
+    list-style: none;
+}
+
+@font-face {
+    font-family: myfont-elec;
+    src: url(../fonts/DS-DIGIT.TTF);
+}
+
+body{
+    background:url(../images/bg.jpg) no-repeat  top center / cover ;
+    line-height: 1.15;
+}
+header{
+    height: 1.25rem;
+    color: #fff;
+    background: url(../images/head_bg.png) no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    h1 {
+        
+        text-align: center;
+        line-height: 1.2rem;
+        font-size:  .375rem;
+    }
+    div{
+        position: absolute;
+        right: .46875rem;
+        top:0;
+        line-height: 1rem;
+        font-size: .25rem;
+    }
+}
+
+
+.mainBox{
+    min-width: 1024px;
+    max-width: 1920px;
+    margin:0 auto;
+    display:flex;
+    .minor{
+        flex:3;
+
+        &:nth-of-type(2){
+            flex:5;
+            margin:0 .125rem .1875rem;
+        }
+    }
+    .panel{
+        height: 3.875rem;
+        background:url(../images/line\(1\).png) rgba(255, 255, 255, 0.03);
+        padding:0 .125rem .4375rem .125rem;
+        position: relative;
+        border: 1px solid rgba(25, 186, 139, 0.17);
+        margin-bottom: .125rem;
+        &::before {
+            content:"1";
+            position: absolute;
+            width: 10px;
+            height:10px;
+            top:0;
+            left:0;
+            border-top: 2px solid #02a6b5 ;
+            border-left: 2px solid #02a6b5;
+        }
+        &::after {
+            content:"1";
+            position: absolute;
+            width: 10px;
+            height:10px;
+            top:0;
+            right:0;
+            border-top: 2px solid #02a6b5 ;
+            border-right: 2px solid #02a6b5;
+        }
+        .panel-footer{
+            position: absolute;
+            bottom: 0;
+            width:100%;
+            left:0;
+            &::before {
+                content:"1";
+                position: absolute;
+                width: 10px;
+                height:10px;
+                bottom:0;
+                left:0;
+                border-bottom: 2px solid #02a6b5 ;
+                border-left: 2px solid #02a6b5;
+            }
+            &::after {
+                content:"1";
+                position: absolute;
+                width: 10px;
+                height:10px;
+                bottom:0;
+                right:0;
+                border-bottom: 2px solid #02a6b5 ;
+                border-right: 2px solid #02a6b5;
+            } 
+        }
+        h2{
+            height: .5625rem;
+            font-size: .25rem;
+            color:#fff;
+            text-align: center;
+            line-height: .5625rem;
+            font-weight: 400;
+        }
+        .chart{
+            height: 3rem;
+        }
+    }
+    .no{
+        background: rgba(101, 132, 226, 0.1);
+        padding: .125rem;
+        color:#fff;
+        position: relative;
+        &::before{
+            content:'';
+            position: absolute;
+            width:30px;
+            height:10px;
+            top:15px;
+            left:15px;
+            border-top:2px solid #02a6b5;
+            border-left:2px solid #02a6b5;
+        }
+        &::after{
+            content:'';
+            position: absolute;
+            width:30px;
+            height:10px;
+            bottom: 1.1875rem;
+            right:15px;
+            border-right:2px solid #02a6b5;
+            border-bottom:2px solid #02a6b5;
+        }
+        ul{
+            &:nth-of-type(1){
+                display:flex;
+                border: 1px solid rgba(25, 186, 139, 0.17);
+                li{
+                    flex:1;
+                    text-align: center;
+                    font-size: .7rem;
+                    line-height: 1rem;
+                    color:rgba(235, 248, 44, 0.87);
+                    font-family: 'myfont-elec';
+                    position: relative;
+                    &:nth-of-type(1)::before{
+                        content: "";
+                        position: absolute;
+                        top: 25%;
+                        right: 0;
+                        height: 50%;
+                        width: 2px;
+                        background: rgba(255, 255, 255, 0.2);
+                    }
+                }
+            }
+            &:nth-of-type(2){
+                display:flex;
+                li{
+                    flex:1;
+                    text-align: center;
+                    line-height: 1rem;
+                    font-size: .20rem;
+                    color:#bcf2f7;
+                }
+            }
+        }
+
+    }
+
+    .map{
+        width:100%;
+        height: 10.125rem;
+        position: relative;
+        .map1{
+            width: 6.475rem;
+            height: 6.475rem;
+            background: url(../images/map.png);
+            background-size: 100% 100%;
+            opacity: .3;
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+        }
+        .map2{
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            background-size: 100% 100%;
+            background: url(../images/lbx.png);
+            width: 8.0375rem;
+            height: 8.0375rem;
+            opacity: .5;
+            animation: map2-rotate 15s linear infinite;
+        }
+        .map3{
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            background-size: 100% 100%;
+            background: url(../images/jt.png);
+            width: 7.075rem;
+            height: 7.075rem;
+            opacity: .6;
+            animation: map3-rotate 15s linear infinite;
+        }
+
+        .mchart{
+            position: absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height: 10.125rem;
+        }
+
+        @keyframes map2-rotate {
+            0%{
+                transform: translate(-50%, -50%) rotate(0deg);
+            };
+            100%{
+                transform: translate(-50%, -50%) rotate(360deg); 
+            }
+        }
+
+        @keyframes map3-rotate {
+            0%{
+                transform: translate(-50%, -50%) rotate(0deg);
+            };
+            100%{
+                transform: translate(-50%, -50%) rotate(-360deg); 
+            }
+        }
+    }
+}
+
+/* 约束屏幕尺寸 */
+@media screen and (max-width: 1024px) {
+    html {
+      font-size: 42px !important;
+    }
+  }
+  @media screen and (min-width: 1920px) {
+    html {
+      font-size: 80px !important;
+    }
+  }

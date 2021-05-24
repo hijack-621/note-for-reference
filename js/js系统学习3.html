@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
         span {
-           color:#fff;
+            color: #fff;
         }
     </style>
 </head>
+
 <body>
-    <form action="https://www.baidu.com"  name="form" id='form'>
+    <form action="https://www.baidu.com" name="form" id='form'>
         <input type="text" name="username">
         <hr>
         <label for="checkbox">
@@ -25,19 +27,19 @@
 <script>
     let a = 1;
     let b = '1';
-    console.log( a==b);//只比较数值
-    console.log(a===b);
+    console.log(a == b); //只比较数值
+    console.log(a === b);
     //因为类型不同无法比较（== 也不比较类型），js会把不同类型的转成统一类型
     //===（全等于） 及比较数值，也比较类型，数值相同，类型不同也不能算作全等
     //多用三元表达式来取代if else 来简化代码！！！
-    
+
     /* 短路运算*/
-    let c = 0; 
-    let f = a||c;  //ac不相等时，把两者中为真的值赋给f
+    let c = 0;
+    let f = a || c; //ac不相等时，把两者中为真的值赋给f
     console.log(f);
     //js中  0 == false 1==true 
-    console.log ( 0 == false , 'js中0的特性' );
-    console.log ( 1 == true , 'js中数值1特性' );
+    console.log(0 == false, 'js中0的特性');
+    console.log(1 == true, 'js中数值1特性');
 
     /* let sex = prompt('请输入性别') || "保密";
     并且顺序很重要，上面语句保密跟 prompt弹窗调换位置，那么sex永远为保密了，因为string不为假
@@ -52,60 +54,61 @@
     console.log(star());
     console.log(star(10));
     // num 不传值就用5 传值就用传递的值！！！后面es语法 可以直接 function star(num=5){ 传递默认值}
-   
-    function query(el){
+
+    function query(el) {
         return document.querySelector(el);
     }
 
-    query('#form').addEventListener('submit', function(ev){
-        let user = query('[name="username"]').value.trim();
-        let copyright = query('[name="checkbox"]').checked;
-        // console.log(user,copyright);
-        if(!user || copyright==false){
-            //短路操应用  如果user为空或者checkbox未勾选
-            alert('请输入用户名并勾选许可协议！');
-            ev.preventDefault();
-        }
-        
-    })
-    /* switch(flag /这里也可以使用判断语句) {
-        case '1':
-        case '2':
-        case '3':
-            break;
-        case flag>3:
-            break;
-        case中可以使用表达式来判断！！！！    
-        defalut:
-    } 
-    另一层理解：当希望flag为1活着2都执行同样的流程语句时，
-    可以case这一流程不加break;因为case '1':满足后执行完毕如果没碰到break;
-    就会继续向下执行，直至遇到break;!!!
-    都不匹配就执行default这一流程！！！
-    */
+    query('#form').addEventListener('submit', function(ev) {
+            let user = query('[name="username"]').value.trim();
+            let copyright = query('[name="checkbox"]').checked;
+            // console.log(user,copyright);
+            if (!user || copyright == false) {
+                //短路操应用  如果user为空或者checkbox未勾选
+                alert('请输入用户名并勾选许可协议！');
+                ev.preventDefault();
+            }
 
-    document.write('aaa');//向页面输入内容，可以解析html元素！！！
+        })
+        /* switch(flag /这里也可以使用判断语句) {
+            case '1':
+            case '2':
+            case '3':
+                break;
+            case flag>3:
+                break;
+            case中可以使用表达式来判断！！！！    
+            defalut:
+        } 
+        另一层理解：当希望flag为1或者2都执行同样的流程语句时，
+        可以case这一流程不加break;因为case '1':满足后执行完毕如果没碰到break;
+        就会继续向下执行，直至遇到break;!!!
+        都不匹配就执行default这一流程！！！
+        */
+
+    document.write('aaa'); //向页面输入内容，可以解析html元素！！！
     document.write(`<h1 style="color:blue">${star(50)}</h1>`)
-    //这个写的内容不是写在body里的！！！
+        //这个写的内容不是写在body里的！！！
 
-    //杨辉三角思路：分两部分来画
-    function yh(row){
-        for(let i=1;i<row;i++ ){
-            for(let j=row-i;j>0;j--){
+    //杨辉三角思路：分两部分来画    
+    function yh(row) {
+        for (let i = 1; i < row; i++) {
+            for (let j = row - i; j > 0; j--) {
                 document.write(`<span>*</span>`);
             }
             // 这里思路是先绘制出一个梯形，然后切掉一个直角
-            for(m = i*2-1;m>0;m--){
+            for (m = i * 2 - 1; m > 0; m--) {
                 document.write('*');
             }
             document.write('<br/>');
-        }  
+        }
     }
     yh(21);
-   
+
     // 数组 对象的遍历 
     /* 1、 for (let key in obj/arr){取键名}
        2、 for (let val of obj/arr/string/dom/bom组) {取值}
     */
 </script>
+
 </html>

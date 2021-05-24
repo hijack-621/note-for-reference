@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../js/jquery-3.2.1.js"></script>
+    <title>Document</title>
+</head>
+<button class="btn">aaa</button>
+
+<body>
+
+</body>
+<script>
+    $(".btn").click(function ()  {
+
+            
+        var  json =   [{
+            "S_Name":   "周颜",
+             "S_Sex":   "男"
+        },   {
+            "S_Name":   "周颖",
+             "S_Sex":   "女"
+        }];
+
+            
+        $.each(json,  function (index, s)  {
+
+                    
+            alert(s.S_Name +  ","  +  s.S_Sex); //语句1
+
+                
+        });
+    });
+
+    /* 获取字符串中出现次数最多的字符，及次数 */
+    function count(str) {
+        let obj = {};
+        let max = 0;
+        for (let i = 0; i < str.length; i++) {
+            // console.log(str.charAt(i));
+            if (obj[str.charAt(i)]) {
+                obj[str.charAt(i)]++;
+            } else {
+                obj[str.charAt(i)] = 1;
+            }
+        }
+
+        let max1 = Math.max.apply(obj, [...Object.values(obj)]);
+        let char = '';
+        // console.log(Object.entries(obj));
+        for (const val of Object.entries(obj)) {
+            console.log(val);
+            if (val[1] == max1) {
+                char = val[0]
+                console.log(max1)
+                console.log('出现次数最多的字符是' + char, "次数是:" + max1);
+                return;
+            };
+
+
+
+        }
+
+
+    }
+    let str = "abcdefgdddddddfffjkllll";
+    count(str);
+
+    let reg = /\d{6}/;
+    var reg1 = new RegExp('\\d{6}', 'g') //构造方式传递的字符串 \d 需要转义  \\d !!!
+    console.log(reg1.test('123456'));
+    console.log(reg.test('123456'));
+
+    var a = {};
+    a.value = 1;
+
+    (function(b) {
+        b.value++;
+        b.value = a.value;
+    })(a);
+    console.log(a.value);
+
+    var a = [1, 2, 3];
+    console.log(a.splice(1, 1, 2, 3, 4), a);
+    var aa = [1];
+    if (aa == true) {
+        console.log('shuz')
+    }
+
+    var aaa = [1, 2, 3, 4];
+    aaa.splice(0);
+    console.log(aaa);
+</script>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map</title>
+    <script src="../node_modules/echarts/dist/echarts.js"></script>
+    <script src="../js/china.js"></script>
+    <script src="../js/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="map" style="width:800px;height:600px;margin: 0 auto;">123</div>
+</body>
+<script>
+    //axios本版本不支持jsonp 自己拓展一个
+    axios.jsonp = (url) => {
+        if (!url) {
+            console.error('Axios.JSONP 至少需要一个url参数!')
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            window.jsonCallBack = (result) => {
+                resolve(result)
+            }
+            var JSONP = document.createElement("script");
+            JSONP.type = "text/javascript";
+            JSONP.src = `${url}&callback=jsonCallBack`;
+            document.getElementsByTagName("head")[0].appendChild(JSONP);
+            setTimeout(() => {
+                document.getElementsByTagName("head")[0].removeChild(JSONP)
+            }, 500)
+        })
+    }
+
+    var map = echarts.init(document.getElementById('map'));
+
+    //定义颜色数组
+    const COLORS = [
+        '#FFFFFF',
+        '#FAEBD2',
+        '#E9A188',
+        '#D56345',
+        '#BB3839',
+        '#772345',
+        '#480F10',
+    ];
+
+
+    var datalist = [];
+
+    // var datalist = [{
+    //     name: '北京',
+    //     value: 621
+    // }];
+
+    var options = {
+        title: {
+            text: '疫情地图demo',
+            left: 'center',
+        },
+        tooltip: {
+            formatter: function(params, ticket, callback) {
+                return (params.seriesName + '<br/>' + params.name + ' :' + params.value)
+            },
+        },
+        backgroundColor: '#eeeeee',
+        visualMap: {
+            type: 'piecewise',
+            orient: 'vertical',
+            padding: 10,
+            pieces: [{
+                value: 0,
+                color: COLORS[0]
+            }, {
+                min: 1,
+                max: 9,
+                color: COLORS[1],
+            }, {
+                min: 10,
+                max: 99,
+                color: COLORS[2],
+            }, {
+                min: 100,
+                max: 199,
+                color: COLORS[3],
+            }, {
+                min: 200,
+                max: 499,
+                color: COLORS[4],
+            }, {
+                min: 500,
+                max: 999,
+                color: COLORS[5],
+            }, {
+                min: 1000,
+                color: COLORS[6],
+            }]
+
+        },
+        geo: {
+            map: 'china',
+            emphasis: {
+                itemStyle: {
+                    areaColor: '#F3b329',
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    shadowBlur: 20,
+                    borderWidth: 0,
+                    shadowColor: 'rgba(0,0,0,.5)'
+
+                },
+            },
+        },
+        series: [{
+            name: '确诊数',
+            type: 'map',
+            geoIndex: 0,
+            data: datalist,
+        }],
+    }
+    axios.jsonp('https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5').then(v => {
+            let p = JSON.parse(v.data);
+            // console.log(p)
+            (p.areaTree[0].children).forEach(v => {
+                let o = {
+                    name: v.name,
+                    value: v.today.confirm
+                };
+                datalist.push(o);
+            })
+            console.log(options);
+            map.setOption(options);
+        })
+        // console.log(options);
+        // map.setOption(options);
+</script>
+
+</html>

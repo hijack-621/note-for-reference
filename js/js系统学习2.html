@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+
 </body>
 <script>
- "use strict";//使用严格模式！！！
- //使用严格模式后，变量不声明，使用关键字作为变量名 修改冻结对象等不规范或者不严谨的操作，都会报错或提示警告！！！
- //并且严格模式也是有作用域的，在函数内部声明，就只会在函数内部及其子作用域起作用，不会向上冒泡！！！！！
-   //块作用域
-//    var i= 99;
-//    for(var i=0;i<5;i++){
-//     console.log(i);
-//    }
-//    console.log(i);
-   //由于var关键字是没有块作用域的，所以i=5循环结束后，上面定义的99会被5覆盖，
-   //下面打印i会变成5，for循环中使用let定义就不会印象上面定义的99，也就是let/const定义的变量有块作用域的
-   //假如在a.js中存在一个var定义的变量a:1，b.html引入了a.js
-   
-   /*b.html script标签中也var定义了一个a:2,由于 var没有块作用域，
-   那么这两个a属于同一个作用域，那么谁先定义就使用谁，另一个定义就会失效
-   还有js库的引入，后一个引入会导致前一个引入某些定义失效等问题
-   ///////////////////////////////////////////////
-   */ 
+    "use strict"; //使用严格模式！！！
+    //使用严格模式后，变量不声明，使用关键字作为变量名 修改冻结对象等不规范或者不严谨的操作，都会报错或提示警告！！！
+    //并且严格模式也是有作用域的，在函数内部声明，就只会在函数内部及其子作用域起作用，不会向上冒泡！！！！！
+    //块作用域
+    //    var i= 99;
+    //    for(var i=0;i<5;i++){
+    //     console.log(i);
+    //    }
+    //    console.log(i);
+    //由于var关键字是没有块作用域的，所以i=5循环结束后，上面定义的99会被5覆盖，
+    //下面打印i会变成5，for循环中使用let定义就不会影响上面定义的99，也就是let/const定义的变量有块作用域的
+    //假如在a.js中存在一个var定义的变量a:1，b.html引入了a.js
+
+    /*b.html script标签中也var定义了一个a:2,由于 var没有块作用域，
+    那么这两个a属于同一个作用域，那么谁先定义就使用谁，另一个定义就会失效
+    还有js库的引入，后一个引入会导致前一个引入某些定义失效等问题
+    ///////////////////////////////////////////////
+    */
 
     /*{
        const a = 1;
@@ -40,7 +42,7 @@
 
     // URL = 'www.sohu.com'; 
     //const定义的常量,在同一作用域内是不可以改变的[改了就报错 实际内存地址改变了！！！]，作用域不同的话可以改变【其实体现的是定义一个名字一样，内存地址不一样的变量】
-    function run(){
+    function run() {
         const URL = 'www.youku.com';
         console.log(URL);
     }
@@ -48,10 +50,10 @@
     ///////////////////////////////////////////////////////
     //如果是 地址的引用修改，是可以成立的
     const CONFIG = {
-        a:'a',
+        a: 'a',
     };
     console.log(CONFIG);
-    CONFIG.a = 'b';//这里对a的修改其实时引用存放CONFIG的地址。实际内存地址不变！！！！
+    CONFIG.a = 'b'; //这里对a的修改其实时引用存放CONFIG的地址。实际内存地址不变！！！！
     console.log(CONFIG);
     // 如果定义的对象，连改都不给改，可以使用 Object.freeze(CONFIG);
     //那么后面对CONFIG的修改都是无效修改！！！【使用严格模式 use strict】 可以提示 被冻结后，修改冻结对象会有提示
@@ -70,22 +72,22 @@
     ///////////////////////////////////////////////////////
     /*传值和传址*/
     let a = 1;
-    let b  = a;
-    console.log(a,b);
+    let b = a;
+    console.log(a, b);
     b = 3;
-    console.log(a,b);//改变b后，a没变，说明let b  = a;后，a,b分别指向不同内存地址
+    console.log(a, b); //改变b后，a没变，说明let b  = a;后，a,b分别指向不同内存地址
     let e = {};
     let f = e;
-    console.log(a,b);
+    console.log(a, b);
     f.key1 = 'key1';
-    console.log(e,f);//f改变后，e也跟着改变了，说明e、f指向同一个内存地址，说明let e  = f;后，e、f指向相同内存地址，也就是传址
+    console.log(e, f); //f改变后，e也跟着改变了，说明e、f指向同一个内存地址，说明let e  = f;后，e、f指向相同内存地址，也就是传址
     //////////////////////////////////////////////////////////
     /*null  undefined*/
     let CONFIG1 = null;
     let v1 = undefined;
     // let CONFIG1 = null/{};
     // let v1 = undefined/'';定义为空对象或者空字符串也是ok的
-    console.log(v1,CONFIG1);
+    console.log(v1, CONFIG1);
     // 如果想把变量定义为引用类型，比如对象，就可以初始让变量值为null
     //如果想把变量定义为标量【基本类型】，比如数字，string 就可以把初始值定位undefined
     //关于undefined  函数没返回值，调用会返回undefined，函数传参，使用参数也会返回undefined
@@ -94,20 +96,20 @@
     /*continue:跳出本次循环，进行下一次
     break;终止循环
     */
-    tag1: for(let i=1;i<=10;i++) {
-        tag2: for(let m=1;m<=10;m++){
+    tag1: for (let i = 1; i <= 10; i++) {
+        tag2: for (let m = 1; m <= 10; m++) {
             // console.log(i,m);
-            if(m % 2 == 0){
-                console.log(i,m);
+            if (m % 2 == 0) {
+                console.log(i, m);
             }
-            if(i + m >10){
+            if (i + m > 10) {
                 break tag1;
                 //这里默认退出的是内层循环[tag2]，本意是退出整个循环，那么需要对循环贴上标签，break 的时候带上标签就表示退出那个循环！！！[其他语言都有这个特性]
-                
+
             }
         }
 
     }
-
 </script>
-</html> 
+
+</html>
